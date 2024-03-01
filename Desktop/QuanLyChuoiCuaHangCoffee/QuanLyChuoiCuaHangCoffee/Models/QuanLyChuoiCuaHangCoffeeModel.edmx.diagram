@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ce5d03d649dd4ef3b91f631aa3c911bf" Name="Diagram1" ZoomLevel="66">
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.BAN" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.CTDH" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.CTMON" Width="1.5" PointX="14.125" PointY="3.625" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.CTNHAPKHO" Width="1.5" PointX="7.5" PointY="1.625" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.CHUCDANH" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.DONHANG" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.KHACHHANG" Width="1.5" PointX="3" PointY="7.625" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.MON" Width="1.5" PointX="11.875" PointY="4.875" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.NGUYENLIEU" Width="1.5" PointX="11.875" PointY="1.625" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.NHANVIEN" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.NHAPKHO" Width="1.5" PointX="5.25" PointY="1.625" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.SIZE" Width="1.5" PointX="9.625" PointY="5.25" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.USER" Width="1.5" PointX="0.75" PointY="3.875" />
+        <EntityTypeShape EntityType="QuanLyChuoiCuaHangCoffeeModel.VOUCHER" Width="1.5" PointX="10.25" PointY="7.75" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__DONHANG__MABAN__37703C52" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__CTDH__MADH__3E1D39E1" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__CTDH__MAMON__3F115E1A" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__CTMON__MAMON__2180FB33" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__CTMON__MANGUYENL__22751F6C" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__CTNHAPKHO__MANGU__07C12930" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__CTNHAPKHO__MAPHI__06CD04F7" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__NHANVIEN__MACD__3B75D760" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__DONHANG__IDKHACH__3587F3E0" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__DONHANG__IDNHANV__367C1819" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__KHACHHANG__IDKHA__4F7CD00D" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__MON__MASIZE__1EA48E88" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__NHANVIEN__IDNHAN__3C69FB99" />
+        <AssociationConnector Association="QuanLyChuoiCuaHangCoffeeModel.FK__NHAPKHO__IDNHANV__619B8048" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

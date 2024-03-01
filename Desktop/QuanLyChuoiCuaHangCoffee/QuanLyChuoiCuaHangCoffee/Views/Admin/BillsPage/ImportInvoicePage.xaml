@@ -1,0 +1,213 @@
+﻿<Page x:Class="QuanLyChuoiCuaHangCoffee.Views.Admin.BillsPage.ImportInvoicePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:QuanLyChuoiCuaHangCoffee.Views.Admin.BillsPage"
+      xmlns:controls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="ImportInvoicePage"
+      Name="ImportInvoicePageCF"
+      xmlns:i = "http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontWeight="Regular"
+    TextElement.FontSize="13"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    DataContext="{StaticResource BillsVM}">
+
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="ImportInvoicePageCF"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.3" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Page.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="904"></ColumnDefinition>
+                    <ColumnDefinition Width="296"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Height="50">
+                    <materialDesign:Card Width="325" Margin="15 5 0 5"
+                                  UniformCornerRadius="10">
+
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Magnify"
+                                            Width="25"
+                                            Height="35"
+                                            Foreground="Black"
+                                            VerticalAlignment="Center" 
+                                            Margin="10 0 0 0"/>
+
+                            <TextBox materialDesign:HintAssist.Hint="Tìm kiếm" 
+                                     x:Name="FilterBox"
+                                     FontSize="18"
+                                     Foreground="#DD000000"
+                                     FontFamily="arial"
+                                     Width="280"
+                                     Height="30"
+                                     TextChanged="FilterBox_TextChanged"
+                                     HorizontalAlignment="Left"/>
+
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <Label Content="Từ:"
+                           VerticalAlignment="Center"
+                           Foreground="Gray"
+                           FontSize="12"
+                           FontStyle="Italic"
+                           Margin="15 0 0 0">
+
+                    </Label>
+
+                    <materialDesign:Card Width="140" Margin="0 5 0 5"
+                UniformCornerRadius="10">
+                        <controls:DatePicker x:Name="datePicker" FontSize="18"
+                         Margin="5"
+                         SelectedDate="{Binding SelectedDateStartImport, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedDateChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedDateStartImportChanged}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </controls:DatePicker>
+                    </materialDesign:Card>
+
+                    <Label Content="Đến:"
+                           VerticalAlignment="Center"
+                           Foreground="Gray"
+                           FontSize="12"
+                           FontStyle="Italic"
+                           Margin="5 0 0 0">
+
+                    </Label>
+
+                    <materialDesign:Card Width="140" Margin="0 5 0 5"
+                                         UniformCornerRadius="10">
+                        <controls:DatePicker FontSize="18"
+                                             Margin="5"
+                                             SelectedDate="{Binding SelectedDateEndImport, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedDateChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedDateEndImportChanged}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </controls:DatePicker>
+                    </materialDesign:Card>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <materialDesign:Card Width="200" Margin="60 5 0 5"
+                                     UniformCornerRadius="10">
+                        <Button FontFamily="arial"
+                                FontWeight="Bold"
+                                Height="50"
+                                Background="#F0B000"
+                                Command="{Binding ExportFileImoprtInvoiceCF}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FileExcel"
+                                                     Width="25"
+                                                     Height="23" 
+                                                     Foreground="#000000"/>
+                                    <Label  Content="Xuất Excel"
+                                            Foreground="#000000" 
+                                            FontSize="15"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </materialDesign:Card>
+
+
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <ListView x:Name="lvImportInvoice"
+                      Focusable="True"
+                      Height="550"
+                      VerticalAlignment="Top"
+                      ItemsSource="{Binding ListImportInvoice}"
+                      SelectedItem="{Binding SelectedImportInvoiceItem}"
+                      HorizontalAlignment="Stretch">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding LoadInfoImportInvoice}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Mã phiếu nhập"
+                                        Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  Text="{Binding MAPHIEU}"
+                                                FontSize="18"
+                                                Margin="18,0,0,0" 
+                                                Foreground="White"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Nhân viên nhập hàng"
+                            Width="300">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  Text="{Binding TENNHANVIEN}"
+                                                FontSize="18"
+                                                Margin="18,0,0,0" 
+                                                Foreground="White"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Ngày nhập"
+                            Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  Text="{Binding NGNHAPKHO, StringFormat='dd/MM/yyyy'}"
+                                                FontSize="18"
+                                                Margin="18,0,0,0" 
+                                                Foreground="White"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Trị giá"
+                            Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  Text="{Binding TRIGIASTR}"
+                                                FontSize="18"
+                                                Margin="18,0,0,0" 
+                                                Foreground="White"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,10 @@
+Hướng dẫn sử dụng phần mềm Quản Lý Quán Coffee
+- Clone project từ github https://github.com/dunoiww/QuanLyCuaHangCoffee
+- Mở file COFFEEMANAGEMENT.sql lên và chạy file để có database.
+- Sau khi có database, vào file App.config và chỉnh lại connectionstring
+- ConnectionString sẽ trông như thế này:
+	connectionString="metadata=res://*/Models.QuanLyChuoiCuaHangCoffeeModel.csdl|res://*/Models.QuanLyChuoiCuaHangCoffeeModel.ssdl|res://*/Models.QuanLyChuoiCuaHangCoffeeModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=XIMUOI;initial catalog=QUANLYCOFFEE;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"
+- Chúng ta quan tâm tới data source và initial catalog với data source là tên server sql ở máy và initial catalog là tên database 
+(nếu không đổi tên database thì để mặc định là COFFEEMANAGEMENT)
+- Khi hoàn tất thì chúng ta sẽ có 1 tài khoản admin (tên đăng nhập: admin, mật khẩu: admin)
+- Sau đó thao tác với các chức năng trong phần mềm như bình thường.

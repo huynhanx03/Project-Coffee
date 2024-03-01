@@ -1,0 +1,368 @@
+﻿<Window x:Class="QuanLyChuoiCuaHangCoffee.Views.Admin.EmployeePage.AddEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyChuoiCuaHangCoffee.Views.Admin.EmployeePage"
+        xmlns:uc="clr-namespace:QuanLyChuoiCuaHangCoffee.UsercontrolCF"
+        xmlns:cv="clr-namespace:QuanLyChuoiCuaHangCoffee.Utils.ConverterValue"
+        mc:Ignorable="d"
+        Title="AddEmployeeWindow" Height="750" Width="400"
+        xmlns:i = "http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="none"
+        AllowsTransparency="True"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        DataContext="{StaticResource EmployeeVM}">
+
+    <Window.Clip>
+        <RectangleGeometry Rect="0, 0, 400, 750" RadiusX="10" RadiusY="10"></RectangleGeometry>
+    </Window.Clip>
+
+    <Window.Resources>
+        <cv:BoolValueConverter x:Key="ConverterBoolValue"/>
+    </Window.Resources>
+
+
+    <Grid Background="#000000">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <uc:uc_controlbar></uc:uc_controlbar>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="8*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Label Content="Nhân viên"
+                   Foreground="#f0b000"
+                   FontSize="30"
+                   FontWeight="UltraBold"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center">
+
+                </Label>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "BadgeAccountHorizontalOutline"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                             Text="{Binding NameAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Họ tên nhân viên *"
+                             Foreground="#ffffff"
+                             FontSize="15"
+                             Height="55"
+                             Width="300"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="LightGray"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                             VerticalAlignment="Center"/>
+
+                    </StackPanel>
+                    <TextBlock Text="Vui lòng nhập họ tên"
+                               Foreground="#FFF44336"
+                               FontWeight="DemiBold"
+                               Margin="0,5,30,0"
+                               HorizontalAlignment="Right"
+                               FontSize="12"
+                               Visibility="{Binding IsNullNameAdd, Converter={StaticResource ConverterBoolValue}}"/>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "CakeVariantOutline"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <DatePicker Margin="10 0 10 0"
+                                    Height="55"
+                                    Foreground="White"
+                                    BorderBrush="LightGray"
+                                    FontSize="15"
+                                    Width="300"
+                                    x:Name="dobDatePicker"
+                                    SelectedDate="{Binding SelectedDate}"
+                                    materialDesign:HintAssist.Hint="Ngày sinh">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="IsReadOnly" Value="True" />
+                                </Style>
+                                <Style x:Key="CustomCalendarDayButton"
+                                   TargetType="CalendarDayButton"
+                                   BasedOn="{StaticResource MaterialDesignCalendarDayButton}">
+                                    <Setter
+                                        Property="materialDesign:CalendarAssist.SelectionColor"
+                                        Value="#B2F39B" />
+                                    <Setter
+                                        Property="materialDesign:CalendarAssist.SelectionForegroundColor"
+                                        Value="Black" />
+                                </Style>
+                                <Style
+                                  x:Key="CustomCalendarButton"
+                                  TargetType="CalendarButton"
+                                  BasedOn="{StaticResource MaterialDesignCalendarButton}">
+                                    <Setter
+                                        Property="materialDesign:CalendarAssist.SelectionColor"
+                                        Value="#B2F39B" />
+                                    <Setter
+                                        Property="materialDesign:CalendarAssist.SelectionForegroundColor"
+                                        Value="Black" />
+                                </Style>
+                                <Style
+                                  x:Key="CustomCalendar"
+                                  TargetType="{x:Type Calendar}"
+                                  BasedOn="{StaticResource MaterialDesignDatePickerCalendarPortrait}">
+                                    <Setter
+                                        Property="Background"
+                                        Value="#343C3F" />
+                                    <Setter
+                                        Property="CalendarButtonStyle"
+                                        Value="{StaticResource CustomCalendarButton}" />
+                                    <Setter
+                                        Property="CalendarDayButtonStyle"
+                                        Value="{StaticResource CustomCalendarDayButton}" />
+                                    <Setter
+                                        Property="Foreground"
+                                        Value="White" />
+                                    <Setter
+                                        Property="materialDesign:CalendarAssist.HeaderBackground"
+                                        Value="#A2E9FF" />
+                                    <Setter
+                                        Property="materialDesign:CalendarAssist.HeaderForeground"
+                                        Value="Black" />
+                                </Style>
+                                <Style
+                                  TargetType="DatePicker"
+                                  BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                    <Setter
+                                        Property="CalendarStyle"
+                                        Value="{StaticResource CustomCalendar}" />
+                                </Style>
+                            </DatePicker.Resources>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedDateChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedDateChanged}" 
+                                                           CommandParameter="{Binding ElementName=dobDatePicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </DatePicker>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "Email"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                             Text="{Binding EmailAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Email *"
+                             Foreground="#ffffff"
+                             FontSize="15"
+                             Height="55"
+                             Width="300"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="LightGray"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                             VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="Vui lòng nhập email"
+                           Foreground="#FFF44336"
+                           FontWeight="DemiBold"
+                           Margin="0,5,30,0"
+                           HorizontalAlignment="Right"
+                           FontSize="12"
+                           Visibility="{Binding IsNullEmailAdd, Converter={StaticResource ConverterBoolValue}}"/>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "PhoneHangup"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                                 Text="{Binding PhoneAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Số điện thoại*"
+                                 Foreground="#ffffff"
+                                 FontSize="15"
+                                 Height="55"
+                                 Width="300"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="LightGray"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 PreviewTextInput="TextBox_PreviewTextInput"
+                                 TextChanged="TextBox_TextChanged_1"
+                                 VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="Vui lòng nhập số điện thoại"
+                           Foreground="#FFF44336"
+                           FontWeight="DemiBold"
+                           Margin="0,5,30,0"
+                           HorizontalAlignment="Right"
+                           FontSize="12"
+                           Visibility="{Binding IsNullPhoneAdd, Converter={StaticResource ConverterBoolValue}}"/>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "SmartCard"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                                 Text="{Binding CCCDAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Căn cước công dân"
+                                 Foreground="#ffffff"
+                                 FontSize="15"
+                                 Height="55"
+                                 Width="300"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="LightGray"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                                 PreviewTextInput="TextBox_PreviewTextInput"
+                                 TextChanged="TextBox_TextChanged"
+                                 VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "AccountHardHat"
+                                                 Height="20"
+                                                 Width="20"
+                                                 VerticalAlignment="Center" 
+                                                 Foreground="#ffffff"
+                                                 Margin="10 0 10 0"/>
+                        <ComboBox materialDesign:HintAssist.Hint="Chức vụ"
+                                  Margin="10 0 10 0"
+                                  Width="300"
+                                  Height="55"
+                                  Foreground="#ffffff"
+                                  FontSize="15"
+                                  BorderBrush="LightGray"
+                                  ItemsSource="{Binding ListPosition}"
+                                  SelectedItem="{Binding SelectedPosition}"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Foreground"
+                                            Value="Black" />
+                                    <Setter Property="Margin"
+                                            Value="5" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "MapMarker"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                             Text="{Binding AddressAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Địa chỉ"
+                             Foreground="#ffffff"
+                             FontSize="15"
+                             Height="55"
+                             Width="300"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="LightGray"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                             VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "Account"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                             Text="{Binding UsernameAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Tên đăng nhập"
+                             Foreground="#ffffff"
+                             FontSize="15"
+                             Height="55"
+                             Width="300"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="LightGray"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                             VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind= "Lock"
+                                             Height="20"
+                                             Width="20"
+                                             VerticalAlignment="Center" 
+                                             Foreground="#ffffff"
+                                             Margin="10 0 10 0"/>
+                        <TextBox Margin="10 0 10 0"
+                             Text="{Binding PasswordAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Mật khẩu"
+                             Foreground="#ffffff"
+                             FontSize="15"
+                             Height="55"
+                             Width="300"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="LightGray"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                             VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <materialDesign:Card Width="300" Margin="0 5 0 5"
+                         UniformCornerRadius="10"
+                         Height="50"
+                         Background="#CEF000">
+                    <Button Content="Xác nhận"
+                        BorderBrush="Transparent"
+                        Background="Transparent"
+                        VerticalAlignment="Center"
+                        Height="60"
+                        Foreground="#000000"
+                        FontSize="18"
+                        Command="{Binding ConfirmAddEmployee}">
+
+                    </Button>
+                </materialDesign:Card>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,148 @@
+﻿<Page x:Class="QuanLyChuoiCuaHangCoffee.Views.Login.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:QuanLyChuoiCuaHangCoffee.Views.Login"
+      xmlns:i = "http://schemas.microsoft.com/xaml/behaviors"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LoginPage"
+      Name="LoginPageCF"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontWeight="Regular"
+    TextElement.FontSize="13"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+      DataContext="{StaticResource LoginVM}">
+
+    <StackPanel Orientation="Vertical">
+        <Label FontSize="35"
+               FontFamily="Inter"
+               FontWeight="Bold"
+               Content="Đăng nhập"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Foreground="#FFFFFF"
+               Height="50"
+               Margin="00 0 0 0">
+        </Label>
+
+        <StackPanel Margin="0,20,20,10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <materialDesign:PackIcon Kind="Account"
+                                     Height="20"
+                                     Width="20"
+                                     VerticalAlignment="Center" 
+                                     Foreground="#ffffff"/>
+            <TextBox materialDesign:HintAssist.Hint="Tên đăng nhập"
+                     Foreground="#ffffff"
+                     FontSize="15"
+                     Width="220"
+                     Margin="5,0,0,0"
+                     BorderBrush="LightGray"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding Usernamelog}"
+                     x:Name="usernameTextBox" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Margin="0 0 20 0">
+            <materialDesign:PackIcon Kind="Lock"
+                                     Height="20"
+                                     Width="20"
+                                     VerticalAlignment="Center" 
+                                     Foreground="#ffffff"/>
+            <PasswordBox materialDesign:HintAssist.Hint="Password"
+                         x:Name="FloatingPasswordBox"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        Foreground="#ffffff"
+                        FontSize="15"
+                        Margin="5,0,0,0"
+                        BorderBrush="LightGray"
+                        IsEnabled="{Binding ElementName=RevealPasswordDefaultEnabled, Path=IsChecked}"
+                        Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}"
+                        Width="220">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PasswordChanged">
+                        <i:InvokeCommandAction Command="{Binding PasswordChangedCF}"
+                                   CommandParameter="{Binding ElementName=FloatingPasswordBox}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </PasswordBox>
+        </StackPanel>
+
+        <StackPanel Orientation = "Vertical"
+            HorizontalAlignment="Center">
+            <!-- Thông báo lỗi -->
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="40,2,25,0"
+                       x:Name="Error"
+                       Height="28"
+                       FontSize="15"
+                       Foreground="Red" />
+            </StackPanel>
+
+            <!-- Quên mật khẩu -->
+            <StackPanel HorizontalAlignment="Right">
+                <Button Content="Quên mật khẩu?"
+                        Foreground="#696F79"
+                        FontSize="12"
+                        FontWeight="Normal"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Margin="0 0 5 0"
+                        HorizontalContentAlignment="Right"
+                        Command="{Binding LoadForgotPassPage}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Width="250"
+                        HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center">
+                    <Button Content="Đăng nhập"
+                            Foreground="#000000"
+                            IsDefault="True"
+                            Width="250"
+                            x:Name="btnLogin"
+                            Padding="0,0,0,5"
+                            Background="#F0B000"
+                            materialDesign:ButtonAssist.CornerRadius="8"
+                            Command="{Binding LoginCF}"
+                            CommandParameter="{Binding ElementName=Error}"  >
+                        <!--Click="btnLogin_Click">-->
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Bạn không có tài khoản?"
+                       FontFamily="inter"
+                       FontWeight="Medium"
+                       Foreground="#696F79"
+                       Margin="10 5 0 0">
+
+                </Label>
+
+
+
+                <Button Content="Đăng ký tại đây"
+                        FontFamily="inter"
+                        FontWeight="Medium"
+                        Foreground="#F0B000"
+                        materialDesign:ButtonAssist.CornerRadius="8"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Margin="0 0 5 0"
+                        Command="{Binding LoadRegisterPage}"
+                        />
+
+            </StackPanel>
+        </StackPanel>
+
+
+    </StackPanel>
+</Page>
