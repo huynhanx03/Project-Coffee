@@ -361,3 +361,41 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+## Mobile
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+Mobile/CoffeeApp/node_modules/
+
+# Expo
+Mobile/CoffeeApp/.expo/
+Mobile/CoffeeApp/dist/
+Mobile/CoffeeApp/web-build/
+
+# Native
+Mobile/CoffeeApp/*.orig.*
+Mobile/CoffeeApp/*.jks
+Mobile/CoffeeApp/*.p8
+Mobile/CoffeeApp/*.p12
+Mobile/CoffeeApp/*.key
+Mobile/CoffeeApp/*.mobileprovision
+
+# Metro
+Mobile/CoffeeApp/.metro-health-check*
+
+# debug
+Mobile/CoffeeApp/npm-debug.*
+Mobile/CoffeeApp/yarn-debug.*
+Mobile/CoffeeApp/yarn-error.*
+
+# macOS
+Mobile/CoffeeApp/.DS_Store
+Mobile/CoffeeApp/*.pem
+
+# local env files
+Mobile/CoffeeApp/.env*.local
+
+# typescript
+Mobile/CoffeeApp/*.tsbuildinfo
