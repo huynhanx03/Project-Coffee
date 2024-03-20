@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-const ForgotScreen = () => {
+const VerifyScreen = () => {
     const navigation = useNavigation();
     return (
         <View className="flex-1 justify-center items-center">
@@ -16,8 +16,8 @@ const ForgotScreen = () => {
 
             <View className='absolute top-52'>
                 <View className='flex justify-center items-center'>
-                    <Text className='text-3xl'>Bạn quên mật khẩu ư?</Text>
-                    <Text>Đừng lo, chúng tôi sẽ hỗ trợ bạn</Text>
+                    <Text className='text-3xl'>Xác nhận OTP</Text>
+                    <Text>Nhập mã xác nhận đã được gửi về email của bạn</Text>
                 </View>
                 <View style={{width: wp(90)}} className='mt-20'>
                     <TextInput 
@@ -43,4 +43,4 @@ const ForgotScreen = () => {
     );
 };
 
-export default ForgotScreen;
+export default VerifyScreen;
