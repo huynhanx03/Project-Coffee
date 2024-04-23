@@ -1,19 +1,47 @@
-import { View, Text, Image, Dimensions, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, Image, Dimensions, Pressable, TouchableOpacity, Modal, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import { colors } from "../theme";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Button from "../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
+import { handleLogin } from "../controller/LoginController";
+import Toast, { ErrorToast } from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
 
 export default function LogInScreen() {
     const navigation = useNavigation();
     const [isHide, setIsHide] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+
     const handleShowPassword = () => {
         setIsHide(!isHide);
     };
+
+    const Login = async () => {
+        setIsLoading(true);
+        const account = await handleLogin(username, password);
+        if (account) {
+            setIsLoading(false);
+            navigation.replace('HomeTab')
+        }
+        else {
+            setIsLoading(false);
+            Toast.show({
+                type: 'error',
+                text1: 'Đăng nhập thất bại',
+                text2: 'Tài khoản hoặc mật khẩu không đúng!',
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+            })
+        }
+    };
+
     return (
         <View className="flex-1 justify-center items-center">
             <Image
@@ -26,10 +54,19 @@ export default function LogInScreen() {
                     Chào mừng!
                 </Text>
                 <View className="space-y-3" style={{ width: wp(90) }}>
-                    <TextInput mode="outlined" label="Tên đăng nhập" activeOutlineColor={colors.primary} />
+                    <TextInput
+                        mode="outlined"
+                        autoCapitalize="none"
+                        value={username}
+                        onChangeText={(text) => setUsername(text)}
+                        label="Tên đăng nhập"
+                        activeOutlineColor={colors.primary}
+                    />
                     <TextInput
                         mode="outlined"
                         label="Mật khẩu"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
                         secureTextEntry={isHide}
                         activeOutlineColor={colors.primary}
                         right={<TextInput.Icon icon={isHide ? "eye" : "eye-off"} onPress={handleShowPassword} />}
@@ -41,7 +78,7 @@ export default function LogInScreen() {
                         </Text>
                     </TouchableOpacity>
 
-                    <Button content="Đăng nhập" handle={() => navigation.navigate('Home')} />
+                    <Button content="Đăng nhập" handle={Login} />
                 </View>
 
                 <View className="mt-14 flex-row justify-between items-center" style={{ width: wp(90) }}>
@@ -78,6 +115,18 @@ export default function LogInScreen() {
                     </Text>
                 </TouchableOpacity>
             </View>
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={isLoading}
+                onRequestClose={() => setIsLoading(false)}>
+                <View className='flex-1 justify-center items-center' style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                    <View className='bg-white p-5 rounded-lg justify-center items-center' style={{elevation: 5}}>
+                        <ActivityIndicator size="large" color="gray" style={{width: wp(28), height: wp(28)}}/>
+                        <Text className='text-base font-semibold' style={{color: colors.text(1)}}>Đang đăng nhập...</Text>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
