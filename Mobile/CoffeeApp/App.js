@@ -1,14 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Navigation from './navigation/Navigation';
-import { PaperProvider } from 'react-native-paper';
-import Toast from 'react-native-toast-message';
+import { View, Text } from 'react-native'
+import React from 'react'
+import { PaperProvider } from 'react-native-paper'
+import Navigation from './navigation/Navigation'
+import { Provider } from 'react-redux'
+import store from './redux/store'
+import Toast from 'react-native-toast-message'
 
-export default function App() {
+const App = () => {
   return (
     <PaperProvider>
-      <Navigation />
-      <Toast />
+      <Provider store={store}>
+          <Navigation />
+          <Toast />
+      </Provider>
     </PaperProvider>
-  );
+  )
 }
+
+export default App
