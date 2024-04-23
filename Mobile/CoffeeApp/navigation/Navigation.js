@@ -14,6 +14,7 @@ import EditScreen from '../screens/EditScreen';
 import ChangePassword from '../screens/ChangePassword';
 import CartScreen from '../screens/CartScreen';
 import AddressScreen from '../screens/AddressScreen';
+import AddAddressScreen from '../screens/AddAddressScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ export default function Navigation() {
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen name="Address" component={AddressScreen} />
+        <Stack.Screen name="AddAddress" component={AddAddressScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
