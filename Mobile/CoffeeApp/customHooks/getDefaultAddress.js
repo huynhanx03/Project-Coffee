@@ -2,6 +2,8 @@ import { View, Text } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { getAddress } from '../controller/AddressController'
 import { useFocusEffect } from '@react-navigation/native'
+import db from "../firebase";
+
 
 const getDefaultAddress = () => {
     const [addressData, setAddressData] = useState(null)

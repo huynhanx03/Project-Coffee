@@ -12,6 +12,7 @@ import DetailItemScreen from '../screens/DetailItemScreen';
 import BottomTab from './BottomTab';
 import EditScreen from '../screens/EditScreen';
 import ChangePassword from '../screens/ChangePassword';
+import CartScreen from '../screens/CartScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function Navigation() {
         <Stack.Screen name="Detail" component={DetailItemScreen} />
         <Stack.Screen name="Edit" component={EditScreen} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="Cart" component={CartScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
