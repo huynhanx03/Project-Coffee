@@ -9,6 +9,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import ForgotScreen from '../screens/ForgotScreen';
 import VerifyScreen from '../screens/VerifyScreen';
 import DetailItemScreen from '../screens/DetailItemScreen';
+import BottomTab from './BottomTab';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Welcome' screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="HomeTab" component={BottomTab} />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LogInScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
