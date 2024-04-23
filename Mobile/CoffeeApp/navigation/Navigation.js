@@ -13,6 +13,7 @@ import BottomTab from './BottomTab';
 import EditScreen from '../screens/EditScreen';
 import ChangePassword from '../screens/ChangePassword';
 import CartScreen from '../screens/CartScreen';
+import AddressScreen from '../screens/AddressScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function Navigation() {
         <Stack.Screen name="Edit" component={EditScreen} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
         <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Address" component={AddressScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
