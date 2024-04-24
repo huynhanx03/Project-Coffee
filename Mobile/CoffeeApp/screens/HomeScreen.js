@@ -29,6 +29,7 @@ const HomeScreen = () => {
                     MaSanPham: listProducts[key].MaSanPham,
                     TenSanPham: listProducts[key].TenSanPham,
                     HinhAnh: listProducts[key].HinhAnh,
+                    SoLuong: listProducts[key].SoLuong,
                     Size: {
                         Nho: {
                             TenKichThuoc: listProducts[key]?.ChiTietKichThuocSanPham?.KT0001?.TenKichThuoc,

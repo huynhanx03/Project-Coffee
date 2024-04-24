@@ -14,13 +14,16 @@ const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({route}) => {
     const product = route.params;
-    const initialPrice = (product.Size.Thuong.Gia);
+    const initialPrice = (product.initialPrice);
+    const initialSize = (product.initialSize);
     const navigation = useNavigation();
-    const [size, setSize] = useState('M');
+    const [size, setSize] = useState(initialSize);
     const [quantity, setQuantity] = useState(1);
     const [price, setPrice] = useState(initialPrice);
     const [total, setTotal] = useState(initialPrice);
     const [note, setNote] = useState('')
+
+    console.log(product);
 
     const handleSizeAndPrice = (size) => {
         setSize(size);
@@ -42,7 +45,19 @@ const DetailItemScreen = ({route}) => {
     }, [price, quantity])
 
     const handleIncreaseQuantity = () => {
-        setQuantity(quantity => quantity + 1)
+        if (quantity < product.SoLuong) {
+            setQuantity(quantity => quantity + 1)
+        } else {
+            setQuantity(product.SoLuong);
+            Toast.show({
+                type: 'error',
+                text1: 'Lỗi',
+                text2: 'Số lượng sản phẩm không đủ',
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+            })
+        }
     }
 
     const handleDecreaseQuantity = () => {
