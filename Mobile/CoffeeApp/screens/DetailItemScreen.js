@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Icons from "react-native-heroicons/solid";
 import { colors } from "../theme";
@@ -14,22 +14,32 @@ const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({route}) => {
     const product = route.params;
-    const initialPrice = formatPrice(product.Size.Thuong.Gia);
+    const initialPrice = (product.Size.Thuong.Gia);
     const navigation = useNavigation();
     const [size, setSize] = useState('M');
     const [quantity, setQuantity] = useState(1);
     const [price, setPrice] = useState(initialPrice);
+    const [total, setTotal] = useState(initialPrice);
+    const [note, setNote] = useState('')
 
     const handleSizeAndPrice = (size) => {
         setSize(size);
         if (size === 'S') {
-            setPrice(formatPrice(product.Size.Nho.Gia))
+            setPrice((product.Size.Nho.Gia))
         } else if (size === 'M') {
-            setPrice(formatPrice(product.Size.Thuong.Gia))
+            setPrice((product.Size.Thuong.Gia))
         } else {
-            setPrice(formatPrice(product.Size.Lon.Gia))
+            setPrice((product.Size.Lon.Gia))
         }
     }
+
+    const handleTotal = () => {
+        setTotal(formatPrice(parseInt(price) * quantity));
+    }
+
+    useEffect(() => {
+        handleTotal();
+    }, [price, quantity])
 
     const handleIncreaseQuantity = () => {
         setQuantity(quantity => quantity + 1)
@@ -83,7 +93,7 @@ const DetailItemScreen = ({route}) => {
                 {/* info */}
                 <View className='flex-row justify-between'>
                     <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>{product.TenSanPham}</Text>
-                    <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>{price}</Text>
+                    <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>{formatPrice(price)}</Text>
                 </View>
 
                 {/* description */}
@@ -148,11 +158,11 @@ const DetailItemScreen = ({route}) => {
 
             </ScrollView>
             {/* add to cart */}
-            <View className='bg-white flex-1 rounded-lg justify-center'>
+            <View className='bg-white flex-1 rounded-lg justify-center shadow-md'>
                 <View className='mx-5 flex-row justify-between items-center'>
                     <View>
                         <Text className='text-sm font-semibold text-gray-700'>Tổng</Text>
-                        <Text className='text-xl font-semibold'>15.000đ</Text>
+                        <Text className='text-xl font-semibold'>{total}</Text>
                     </View>
                     <View className='flex-row space-x-1'>
                         {/* <TouchableOpacity className='bg-white rounded-lg p-3 mt-3'>
