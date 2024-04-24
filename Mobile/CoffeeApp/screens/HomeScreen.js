@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Draggable from "react-native-draggable";
 import * as Icons from "react-native-heroicons/outline";
@@ -9,14 +9,51 @@ import Categories from "../components/categories";
 import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
+import { getProducts } from "../controller/ProductController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
     const [isActive, setIsActive] = useState("Tất cả");
+    const [products, setProducts] = useState(null);
     const categories = ["Espresso", "Machiato", "Latte", "America"];
     const quantity = 2;
 
     const addressData = getDefaultAddress();
+
+    const handleGetProducts = async () => {
+        let allProducts = [];
+        const listProducts = await getProducts();
+        if (listProducts) {
+            for (const key in listProducts) {
+                const productData = {
+                    MaSanPham: listProducts[key].MaSanPham,
+                    TenSanPham: listProducts[key].TenSanPham,
+                    HinhAnh: listProducts[key].HinhAnh,
+                    Size: {
+                        Nho: {
+                            TenKichThuoc: listProducts[key]?.ChiTietKichThuocSanPham?.KT0001?.TenKichThuoc,
+                            Gia: listProducts[key]?.ChiTietKichThuocSanPham?.KT0001?.Gia
+                        },
+                        Thuong: {
+                            TenKichThuoc: listProducts[key]?.ChiTietKichThuocSanPham?.KT0002?.TenKichThuoc,
+                            Gia: listProducts[key]?.ChiTietKichThuocSanPham?.KT0002?.Gia
+                        },
+                        Lon: {
+                            TenKichThuoc: listProducts[key]?.ChiTietKichThuocSanPham?.KT0003?.TenKichThuoc,
+                            Gia: listProducts[key]?.ChiTietKichThuocSanPham?.KT0003?.Gia
+                        },
+                    }
+                }
+                allProducts.push(productData);
+            }
+        }
+
+        setProducts([...allProducts])
+    }
+    
+    useEffect(() => {
+        handleGetProducts();
+    }, [])
 
     return (
         <View className="flex-1">
@@ -45,7 +82,7 @@ const HomeScreen = () => {
                         <View className="flex-row justify-between">
                             <TextInput placeholder="tìm món..." className="text-lg" />
 
-                            <TouchableOpacity className="p-1 bg-yellow-950 rounded-lg">
+                            <TouchableOpacity onPress={handleGetProducts} className="p-1 bg-yellow-950 rounded-lg">
                                 <Icons.MagnifyingGlassIcon size={24} color="#ffffff" />
                             </TouchableOpacity>
                         </View>
@@ -85,10 +122,11 @@ const HomeScreen = () => {
 
                 {/* card item */}
                 <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
+                    {products && products.map((product, index)=> {
+                        return (
+                            <Item product={product} key={product.MaSanPham}/>
+                        )
+                    })}
                 </View>
             </ScrollView>
 

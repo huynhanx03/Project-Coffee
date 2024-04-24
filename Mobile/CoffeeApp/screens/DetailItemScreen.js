@@ -1,16 +1,54 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Icons from "react-native-heroicons/solid";
 import { colors } from "../theme";
 import { Divider } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import CustomeKeyboard from "../components/customKeyboard";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Button from "../components/button";
+import { formatPrice } from "../utils";
+import Toast from "react-native-toast-message";
 const ios = Platform.OS === "ios";
 
-const DetailItemScreen = () => {
+const DetailItemScreen = ({route}) => {
+    const product = route.params;
+    const initialPrice = formatPrice(product.Size.Thuong.Gia);
     const navigation = useNavigation();
+    const [size, setSize] = useState('M');
+    const [quantity, setQuantity] = useState(1);
+    const [price, setPrice] = useState(initialPrice);
+
+    const handleSizeAndPrice = (size) => {
+        setSize(size);
+        if (size === 'S') {
+            setPrice(formatPrice(product.Size.Nho.Gia))
+        } else if (size === 'M') {
+            setPrice(formatPrice(product.Size.Thuong.Gia))
+        } else {
+            setPrice(formatPrice(product.Size.Lon.Gia))
+        }
+    }
+
+    const handleIncreaseQuantity = () => {
+        setQuantity(quantity => quantity + 1)
+    }
+
+    const handleDecreaseQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(quantity => quantity - 1)
+        } else {
+            Toast.show({
+                type: 'error',
+                text1: 'Lỗi',
+                text2: 'Số lượng sản phẩm phải lớn hơn 0',
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+            })
+        }
+    }
     return (
         <KeyboardAvoidingView  behavior={ios ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={0}>
 
@@ -40,12 +78,12 @@ const DetailItemScreen = () => {
 
             <ScrollView className='mx-5 pt-1 space-y-3 flex-[6]' showsVerticalScrollIndicator={false}>
                 {/* image */}
-                <Image source={require('../assets/images/coffeeDemo.png')} resizeMode="cover" style={{ width: '100%', height: 300, borderRadius: 16 }} />
+                <Image source={{uri: product.HinhAnh}} resizeMode="cover" style={{ width: '100%', height: 300, borderRadius: 16 }} />
 
                 {/* info */}
                 <View className='flex-row justify-between'>
-                    <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>Espresso</Text>
-                    <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>15.000đ</Text>
+                    <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>{product.TenSanPham}</Text>
+                    <Text style={{color: colors.text(1)}} className='font-semibold text-2xl'>{price}</Text>
                 </View>
 
                 {/* description */}
@@ -67,13 +105,13 @@ const DetailItemScreen = () => {
                     <Text className='text-base font-semibold' style={{color: colors.text(1)}}>Kích cỡ</Text>
 
                     <View className='flex-row justify-between'>
-                        <TouchableOpacity className='rounded-xl border' style={{borderColor: '#dedede'}}>
+                        <TouchableOpacity onPress={() => handleSizeAndPrice('S')} className='rounded-xl border' style={{borderColor: size === 'S' ? colors.active : '#dedede', backgroundColor: size === 'S' ? '#fff5ee' : '#f2f2f2'}}>
                             <Text className='p-2 px-14 py-5'>S</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity className='rounded-xl border' style={{borderColor: colors.active, backgroundColor: '#fff5ee'}}>
+                        <TouchableOpacity onPress={() => handleSizeAndPrice('M')} className='rounded-xl border' style={{borderColor: size === 'M' ? colors.active : '#dedede', backgroundColor: size === 'M' ? '#fff5ee' : '#f2f2f2'}}>
                             <Text className='p-2 px-14 py-5'>M</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity className='rounded-xl border' style={{borderColor: '#dedede'}}>
+                        <TouchableOpacity onPress={() => handleSizeAndPrice('L')} className='rounded-xl border' style={{borderColor: size === 'L' ? colors.active : '#dedede', backgroundColor: size === 'L' ? '#fff5ee' : '#f2f2f2'}}>
                             <Text className='p-2 px-14 py-5'>L</Text>
                         </TouchableOpacity>
                     </View>
@@ -84,15 +122,15 @@ const DetailItemScreen = () => {
                     <Text className='text-base font-semibold' style={{color: colors.text(1)}}>Số lượng</Text>
 
                     <View className='flex-row justify-center space-x-4 items-center'>
-                        <TouchableOpacity className='rounded-md' style={{backgroundColor: colors.primary}}>
+                        <TouchableOpacity onPress={handleDecreaseQuantity} className='rounded-md' style={{backgroundColor: colors.primary}}>
                             <Text className='px-4 py-2 text-white text-base font-semibold'>-</Text>
                         </TouchableOpacity>
 
                         <View className='bg-white border border-neutral-400 rounded-md'>
-                            <Text className='text-base font-semibold px-4 py-2'>1</Text>
+                            <Text className='text-base font-semibold px-4 py-2'>{quantity}</Text>
                         </View>
 
-                        <TouchableOpacity className='rounded-md' style={{backgroundColor: colors.primary}}>
+                        <TouchableOpacity onPress={handleIncreaseQuantity} className='rounded-md' style={{backgroundColor: colors.primary}}>
                             <Text className='px-4 py-2 text-white text-base font-semibold'>+</Text>
                         </TouchableOpacity>
                     </View>
