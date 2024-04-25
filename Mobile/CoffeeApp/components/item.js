@@ -7,11 +7,13 @@ import { colors } from "../theme";
 import { formatPrice } from "../utils";
 
 const Item = ({product}) => {
-    const [initialPrice, setInitialPrice] = useState(formatPrice(product.Size.Thuong.Gia));
+    const [initialPrice, setInitialPrice] = useState((product.Size.Thuong.Gia));
     const [initialSize, setInitialSize] = useState('M');
     const navigation = useNavigation();
     const [size, setSize] = useState(initialSize)
     const [price, setPrice] = useState(initialPrice);
+
+    let disabledButton = product.SoLuong === 0 ? true : false;
 
     const handleSizeAndPrice = (size) => {
         setSize(size);
@@ -30,7 +32,7 @@ const Item = ({product}) => {
         }
     }
     return (
-        <Pressable onPress={() => navigation.navigate('Detail', {...product, initialSize, initialPrice})} className="bg-white rounded-[16px] space-y-2 mt-3">
+        <Pressable disabled={disabledButton} onPress={() => navigation.navigate('Detail', {...product, initialSize, initialPrice})} className="bg-white rounded-[16px] mt-3 mb-2">
             <View className="px-1">
                 <View className='p-1 justify-center items-center mt-1' style={{width: wp(40), height: wp(40)}}>
                     <Image
@@ -66,7 +68,7 @@ const Item = ({product}) => {
                     
                     <View className='flex-row justify-between'>
                         <Text className="text-sm font-semibold" style={{ color: colors.text(1) }}>
-                            {price}
+                            {formatPrice(price)}
                         </Text>
 
                         <View className='flex-row items-center'>
@@ -76,6 +78,7 @@ const Item = ({product}) => {
                     </View>
                 </View>
             </View>
+            { disabledButton == true ? <View className='absolute top-0 right-0 bottom-0 left-0 rounded-[16px]' style={{backgroundColor: 'rgba(227, 227, 227, 0.3)'}}></View> : null}
         </Pressable>
     );
 };
