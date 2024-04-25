@@ -1,40 +1,38 @@
-import { View, Text, Pressable } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, { Marker } from "react-native-maps";
 import {
-    widthPercentageToDP as wp,
     heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import axios from "axios";
 import { GOOGLE_MAPS_API_KEY } from "../constants";
 
 const MapScreen = () => {
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState({latitude: 10.8700233, longtitude: 106.8025735});
 
-    useEffect(() => {
+    const handleSetLocation = (lat, lng) => {
         setLocation({
-            latitude: 10.8700233,
-            longtitude: 106.8025735,
+            latitude: lat,
+            longtitude: lng,
         });
-    }, []);
+    }
 
     return (
         <View className="flex-1">
             {/* <Text className='text-xl font-bold text-center p-2 bg-white'>Map</Text> */}
             <GooglePlacesAutocomplete
                 placeholder="Nhập địa chỉ của bạn"
-                debounce={500}
+                debounce={5000}
                 onPress={(data, details = null) => {
-                    setLocation({
-                        latitude: details.geometry.location.lat,
-                        longtitude: details.geometry.location.lng,
-                    });
+                    console.log('zzz')
+                    handleSetLocation(details.geometry.location.lat, details.geometry.location.lng)
                 }}
                 query={{
                     key: GOOGLE_MAPS_API_KEY,
                     language: "en",
                 }}
+                keyboardShouldPersistTaps={"always"}
                 fetchDetails={true}
                 enablePoweredByContainer={false}
                 style={{ zIndex: 999, position: "absolute", top: wp(9) }}
