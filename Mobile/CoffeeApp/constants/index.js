@@ -1,4 +1,4 @@
-const GOOGLE_MAPS_API_KEY='AIzaSyANqzIn9vRiKUQol0JzT5SxRfiM7-ev8po'
+const GOOGLE_MAPS_API_KEY='AIzaSyDMtxAPOavswrRozGswrLUAuKRpfH-49BI'
 
 
 export {GOOGLE_MAPS_API_KEY}
