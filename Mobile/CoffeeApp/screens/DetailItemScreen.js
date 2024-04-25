@@ -10,20 +10,26 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import Button from "../components/button";
 import { formatPrice } from "../utils";
 import Toast from "react-native-toast-message";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
 const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({route}) => {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
     const product = route.params;
+
     const initialPrice = (product.initialPrice);
     const initialSize = (product.initialSize);
-    const navigation = useNavigation();
+
     const [size, setSize] = useState(initialSize);
     const [quantity, setQuantity] = useState(1);
     const [price, setPrice] = useState(initialPrice);
     const [total, setTotal] = useState(initialPrice);
     const [note, setNote] = useState('')
 
-    console.log(product);
+    const cart = useSelector(state => state.cart.cart);
+    console.log(product)
 
     const handleSizeAndPrice = (size) => {
         setSize(size);
@@ -73,6 +79,11 @@ const DetailItemScreen = ({route}) => {
                 text2Style: {fontSize: 15},
             })
         }
+    }
+
+    const handleAddCart = (item) => {
+        dispatch(addToCart(item));
+        console.log('Add to cart')
     }
     return (
         <KeyboardAvoidingView  behavior={ios ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={0}>
@@ -185,7 +196,7 @@ const DetailItemScreen = ({route}) => {
                         </TouchableOpacity> */}
                         <Button content='Mua ngay' onPress={() => {}}/>
 
-                        <TouchableOpacity className='bg-amber-400 rounded-lg p-3 items-center justify-center'>
+                        <TouchableOpacity onPress={() => handleAddCart({...product, quantity})} className='bg-amber-400 rounded-lg p-3 items-center justify-center'>
                             <Icons.ShoppingCartIcon size={24} color={colors.primary} />
                         </TouchableOpacity>
                     </View>
