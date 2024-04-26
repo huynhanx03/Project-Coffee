@@ -1,19 +1,10 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const getMakh = async () => {
-    try {
-        const jsonValue = await AsyncStorage.getItem("user");
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-};
+import getUserData from "./StorageController";
 
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
-    const data = await getMakh();
+    const data = await getUserData();
     try {
         const addressesSnapshot = await get(child(dbRef, `DiaChi/${data.MaNguoiDung}`));
         const addresses = addressesSnapshot.val();
@@ -32,7 +23,7 @@ const getNewId = async () => {
 };
 
 const addAddress = async (name, phone, detail_address, location) => {
-    const data = await getMakh();
+    const data = await getUserData();
     const db = getDatabase();
     const newId = await getNewId();
     try {
@@ -53,7 +44,7 @@ const addAddress = async (name, phone, detail_address, location) => {
 };
 
 const getAddress = async () => {
-    const data = await getMakh();
+    const data = await getUserData();
     const dbRef = ref(getDatabase());
 
     try {
@@ -68,7 +59,7 @@ const getAddress = async () => {
 
 const setDefaultAddress = async (key) => {
     const addresses = await getAddress();
-    const data = await getMakh();
+    const data = await getUserData();
     const db = getDatabase();
 
     try {

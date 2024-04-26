@@ -1,18 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDatabase, ref, set, update } from "firebase/database";
-
-const getKh = async () => {
-    try {
-        const jsonValue = await AsyncStorage.getItem("user");
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-};
+import getUserData from "./StorageController";
 
 const checkOldPassword = async (oldPassword) => {
-    const userData = await getKh();
+    const userData = await getUserData();
     if (userData.MatKhau !== oldPassword) {
         return false;
     }
@@ -29,7 +20,7 @@ const checkConfirmPassword = (newPassword, confirmPassword) => {
 };
 
 const changePassword = async (oldPassword, newPassword, confirmPassword) => {
-    const userData = await getKh();
+    const userData = await getUserData();
     const db = getDatabase();
 
     if (await checkOldPassword(oldPassword) === false){

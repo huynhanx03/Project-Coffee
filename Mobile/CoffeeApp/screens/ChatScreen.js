@@ -14,8 +14,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as Icons from "react-native-heroicons/solid";
 import CustomKeyboard from "../components/customKeyboard";
 import MessageList from "../components/messageList";
-import { getMessage, sendMessage, getMakh } from "../controller/MessageController";
+import { getMessage, sendMessage } from "../controller/MessageController";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
+import getUserData from "../controller/StorageController";
 
 const ChatScreen = () => {
     const [message, setMessage] = useState("");
@@ -27,7 +28,7 @@ const ChatScreen = () => {
     const db = getDatabase();
 
     const getMessage = async () => {
-        const userData = await getMakh();
+        const userData = await getUserData();
         const messageRef = ref(db, `TinNhan/${userData.MaNguoiDung}/`);
         const q = query(messageRef, orderByChild('ThoiGian'));
 
@@ -49,26 +50,6 @@ const ChatScreen = () => {
         })
     }
 
-    // get messages data
-    // const getMessagesData = async () => {
-    //     try {
-    //         const data = await getMessage();
-    //         if (data) {
-    //             for (const key in data) {
-    //                 const messageData = {
-    //                     MaKH: data[key].MaKH,
-    //                     NoiDung: data[key].NoiDung,
-    //                 }
-    //                 allMessages.push(messageData);
-    //             }
-    //         }
-
-    //         setMessages([...allMessages]);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     useEffect(() => {
         updateScrollView();
     }, [messages])
@@ -87,7 +68,7 @@ const ChatScreen = () => {
 
     const getCurrentUser = async () => {
         try {
-            const user = await getMakh();
+            const user = await getUserData();
             setCurrentUser(user);
         } catch(err) {
             console.log(err);

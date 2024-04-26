@@ -9,7 +9,7 @@ import InputCustom from "../components/inputCustom";
 import { colors } from "../theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { set } from "firebase/database";
-import { getMakh } from "../controller/MessageController";
+import getUserData from "../controller/StorageController";
 
 
 const width = Dimensions.get("window").width;
@@ -23,7 +23,7 @@ const EditScreen = () => {
 
     const getUser = async () => {
         try {
-            const user = await getMakh();
+            const user = await getUserData();
             setUser(user);
         } catch (error) {
             console.log(error);

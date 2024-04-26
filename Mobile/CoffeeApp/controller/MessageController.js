@@ -1,20 +1,12 @@
 import { getDatabase, ref, onValue, push, get, set, child, orderByChild, query } from "firebase/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { orderBy } from "firebase/firestore";
+import getUserData from "./StorageController";
 
-const getMakh = async () => {
-    try {
-        const jsonValue = await AsyncStorage.getItem("user");
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-};
 
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
-    const userData = await getMakh();
+    const userData = await getUserData();
     try {
         const messageSnapshot = await get(child(dbRef, `TinNhan/${userData.MaNguoiDung}`));
         const messages = messageSnapshot.val();
@@ -37,7 +29,7 @@ const db = getDatabase();
 const sendMessage = async (message) => {
     const currentTime = new Date().toString();
     const newId = await getNewId();
-    const dataUser = await getMakh();
+    const dataUser = await getUserData();
 
     set(ref(db, `TinNhan/${dataUser.MaNguoiDung}/${newId}`), {
         ThoiGian: currentTime,
@@ -50,7 +42,7 @@ const sendMessage = async (message) => {
 const getMessage = async () => {
 
     return new Promise((resolve, reject) => {
-        getMakh().then(userData => {
+        getUserData().then(userData => {
             const messageRef = ref(db, `TinNhan/${userData.MaNguoiDung}/`);
             const q = query(messageRef, orderByChild('ThoiGian'));
             // console.log(q)
@@ -64,4 +56,4 @@ const getMessage = async () => {
     });
 }
 
-export { sendMessage, getMessage, getMakh }
+export { sendMessage, getMessage }
