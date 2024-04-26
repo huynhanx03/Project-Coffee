@@ -23,6 +23,7 @@ const ForgotScreen = () => {
             text1: result[1],
             topOffset: 70,
             text1Style: { fontSize: 18 },
+            visibilityTime: 2000
         });
 
         if (result[0]) {

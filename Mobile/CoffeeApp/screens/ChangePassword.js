@@ -37,6 +37,7 @@ const EditScreen = () => {
                 topOffset: 70,
                 text1Style: { fontSize: 18 },
                 text2Style: { fontSize: 15 },
+                visibilityTime: 2000
             });
             return;
         }
@@ -49,6 +50,7 @@ const EditScreen = () => {
             duration: 2000,
             text1Style: { fontSize: 18 },
             text2Style: { fontSize: 15 },
+            visibilityTime: 2000
         })
 
         if (rs[0]) {

@@ -12,6 +12,7 @@ import { formatPrice } from "../utils";
 import Toast from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
+import { setCart } from "../controller/CartController";
 const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({route}) => {
@@ -27,9 +28,9 @@ const DetailItemScreen = ({route}) => {
     const [price, setPrice] = useState(initialPrice);
     const [total, setTotal] = useState(initialPrice);
     const [note, setNote] = useState('')
+    const [isFavorite, setIsFavorite] = useState(false)
 
     const cart = useSelector(state => state.cart.cart);
-    console.log(product)
 
     const handleSizeAndPrice = (size) => {
         setSize(size);
@@ -62,6 +63,7 @@ const DetailItemScreen = ({route}) => {
                 topOffset: 70,
                 text1Style: {fontSize: 18},
                 text2Style: {fontSize: 15},
+                visibilityTime: 2000
             })
         }
     }
@@ -77,13 +79,23 @@ const DetailItemScreen = ({route}) => {
                 topOffset: 70,
                 text1Style: {fontSize: 18},
                 text2Style: {fontSize: 15},
+                visibilityTime: 2000,
             })
         }
     }
 
     const handleAddCart = (item) => {
         dispatch(addToCart(item));
-        console.log('Add to cart')
+        setCart(item)
+        Toast.show({
+            type: 'success',
+            text1: 'Thông báo',
+            text2: 'Thêm vào giỏ hàng thành công',
+            topOffset: 70,
+            text1Style: {fontSize: 18},
+            text2Style: {fontSize: 15},
+            visibilityTime: 2000
+        })
     }
     return (
         <KeyboardAvoidingView  behavior={ios ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={0}>
@@ -106,8 +118,8 @@ const DetailItemScreen = ({route}) => {
                     </TouchableOpacity>
                     <Text className="text-lg font-semibold">Chi tiết sản phẩm</Text>
 
-                    <TouchableOpacity>
-                        <Icons.HeartIcon size={30} color={"red"} />
+                    <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)}>
+                        <Icons.HeartIcon size={30} color={isFavorite ? colors.active : "gray"} />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
