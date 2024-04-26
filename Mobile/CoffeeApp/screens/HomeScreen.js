@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Image,
     ScrollView,
@@ -19,16 +19,27 @@ import Categories from "../components/categories";
 import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
-import { getProducts } from "../controller/ProductController";
+import { getCategories, getProducts } from "../controller/ProductController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
     const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
-    const categories = ["Espresso", "Machiato", "Latte", "America"];
+    const [categories, setCategories] = useState(null);
     const quantity = 2;
 
     const addressData = getDefaultAddress();
+
+    const handleGetCategories = async () => {
+        const listCategories = await getCategories();
+        if (listCategories) {
+            let allCategories = [];
+            for (const key in listCategories) {
+                allCategories.push(listCategories[key].LoaiSanPham);
+            }
+            setCategories(['Tất cả', ...allCategories]);
+        }
+    }
 
     const handleGetProducts = async () => {
         let allProducts = [];
@@ -40,6 +51,7 @@ const HomeScreen = () => {
                     TenSanPham: listProducts[key].TenSanPham,
                     HinhAnh: listProducts[key].HinhAnh,
                     SoLuong: listProducts[key].SoLuong,
+                    LoaiSanPham: listProducts[key].LoaiSanPham,
                     Size: {
                         Nho: {
                             TenKichThuoc:
@@ -73,6 +85,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         handleGetProducts();
+        handleGetCategories();
     }, []);
 
     return (
@@ -169,14 +182,14 @@ const HomeScreen = () => {
 
                 {/* categories */}
                 <View className="mx-2">
-                    <Categories categories={categories} />
+                    {categories && <Categories categories={categories} setIsActive={setIsActive}/>}
                 </View>
 
                 {/* card item */}
                 <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
                     {products &&
                         products
-                            .filter((item) => item.SoLuong > 0)
+                            .filter((item) => item.SoLuong > 0 && isActive === 'Tất cả' ? true : item.LoaiSanPham == isActive)
                             .map((product, index) => {
                                 return (
                                     <Item

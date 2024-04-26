@@ -9,7 +9,7 @@ const Categories = (props) => {
     };
 
     useEffect(() => {
-        props.categoryRef.current = activeCategory;
+        props.setIsActive(activeCategory);
     }, [activeCategory])
 
     return (
