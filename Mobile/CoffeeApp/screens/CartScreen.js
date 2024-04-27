@@ -1,11 +1,13 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import {
+    FlatList,
     Pressable,
     ScrollView,
     Text,
     TouchableOpacity,
     View,
+    Alert,
 } from "react-native";
 import * as Icons from "react-native-heroicons/outline";
 import { Divider } from "react-native-paper";
@@ -14,11 +16,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ItemCart from "../components/itemCart";
 import { getAddress } from "../controller/AddressController";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../redux/slices/cartSlice";
 
 const CartScreen = () => {
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart.cart);
     const addressData = getDefaultAddress();
+
+    const handleDeleteCart = () => {
+        Alert.alert(
+            "Xác nhận",
+            "Bạn có chắc chắn xoá hết sản phẩm?",
+            [
+                { text: "Hủy", style: "cancel" },
+                { text: "Xoá", style: 'destructive', onPress: () => dispatch(clearCart()) },
+            ],
+            { cancelable: true }
+        );
+        // dispatch(clearCart())
+    }
 
     return (
         <View className="flex-1">
@@ -39,15 +57,16 @@ const CartScreen = () => {
                     <Text className="text-lg font-semibold tracking-wider">
                         Giỏ hàng
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleDeleteCart}>
                         <Icons.TrashIcon size={30} color={"black"} />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
 
-            <ScrollView
-                className="mx-5 pt-1 space-y-3"
-                showsVerticalScrollIndicator={false}>
+            <View
+                className="mx-5 pt-2 space-y-3 flex-1"
+                // showsVerticalScrollIndicator={false}
+                >
                 {/* address */}
                 <View className="flex-row items-center gap-3">
                     <Icons.MapPinIcon size={24} color={"red"} />
@@ -80,13 +99,14 @@ const CartScreen = () => {
                 <Divider />
 
                 {/* item cart */}
-                <View className="space-y-2">
-                    <ItemCart />
-                    <ItemCart />
-                    <ItemCart />
-                    <ItemCart />
+                <View className="space-y-2 flex-1">
+                    <FlatList 
+                        data={cart}
+                        keyExtractor={(item) => item.MaSanPham}
+                        renderItem={({item}) => <ItemCart item={item} />}
+                    />
                 </View>
-            </ScrollView>
+            </View>
 
             <View className="absolute bottom-5 w-full">
                 <TouchableOpacity className="flex-row justify-between items-center mx-5 bg-amber-500 rounded-full p-5">
