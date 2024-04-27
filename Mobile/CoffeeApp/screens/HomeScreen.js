@@ -20,15 +20,17 @@ import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
 import { getCategories, getProducts } from "../controller/ProductController";
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
     const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
     const [categories, setCategories] = useState(null);
-    const quantity = 2;
 
     const addressData = getDefaultAddress();
+
+    const cart = useSelector((state) => state.cart.cart);
 
     const handleGetCategories = async () => {
         const listCategories = await getCategories();
@@ -271,7 +273,7 @@ const HomeScreen = () => {
                         />
                         <View className="absolute -right-1 top-1 bg-red-500 px-2 rounded-full">
                             <Text className="text-white text-base">
-                                {quantity}
+                                {cart.length}
                             </Text>
                         </View>
                     </TouchableOpacity>
