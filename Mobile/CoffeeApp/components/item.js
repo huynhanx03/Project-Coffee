@@ -11,7 +11,7 @@ const Item = ({product}) => {
     const [initialSize, setInitialSize] = useState('M');
     const navigation = useNavigation();
     const [size, setSize] = useState(initialSize)
-    const [price, setPrice] = useState(initialPrice);
+    const [price, setPrice] = useState(formatPrice(initialPrice));
 
     let disabledButton = product.SoLuong === 0 ? true : false;
 
@@ -31,6 +31,7 @@ const Item = ({product}) => {
             setInitialSize('L')
         }
     }
+    
     return (
         <Pressable disabled={disabledButton} onPress={() => navigation.navigate('Detail', {...product, initialSize, initialPrice})} className="bg-white rounded-[16px] mt-3 mb-2">
             <View className="px-1">
@@ -68,7 +69,7 @@ const Item = ({product}) => {
                     
                     <View className='flex-row justify-between'>
                         <Text className="text-sm font-semibold" style={{ color: colors.text(1) }}>
-                            {formatPrice(price)}
+                            {(price)}
                         </Text>
 
                         <View className='flex-row items-center'>
