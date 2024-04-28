@@ -15,6 +15,9 @@ export const CartSlice = createSlice({
                 state.cart.push({ ...action.payload })
             }
         },
+        addToCartFromDatabase: (state, action) => {
+            state.cart.push({...action.payload})
+        },
         removeFromCart: (state, action) => {
             state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
         },
@@ -40,5 +43,5 @@ export const CartSlice = createSlice({
     }
 })
 
-export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity, clearCart } = CartSlice.actions
+export const { addToCart, addToCartFromDatabase, removeFromCart, incrementQuantity, decrementQuantity, clearCart } = CartSlice.actions
 export default CartSlice.reducer
