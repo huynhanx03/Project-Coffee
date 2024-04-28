@@ -1,5 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { getDatabase, ref, remove, set, child, } from "firebase/database"
+import { getDatabase, ref, remove, set, child, get, } from "firebase/database"
 import getUserData from "./StorageController"
 
 
@@ -32,11 +31,12 @@ const setCart = async (item) => {
     try {
         const db = getDatabase()
         set(ref(db, `GioHang/${userData.MaNguoiDung}/${item.MaSanPham}`), {
-            Gia: item.initialPrice,
+            TenSanPham: item.TenSanPham,
+            Gia: item.Gia,
             HinhAnh: item.HinhAnh,
-            KichThuoc: item.initialSize,
+            KichThuoc: item.KichThuoc,
             MaSanPham: item.MaSanPham,
-            SoLuong: item.SoLuong,
+            SoLuongGioHang: item.SoLuongGioHang,
         })
     } catch (error) {
         console.log(error)
@@ -58,6 +58,18 @@ const deleteItemCard = async (item) => {
     }
 }
 
+const removeItemCart = async () => {
+    const userData = await getUserData()
+    try {
+        const db = getDatabase()
+        remove(ref(db, `GioHang/${userData.MaNguoiDung}`))
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+
+}
+
 
 /**
  * Get cart from database
@@ -76,4 +88,4 @@ const getCart = async () => {
     }
 }
 
-export { setCart, getCart, deleteItemCard }
+export { setCart, getCart, deleteItemCard, removeItemCart }
