@@ -93,8 +93,10 @@ const HomeScreen = () => {
         const userData = await getUserData();
         // get cart from database and set to redux
         const items = await getCart();
-        for (const key in items[userData.MaNguoiDung]) {
-            dispatch(addToCartFromDatabase(items[userData.MaNguoiDung][key]))
+        if (items) {
+            for (const key in items[userData.MaNguoiDung]) {
+                dispatch(addToCartFromDatabase(items[userData.MaNguoiDung][key]))
+            }
         }
     }
 

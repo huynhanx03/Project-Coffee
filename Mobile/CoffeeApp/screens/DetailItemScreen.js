@@ -85,8 +85,16 @@ const DetailItemScreen = ({route}) => {
     }
 
     const handleAddCart = (item) => {
-        dispatch(addToCart(item));
-        setCart(item)
+        const itemCart = {
+            TenSanPham: item.TenSanPham,
+            Gia: item.initialPrice,
+            HinhAnh: item.HinhAnh,
+            KichThuoc: item.initialSize,
+            MaSanPham: item.MaSanPham,
+            SoLuongGioHang: item.quantity,
+        }
+        dispatch(addToCart(itemCart));
+        setCart(itemCart)
         Toast.show({
             type: 'success',
             text1: 'Thông báo',
