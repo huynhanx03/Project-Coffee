@@ -31,7 +31,7 @@ export default function WelcomeScreen() {
 
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate("Login");
+            navigation.replace("Login");
         }, 3000);
     });
     return (
