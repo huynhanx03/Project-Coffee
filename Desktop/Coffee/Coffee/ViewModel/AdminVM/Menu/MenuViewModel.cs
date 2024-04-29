@@ -1,0 +1,305 @@
+﻿using CloudinaryDotNet.Actions;
+using Coffee.DTOs;
+using Coffee.Services;
+using Coffee.Views.Admin.EmployeePage;
+using Coffee.Views.Admin.MenuPage;
+using Coffee.Views.MessageBox;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace Coffee.ViewModel.AdminVM.Menu
+{
+    public partial class MenuViewModel: BaseViewModel
+    {
+        #region variable
+        public Grid MaskName { get; set; }
+
+        private ObservableCollection<ProductDTO> _ProductList;
+
+        public ObservableCollection<ProductDTO> ProductList
+        {
+            get { return _ProductList; }
+            set { _ProductList = value; OnPropertyChanged(); }
+        }
+
+        private List<ProductDTO> __ProductList;
+        private ProductDTO _SelectedProduct;
+        public ProductDTO SelectedProduct
+        {
+            get { return _SelectedProduct; }
+            set { _SelectedProduct = value; OnPropertyChanged(); }
+        }
+
+        private int maxProductQuantity;
+
+        private int _ProductQuantity;
+
+        public int ProductQuantity
+        {
+            get { return _ProductQuantity; }
+            set 
+            {
+                if (value <= 0)
+                    _ProductQuantity = 1;
+                else if (value > maxProductQuantity)
+                    _ProductQuantity = maxProductQuantity;
+                else
+                    _ProductQuantity = value;
+
+                OnPropertyChanged();
+            }
+        }
+
+
+        #endregion
+
+        #region ICommand
+        public ICommand loadShadowMaskIC { get; set; }
+        public ICommand openWindowAddProductIC { get; set; }
+        public ICommand loadProductListIC { get; set; }
+        public ICommand searchItemIC { get; set; }
+        public ICommand uploadImageIC { get; set; }
+        public ICommand deleteProductIC { get; set; }
+        public ICommand editProductIC { get; set; }
+        public ICommand addQuantityProductIC { get; set; }
+        public ICommand confirmAddQuantityProductIC { get; set; }
+        #endregion
+
+        public MenuViewModel()
+        {
+            loadShadowMaskIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                MaskName = p;
+            });
+
+            loadProductListIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                loadProductList();
+            });
+
+            openWindowAddProductIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                openWindowAddProduct();
+            });
+
+            deleteProductIC = new RelayCommand<ProductDTO>((p) => { return true; }, (p) =>
+            {
+                deleteProduct();
+            });
+
+            deleteProductIC = new RelayCommand<ProductDTO>((p) => { return true; }, (p) =>
+            {
+                editProduct();
+            });
+
+            searchItemIC = new RelayCommand<TextBox>(null, (p) =>
+            {
+                if (p.Text != null)
+                {
+                    if (__ProductList != null)
+                        ProductList = new ObservableCollection<ProductDTO>(__ProductList.FindAll(x => x.TenSanPham.ToLower().Contains(p.Text.ToLower())));
+                }
+            });
+
+            addQuantityProductIC = new RelayCommand<ProductDTO>((p) => { return true; }, (p) =>
+            {
+                addQuantityProduct();
+            });
+
+            confirmAddQuantityProductIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                confirmAddQuantityProduct();
+            });
+
+            #region operation
+            confirmOperationProductIC = new RelayCommand<object>((p) =>
+            {
+                return !(string.IsNullOrEmpty(ProductName)
+                        || string.IsNullOrEmpty(SelectedProdcutTypeName)
+                        || string.IsNullOrEmpty(Image)
+                        || string.IsNullOrEmpty(Description));
+            },
+            (p) =>
+            {
+                confirmOperationProduct();
+            });
+
+            closeOperationProductWindowIC = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                p.Close();
+            });
+
+            uploadImageIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image Files|*.jpg;*.png;*.jpeg;*.webp;*.gif|All Files|*.*";
+                if (openFileDialog.ShowDialog() == true)
+                {
+
+                    Image = openFileDialog.FileName;
+                    if (Image != null)
+                    {
+                        // Image was uploaded successfully.                        
+                    }
+                    else
+                    {
+                        MessageBoxCF ms = new MessageBoxCF("Tải ảnh lên thất bại", MessageType.Error, MessageButtons.OK);
+                        ms.ShowDialog();
+                    }
+                }
+            });
+            #endregion
+        }
+
+        /// <summary>
+        /// Load danh sách sản phẩm
+        /// </summary>
+        private async void loadProductList()
+        {
+            (string label, List<ProductDTO> pr) = await ProductService.Ins.getListProduct();
+
+            if (pr != null)
+            {
+                ProductList = new ObservableCollection<ProductDTO>(pr);
+                __ProductList = new List<ProductDTO>(pr);
+            }
+        }
+
+        /// <summary>
+        /// Mở cửa số sửa sản phẩm
+        /// </summary>
+        public void openWindowEditEmployee()
+        {
+            MaskName.Visibility = Visibility.Visible;
+            loadProductType();
+            loadProductSizeDetail();
+            OperationEmployeeWindow w = new OperationEmployeeWindow();
+            TypeOperation = 2; // Edit employee
+            loadProduct(SelectedProduct);
+            w.ShowDialog();
+            MaskName.Visibility = Visibility.Collapsed;
+        }
+
+
+        /// <summary>
+        /// Load dữ liệu sản phẩm click
+        /// </summary>
+        /// <param name="product"> Sản phẩm </param>
+        private void loadProduct(ProductDTO product)
+        {
+            
+        }
+
+        /// <summary>
+        /// Reset dữ liệu sản phâm trên cửa sổ thao tác của sản phẩm
+        /// </summary>
+        private void resetProduct()
+        {
+            ProductName = "";
+            ProductType = "";
+            Quantity = 0;
+            Price = 0;
+            loadProductSizeDetail();
+            ProductRecipeList = new ObservableCollection<ProductRecipeDTO>();
+            Description = "";
+            Image = "";
+        }
+
+        /// <summary>
+        /// Xoá sản phẩm
+        /// </summary>
+        public async void deleteProduct()
+        {
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá sản phẩm?", MessageType.Error, MessageButtons.YesNo);
+
+            if (ms.ShowDialog() == true)
+            {
+                (string label, bool isDeleteProduct) = await ProductService.Ins.DeleteProduct(SelectedProduct);
+
+                if (isDeleteProduct)
+                {
+                    MessageBoxCF msn = new MessageBoxCF(label, MessageType.Accept, MessageButtons.OK);
+                    loadProductList();
+                    msn.ShowDialog();
+                }
+                else
+                {
+                    MessageBoxCF msn = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
+                    msn.ShowDialog();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Mở cửa sổ thêm sản phẩm
+        /// </summary>
+        public void openWindowAddProduct()
+        {
+            MaskName.Visibility = Visibility.Visible;
+            resetProduct();
+            loadProductType();
+            loadProductSizeDetail();
+            loadIngredientList();
+            loadUnitList();
+            OperationProductWindow w = new OperationProductWindow();
+            TypeOperation = 1; // Add product
+            w.ShowDialog();
+            MaskName.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Chỉnh sửa sản phẩm
+        /// </summary>
+        private void editProduct()
+        {
+
+        }
+
+        /// <summary>
+        /// Thêm số lượng sản phẩm
+        /// </summary>
+        private async void addQuantityProduct()
+        {
+            // Tính giá trị lớn nhất có thể tạo được
+            (string label, int maxProductQuantity) = await IngredientService.Ins.getMaxIngredientQuantity(SelectedProduct.DanhSachCongThuc);
+
+            this.maxProductQuantity = maxProductQuantity;
+        }
+
+        /// <summary>
+        /// Xác nhận thêm số lượng
+        /// </summary>
+        private async void confirmAddQuantityProduct()
+        {
+            // Giảm bớt số lượng
+            await IngredientService.Ins.reduceIngredientQuantity(SelectedProduct.DanhSachCongThuc, ProductQuantity);
+
+            // Thêm số lượng cho sản phẩm
+            (string label, bool isIncrease) = await ProductService.Ins.increaseQuantityProduct(SelectedProduct.MaSanPham, ProductQuantity);
+
+            if (isIncrease)
+            {
+                MessageBoxCF ms = new MessageBoxCF("Thêm số lượng sản phẩm thành công", MessageType.Accept, MessageButtons.OK);
+                ms.ShowDialog();
+
+                loadProductList();
+            }
+            else
+            {
+                MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
+                ms.ShowDialog();
+            }
+        }
+    }
+}
