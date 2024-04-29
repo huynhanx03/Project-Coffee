@@ -108,7 +108,7 @@ const HomeScreen = () => {
 
     return (
         <View className="flex-1">
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View
                     style={{ height: hp(35) }}
                     className="bg-yellow-950 space-y-5"
