@@ -50,7 +50,7 @@ const AddressScreen = () => {
                 </View>
             </SafeAreaView>
 
-            <ScrollView className='pt-2 mx-4'>
+            <ScrollView showsVerticalScrollIndicator={false} className='pt-2 mx-4'>
                 {addressData && <Address data={addressData} />}
             </ScrollView>
         </View>

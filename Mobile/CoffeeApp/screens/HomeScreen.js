@@ -20,10 +20,14 @@ import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
 import { getCategories, getProducts } from "../controller/ProductController";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCart } from "../controller/CartController";
+import { addToCartFromDatabase } from "../redux/slices/cartSlice";
+import getUserData from "../controller/StorageController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
     const [categories, setCategories] = useState(null);
@@ -39,9 +43,9 @@ const HomeScreen = () => {
             for (const key in listCategories) {
                 allCategories.push(listCategories[key].LoaiSanPham);
             }
-            setCategories(['Tất cả', ...allCategories]);
+            setCategories(["Tất cả", ...allCategories]);
         }
-    }
+    };
 
     const handleGetProducts = async () => {
         let allProducts = [];
@@ -85,14 +89,26 @@ const HomeScreen = () => {
         setProducts([...allProducts]);
     };
 
+    const handleGetCart = async () => {
+        const userData = await getUserData();
+        // get cart from database and set to redux
+        const items = await getCart();
+        if (items) {
+            for (const key in items[userData.MaNguoiDung]) {
+                dispatch(addToCartFromDatabase(items[userData.MaNguoiDung][key]))
+            }
+        }
+    }
+
     useEffect(() => {
         handleGetProducts();
         handleGetCategories();
+        handleGetCart();
     }, []);
 
     return (
         <View className="flex-1">
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View
                     style={{ height: hp(35) }}
                     className="bg-yellow-950 space-y-5"
@@ -184,22 +200,41 @@ const HomeScreen = () => {
 
                 {/* categories */}
                 <View className="mx-2">
-                    {categories && <Categories categories={categories} setIsActive={setIsActive}/>}
+                    {categories && (
+                        <Categories
+                            categories={categories}
+                            setIsActive={setIsActive}
+                        />
+                    )}
                 </View>
 
                 {/* card item */}
                 <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
-                    {products &&
-                        products
-                            .filter((item) => item.SoLuong > 0 && isActive === 'Tất cả' ? true : item.LoaiSanPham == isActive)
-                            .map((product, index) => {
-                                return (
-                                    <Item
-                                        product={product}
-                                        key={product.MaSanPham}
-                                    />
-                                );
-                            })}
+                    {products && isActive === "Tất cả"
+                        ? products
+                              .filter((item) => item.SoLuong > 0)
+                              .map((product) => {
+                                  return (
+                                      <Item
+                                          product={product}
+                                          key={product.MaSanPham}
+                                      />
+                                  );
+                              })
+                        : products && products
+                              .filter(
+                                  (item) =>
+                                      item.SoLuong > 0 &&
+                                      item.LoaiSanPham == isActive
+                              )
+                              .map((product, index) => {
+                                  return (
+                                      <Item
+                                          product={product}
+                                          key={product.MaSanPham}
+                                      />
+                                  );
+                              })}
                 </View>
 
                 {/* out of stock */}
@@ -207,9 +242,7 @@ const HomeScreen = () => {
                     products.filter((item) => item.SoLuong == 0).length > 0 && (
                         <View>
                             {/* <Text className="text-center text-lg font-bold mt-5">Hết hàng</Text> */}
-                            <View
-                                className="mt-5 flex-row justify-between items-center mx-5"
-                            >
+                            <View className="mt-5 flex-row justify-between items-center mx-5">
                                 <Text
                                     style={{
                                         height: 1,
@@ -219,7 +252,10 @@ const HomeScreen = () => {
                                     }}
                                 ></Text>
 
-                                <Text style={{ color: "#8B6122" }} className='text-lg font-semibold'>
+                                <Text
+                                    style={{ color: "#8B6122" }}
+                                    className="text-lg font-semibold"
+                                >
                                     Hết hàng
                                 </Text>
 

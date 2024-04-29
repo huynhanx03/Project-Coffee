@@ -31,7 +31,7 @@ const ProfileScreen = () => {
 
     return (
         <View className="flex-1">
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 {/* avatar */}
                 <View style={{ height: hp(25) }} className="bg-yellow-950">
                     <View className="justify-center items-center mt-20">

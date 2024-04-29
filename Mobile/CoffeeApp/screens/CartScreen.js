@@ -18,25 +18,45 @@ import { getAddress } from "../controller/AddressController";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../redux/slices/cartSlice";
+import { removeItemCart } from "../controller/CartController";
+import { formatPrice } from "../utils";
 
 const CartScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
     const addressData = getDefaultAddress();
+    const [totalPrice, setTotalPrice] = useState(0);
 
+    //delete all items in cart (redux and database)
     const handleDeleteCart = () => {
         Alert.alert(
             "Xác nhận",
             "Bạn có chắc chắn xoá hết sản phẩm?",
             [
                 { text: "Hủy", style: "cancel" },
-                { text: "Xoá", style: 'destructive', onPress: () => dispatch(clearCart()) },
+                { text: "Xoá", style: 'destructive', onPress: () => {
+                    dispatch(clearCart());
+                    removeItemCart();
+                } },
             ],
             { cancelable: true }
         );
-        // dispatch(clearCart())
     }
+
+    //calculate total price of all items in cart
+    const handleTotalPrice = () => {
+        let total = 0;
+        cart.forEach((item) => {
+            total += item.SoLuongGioHang * item.Gia;
+        });
+
+        setTotalPrice(total);
+    }
+
+    useEffect(() => {
+        handleTotalPrice();
+    }, [cart])
 
     return (
         <View className="flex-1">
@@ -111,7 +131,7 @@ const CartScreen = () => {
             <View className="absolute bottom-5 w-full">
                 <TouchableOpacity className="flex-row justify-between items-center mx-5 bg-amber-500 rounded-full p-5">
                     <Text className="text-lg font-semibold">Thanh toán</Text>
-                    <Text className="text-lg font-semibold">100.000đ</Text>
+                    <Text className="text-lg font-semibold">{formatPrice(totalPrice)}</Text>
                 </TouchableOpacity>
             </View>
         </View>

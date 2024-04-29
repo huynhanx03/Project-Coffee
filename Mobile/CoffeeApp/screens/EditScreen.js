@@ -36,7 +36,7 @@ const EditScreen = () => {
 
     return (
         <View className='flex-1'>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
                 {/* avatar */}
                 <View style={{height: hp(25)}} className='bg-yellow-950'>
