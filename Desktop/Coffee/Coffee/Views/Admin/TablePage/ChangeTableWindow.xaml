@@ -1,0 +1,94 @@
+﻿<Window x:Class="Coffee.Views.Admin.TablePage.ChangeTableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Coffee.Views.Admin.TablePage"
+        mc:Ignorable="d"
+        Title="ChangeTableWindow"
+        x:Name="ChangeTableWindowCF"
+        xmlns:uc="clr-namespace:Coffee.UserControls"
+        xmlns:cv="clr-namespace:Coffee.Utils.ConverterValue"
+        xmlns:i = "http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource ForegroundCF}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="none"
+        AllowsTransparency="True"
+        Height="260" Width="400"
+        Background="Transparent"
+        DataContext="{StaticResource TableVM}">
+    <Border Background="{DynamicResource BackgroundCF}"
+            BorderBrush="{DynamicResource Background2CF}"
+            BorderThickness="1"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Style="{DynamicResource Header1}"
+                   Margin="30 20 0 0"
+                   Text="{DynamicResource ChangeTable}" />
+
+            <Grid Grid.Row="1"
+              Margin="0 10 0 0">
+                <Grid>
+                    <StackPanel Orientation="Vertical">
+                        <ComboBox Style="{DynamicResource cbStyle}"
+                                  BorderBrush="{DynamicResource MainColorCF}"
+                                  Margin="0 10 0 0"
+                                  SelectedIndex="0"
+                                  ItemsSource="{Binding TableList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding TableMoveSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="TenBan">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock Foreground="{DynamicResource MainColorCF}"
+                                           Text="{DynamicResource TableNameMoved}"/>
+                            </materialDesign:HintAssist.Hint>
+                        </ComboBox>
+
+                        <ComboBox Style="{DynamicResource cbStyle}"
+                                  BorderBrush="{DynamicResource MainColorCF}"
+                                  Margin="0 10 0 0"
+                                  SelectedIndex="0"
+                                  ItemsSource="{Binding TableList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding TableTransferSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="TenBan">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock Foreground="{DynamicResource MainColorCF}"
+                                           Text="{DynamicResource TableNameTransferred}"/>
+                            </materialDesign:HintAssist.Hint>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <StackPanel
+                            Margin="0,10,0,30"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <Button Style="{DynamicResource btnStyle}"
+                            Margin="0,0,20,0"
+                            Command="{Binding confirmChangeTableIC}"
+                            CommandParameter="{Binding ElementName=ChangeTableWindowCF}"
+                            Content="{DynamicResource Confirm}"/>
+
+                    <Button Style="{DynamicResource btnStyle}"
+                            Margin="0,0,50,0"
+                            Command="{Binding closeChangeTableWindowIC}"
+                            CommandParameter="{Binding ElementName=ChangeTableWindowCF}"
+                            Content="{DynamicResource Cancel}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
