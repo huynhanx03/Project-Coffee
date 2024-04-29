@@ -1,0 +1,161 @@
+﻿<Window x:Class="Coffee.Views.Admin.MenuBar.MenuBarCF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Coffee.Views.Admin.MenuBar"
+        mc:Ignorable="d"
+        Title="MenuBarCF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid Width="200"
+          Height="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <!-- Logo -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Margin="0 0 0 0">
+            
+            
+            <Image Source="/Resources/Images/cup-of-coffee-avatar-removebg-preview.png"
+               Width="70"
+               Margin="60 0 0 0"
+            />
+
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    Background="{DynamicResource MainColorCF}"
+                    BorderBrush="{x:Null}"
+                    Margin="15 0 0 0">
+                <materialDesign:PackIcon Kind="ArrowLeft" 
+                             Foreground="{DynamicResource BackgroundCF}"/>
+            </Button>
+        </StackPanel>
+
+        <!--<StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    Background="{DynamicResource MainColorCF}"
+                    BorderBrush="{x:Null}"
+                    Margin="15 0 0 0">
+                <materialDesign:PackIcon Kind="ArrowRight" 
+                                         Foreground="{DynamicResource BackgroundCF}"/>
+            </Button>
+
+            <Image Source="/Resources/Images/cup-of-coffee-avatar-removebg-preview.png"
+                   Width="70"
+                   Margin="5 0 0 0"/>
+        </StackPanel>-->
+
+        <!-- Các chức năng -->
+        <StackPanel Grid.Row="1">
+            <!--Button dashboard-->
+            <RadioButton Style="{StaticResource MenuButtonMain}"
+                 Name="Dashboard"
+                 GroupName="mainOptions"
+                 Command="{Binding loadDashboardPageIC}"
+                 CommandParameter="{Binding ElementName=mainFrame}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Finance"
+                                     VerticalAlignment="Center"
+                                     Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
+
+            <!-- Button quản lý bàn-->
+            <Border CornerRadius="5">
+                <RadioButton Style="{StaticResource MenuButtonMain}"
+                     IsChecked="True"
+                     GroupName="mainOptions"
+                     Command="{Binding loadTablesPageIC}"
+                     CommandParameter="{Binding ElementName=mainFrame}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TableFurniture"
+                                             Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Quản lý bàn" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </Border>
+
+            <!--Button quản lý thực đơn-->
+            <Border CornerRadius="5">
+                <RadioButton Style="{StaticResource MenuButtonMain}"
+                     GroupName="mainOptions"
+                     Command="{Binding loadItemsPageIC}"
+                     CommandParameter="{Binding ElementName=mainFrame}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ListBox"
+                                         Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Thực đơn" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </Border>
+
+            <!-- Button quản lí nguyên liệu-->
+            <Border CornerRadius="5">
+                <RadioButton Style="{StaticResource MenuButtonMain}"
+                     GroupName="mainOptions"
+                     Command="{Binding loadIngredientsPageIC}"
+                     CommandParameter="{Binding ElementName=mainFrame}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Food"
+                                             Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Nguyên liệu" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </Border>
+
+            <!-- Button quản lý hoá đơn -->
+            <Border CornerRadius="5">
+                <RadioButton Style="{StaticResource MenuButtonMain}"
+                     GroupName="mainOptions"
+                     Command="{Binding loadBillsPageIC}"
+                     CommandParameter="{Binding ElementName=mainFrame}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ReceiptText"
+                                             Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Hoá đơn" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </Border>
+
+            <!-- Button quản lý nhân viên -->
+            <Border CornerRadius="5">
+                <RadioButton Style="{StaticResource MenuButtonMain}"
+                     GroupName="mainOptions"
+                     Command="{Binding loadEmployeePageIC}"
+                     CommandParameter="{Binding ElementName=mainFrame}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="AccountGroup"
+                                             Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Nhân viên" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </Border>
+
+            <!-- Button cài đặt -->
+            <Border CornerRadius="5">
+                <RadioButton Style="{StaticResource MenuButtonMain}"
+                     GroupName="mainOptions"
+                     Command="{Binding loadSettingPageIC}"
+                     CommandParameter="{Binding ElementName=mainFrame}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Settings"
+                                             Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Cài đặt" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
