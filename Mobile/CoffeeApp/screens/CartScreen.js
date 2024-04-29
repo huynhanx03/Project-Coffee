@@ -128,8 +128,9 @@ const CartScreen = () => {
                 </View>
             </View>
 
+            {/* change to prepare pay screen */}
             <View className="absolute bottom-5 w-full">
-                <TouchableOpacity className="flex-row justify-between items-center mx-5 bg-amber-500 rounded-full p-5">
+                <TouchableOpacity onPress={() => navigation.navigate('Prepare')} className="flex-row justify-between items-center mx-5 bg-amber-500 rounded-full p-5">
                     <Text className="text-lg font-semibold">Thanh toán</Text>
                     <Text className="text-lg font-semibold">{formatPrice(totalPrice)}</Text>
                 </TouchableOpacity>
