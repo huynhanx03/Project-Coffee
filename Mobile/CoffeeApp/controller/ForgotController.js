@@ -1,6 +1,10 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import { send, EmailJSResponseStatus } from '@emailjs/react-native';
 
+/**
+ * @notice Generate a random 4-digit OTP
+ * @returns a random 4-digit OTP
+ */
 const OTP = () => {
     let otpGenerate = Math.floor(Math.random() * 9000);
     return String(otpGenerate).padStart(4, '0');
@@ -8,6 +12,12 @@ const OTP = () => {
 
 let otpGenerate = '';
 
+/**
+ * @notice Send email that contain OTP to the user
+ * @param email email
+ * @param user user
+ * @param otp otp
+ */
 const sendEmail = async (email, user, otp) => {
     try {
         console.log('sending email...')
@@ -33,6 +43,12 @@ const sendEmail = async (email, user, otp) => {
       }
 }
 
+/**
+ * @notice Send OTP to the user's email
+ * @dev Check the email is correct and send the OTP to the user's email
+ * @param email email
+ * @returns The result of the operation
+ */
 const ForgotPassword = async (email) => {
     const dbRef = ref(getDatabase());
     otpGenerate = OTP();

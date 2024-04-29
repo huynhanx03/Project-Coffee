@@ -2,6 +2,10 @@ import { child, get, getDatabase, ref } from "firebase/database";
 import db from "../firebase";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/**
+ * @notice Store user data in AsyncStorage
+ * @param value The data of the user
+ */
 const storeData = async (value) => {
     try {
         const jsonValue = JSON.stringify(value)
@@ -11,6 +15,12 @@ const storeData = async (value) => {
     }
 }
 
+/**
+ * @notice Handle login
+ * @param username username
+ * @param password password
+ * @returns The result of the operation
+ */
 const handleLogin = async (username, password) => {
     const dbRef = ref(getDatabase());
     try {
