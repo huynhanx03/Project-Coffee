@@ -4,6 +4,7 @@ import {
     TouchableOpacity,
     ScrollView,
     Pressable,
+    Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +21,7 @@ import { colors } from "../theme";
 import { formatPrice } from "../utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
+import * as geolib from 'geolib';
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
@@ -43,6 +45,34 @@ const PreparePayScreen = () => {
     useEffect(() => {
         handleTotal();
     }, [totalProduct, transFee])
+
+    const handleCheckDistance = () => {
+        const distance = geolib.isPointWithinRadius(
+            { latitude: 10.8700233, longitude: 106.8025735 },
+            { latitude: addressData.latitude, longitude: addressData.longtitude },
+            5000
+        )
+
+        return distance;
+    }
+
+    const handleCheckOut = () => {
+        const distance = handleCheckDistance();
+        if (!distance) {
+            Alert.alert(
+                "Thông báo",
+                "Địa chỉ nhận hàng không hỗ trợ giao hàng",
+                [
+                    { text: "OK", style: "cancel" },
+                ],
+                { cancelable: true }
+            );
+
+            return;
+        }
+
+        navigation.navigate("OrderSuccess");
+    }
 
     return (
         <View className="flex-1">
@@ -195,7 +225,7 @@ const PreparePayScreen = () => {
                         <Text className='text-xl font-bold' style={{color: colors.text(1)}}>{formatPrice(total)}</Text>
                     </View>
                     <View className='rounded-lg' style={{backgroundColor: colors.primary}}>
-                        <TouchableOpacity className='p-3 px-5'>
+                        <TouchableOpacity onPress={handleCheckOut} className='p-3 px-5'>
                             <Text className='font-semibold text-xl text-white'>Thanh toán</Text>
                         </TouchableOpacity>
                     </View>
