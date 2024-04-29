@@ -1,7 +1,6 @@
 <div id="Top"></div>
 
-# QUẢN LÝ THƯ VIỆN
-Hỗ trợ các thư viện dễ dàng hơn trong quản lý sách và giúp người mượn mua sách thuận lợi hơn.
+# QUẢN LÝ QUÁN CÀ PHÊ
 
 ## Mục lục
 
