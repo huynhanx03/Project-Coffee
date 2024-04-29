@@ -1,5 +1,9 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 
+/**
+ * @notice Generate a new id for the new user
+ * @returns a new id for the new user
+ */
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
     try {
@@ -19,6 +23,9 @@ const getNewId = async () => {
     }
 }
 
+/**
+ * @notice Verify email is already in use
+ */
 const verifyEmail = async (email) => {
     // check if email is already in use
     const dbRef = ref(getDatabase());
@@ -41,11 +48,23 @@ const verifyEmail = async (email) => {
     }
 }
 
+/**
+ * @notice Validate email
+ * @param email Email that need validate
+ * @returns The result of the operation
+ */
 const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };
 
+/**
+ * @notice Register new user and store information in the database
+ * @param username username
+ * @param email email
+ * @param password password
+ * @returns The result of the operation
+ */
 const Register = async (username, email, password) => {
     if (!validateEmail(email)) {
         return [false, "Email không hợp lệ!"];

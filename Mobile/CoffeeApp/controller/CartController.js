@@ -1,7 +1,10 @@
 import { getDatabase, ref, remove, set, child, get, } from "firebase/database"
 import getUserData from "./StorageController"
 
-
+/**
+ * @notice Get new id for new item in cart
+ * @returns new id for new item in cart
+ */
 const getNewId = async () => {
     const dbRef = ref(getDatabase())
     const userData = await getUserData()
@@ -24,7 +27,8 @@ const getNewId = async () => {
 }
 
 /**
- * Set item to cart in database
+ * @notice Add a new item to cart
+ * @param item the item to be added to cart
  */
 const setCart = async (item) => {
     const userData = await getUserData()
@@ -44,6 +48,11 @@ const setCart = async (item) => {
     }
 }
 
+/**
+ * @notice Delete an item from cart
+ * @param item the item to be deleted from cart
+ * @returns 
+ */
 const deleteItemCard = async (item) => {
     if (!item || !item.MaSanPham) {
         throw new Error('Sản phẩm không tồn tại');
@@ -58,6 +67,10 @@ const deleteItemCard = async (item) => {
     }
 }
 
+
+/**
+ * @notice remove all items from cart
+ */
 const removeItemCart = async () => {
     const userData = await getUserData()
     try {
@@ -72,7 +85,7 @@ const removeItemCart = async () => {
 
 
 /**
- * Get cart from database
+ * @notice Get all items in cart from database
  */
 const getCart = async () => {
     try {

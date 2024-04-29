@@ -6,12 +6,17 @@ import Button from "../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import { handleLogin } from "../controller/LoginController";
-import Toast, { ErrorToast } from "react-native-toast-message";
+import Toast from "react-native-toast-message";
+import getUserData from "../controller/StorageController";
+import { useDispatch } from "react-redux";
+import { getCart } from "../controller/CartController";
+import { addToCartFromDatabase } from "../redux/slices/cartSlice";
 
 const { width, height } = Dimensions.get("window");
 
 export default function LogInScreen() {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [isHide, setIsHide] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState("");
@@ -22,11 +27,23 @@ export default function LogInScreen() {
         setIsHide(!isHide);
     };
 
+    const handleGetCart = async () => {
+        const userData = await getUserData();
+        // get cart from database and set to redux
+        const items = await getCart();
+        if (items) {
+            for (const key in items[userData.MaNguoiDung]) {
+                dispatch(addToCartFromDatabase(items[userData.MaNguoiDung][key]))
+            }
+        }
+    }
+
     const Login = async () => {
         setIsLoading(true);
         const account = await handleLogin(username, password);
         if (account) {
             setIsLoading(false);
+            handleGetCart()
             navigation.replace('HomeTab')
         }
         else {

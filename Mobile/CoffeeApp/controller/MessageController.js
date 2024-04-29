@@ -3,7 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { orderBy } from "firebase/firestore";
 import getUserData from "./StorageController";
 
-
+/**
+ * @notice Get new message id in the database
+ * @returns new message id in the database
+ */
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
     const userData = await getUserData();
@@ -26,6 +29,10 @@ const getNewId = async () => {
 
 const db = getDatabase();
 
+/**
+ * @notice Send message and store in the database
+ * @param message the message that user want to send
+ */
 const sendMessage = async (message) => {
     const currentTime = new Date().toString();
     const newId = await getNewId();
@@ -39,6 +46,10 @@ const sendMessage = async (message) => {
     })
 }
 
+/**
+ * @notice Get the message that user and admin sent in real-time
+ * @returns The message of the user
+ */
 const getMessage = async () => {
 
     return new Promise((resolve, reject) => {

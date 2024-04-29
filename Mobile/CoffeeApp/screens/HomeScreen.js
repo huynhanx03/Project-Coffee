@@ -103,7 +103,7 @@ const HomeScreen = () => {
     useEffect(() => {
         handleGetProducts();
         handleGetCategories();
-        handleGetCart();
+        // handleGetCart();
     }, []);
 
     return (

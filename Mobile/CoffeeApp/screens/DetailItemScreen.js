@@ -210,14 +210,9 @@ const DetailItemScreen = ({route}) => {
                         <Text className='text-sm font-semibold text-gray-700'>Tổng</Text>
                         <Text className='text-xl font-semibold'>{total}</Text>
                     </View>
-                    <View className='flex-row space-x-1'>
-                        {/* <TouchableOpacity className='bg-white rounded-lg p-3 mt-3'>
-                            <Text className='text-center text-base font-semibold'>Thêm vào giỏ hàng</Text>
-                        </TouchableOpacity> */}
-                        <Button content='Mua ngay' onPress={() => {}}/>
-
-                        <TouchableOpacity onPress={() => handleAddCart({...product, quantity})} className='bg-amber-400 rounded-lg p-3 items-center justify-center'>
-                            <Icons.ShoppingCartIcon size={24} color={colors.primary} />
+                    <View>
+                        <TouchableOpacity onPress={() => handleAddCart({...product, quantity})} className='flex-row bg-amber-400 rounded-lg p-3 px-10 items-center justify-center'>
+                            <Icons.ShoppingCartIcon size={30} color={colors.primary} />
                         </TouchableOpacity>
                     </View>
                 </View>

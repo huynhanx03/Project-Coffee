@@ -6,11 +6,14 @@ import * as Icons from "react-native-heroicons/solid";
 import MenuItemProfile from "../components/menuItemProfile";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../redux/slices/cartSlice";
 
 const width = Dimensions.get("window").width;
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const menuItems = [
         { icon: "BookmarkIcon", title: "Đã lưu" },
         { icon: "ClipBoardDocumentListIcon", title: "Đơn hàng" },
@@ -23,7 +26,10 @@ const ProfileScreen = () => {
             "Bạn có chắc chắn muốn đăng xuất không?",
             [
                 { text: "Hủy", style: "cancel" },
-                { text: "Đăng xuất", style: 'destructive', onPress: () => navigation.replace('Login') },
+                { text: "Đăng xuất", style: 'destructive', onPress: () => {
+                    navigation.replace('Login')
+                    dispatch(clearCart());
+                } },
             ],
             { cancelable: true }
         );
