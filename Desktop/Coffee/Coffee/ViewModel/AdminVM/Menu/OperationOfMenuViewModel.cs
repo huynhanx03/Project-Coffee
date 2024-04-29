@@ -219,11 +219,11 @@ namespace Coffee.ViewModel.AdminVM.Menu
 
             ProductDTO product = new ProductDTO
             {
-                TenSanPham = ProductName,
+                TenSanPham = ProductName.Trim(),
                 LoaiSanPham = productType.LoaiSanPham,
                 MaLoaiSanPham = productType.MaLoaiSanPham,
                 HinhAnh = newImage,
-                Mota = Description
+                Mota = Description.Trim()
             };
 
             switch (TypeOperation)
@@ -251,7 +251,7 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 case 2:
                     product.MaSanPham = SelectedProduct.MaSanPham;
 
-                    (string labelEdit, ProductDTO NewProductEdit) = await ProductService.Ins.updateProduct(product);
+                    (string labelEdit, ProductDTO NewProductEdit) = await ProductService.Ins.updateProduct(product, new List<ProductSizeDetailDTO>(ListProductSizeDetail), new List<ProductRecipeDTO>(ProductRecipeList));
 
                     if (NewProductEdit != null)
                     {

@@ -10,6 +10,7 @@ namespace Coffee.DTOs
     {
         public string MaPhieuNhapKho { get; set; }
         public string MaNhanVien { get; set; }
+        public string TenNhanVien { get; set; }
         public string NgayTaoPhieu { get; set; } 
         public decimal TongTien { get; set; }
     }

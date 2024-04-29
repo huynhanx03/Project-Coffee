@@ -49,5 +49,15 @@ namespace Coffee.Services
         {
             return await ProductSizeDetailDAL.Ins.createProductSizeDetail(productID, listProductSizeDetail);
         }
+
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        ///     Trả về tên kích thước sản phẩm
+        /// </returns>
+        public async Task<ProductSizeDetailDTO> getNameSize(string sizeid)
+        {
+            return await ProductSizeDetailDAL.Ins.getNameSize(sizeid);
+        }
     }
 }

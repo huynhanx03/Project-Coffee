@@ -137,6 +137,31 @@ namespace Coffee.Services
         }
 
         /// <summary>
+        /// Danh sách hóa đơn theo thời gian
+        /// </summary>
+        /// <returns>
+        ///     1: Thông báo
+        ///     2: True nếu xoá thành công, False xoá thất bại
+        /// </returns>
+        public async Task<(string, List<BillDTO>)> getListBilltime(DateTime fromdate,DateTime todate)
+        {
+            return await BillDAL.Ins.getListBilltime(fromdate,todate);
+        }
+
+
+        /// <summary>
+        /// Danh sách chi tiết hóa đơn
+        /// </summary>
+        /// <returns>
+        ///     1: Thông báo
+        ///     2: True nếu xoá thành công, False xoá thất bại
+        /// </returns>
+        public async Task<(string, List<DetailBillModel>)> getDetailBill(string MaHoaDon)
+        {
+            return await BillDAL.Ins.getDetailBill(MaHoaDon);
+        }
+
+        /// <summary>
         /// Tìm kiếm hoá đơn của bàn đặt chỗ (chưa thanh toán)
         /// </summary>
         /// <param name="tableID">
@@ -230,6 +255,18 @@ namespace Coffee.Services
             }
             else
                 return (labelFindBill, false);
+        }
+
+        /// <summary>
+        /// Danh sách các món ăn bán chạy
+        /// </summary>
+        /// <returns>
+        ///     1: Thông báo
+        ///     2: True nếu xoá thành công, False xoá thất bại
+        /// </returns>
+        public async Task<(string, List<ProductDTO>)> GetMostSoldFoods()
+        {
+            return await BillDAL.Ins.GetMostSoldFoods();
         }
 
         /// <summary>

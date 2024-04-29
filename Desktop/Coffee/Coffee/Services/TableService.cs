@@ -37,6 +37,12 @@ namespace Coffee.Services
         /// </returns>
         public async Task<(string, TableDTO)> createTable(TableDTO table)
         {
+            // Kiểm tra tên bàn
+            (string label, TableDTO tableFind) = await TableDAL.Ins.findTableByName(table.TenBan, table.MaBan);
+
+            if (tableFind != null)
+                return ("Tên bàn đã tồn tại", null);
+
             string maxMaBan = await this.getMaxMaBan();
             string newMaBan = Helper.nextID(maxMaBan, "BA");
             table.MaBan = newMaBan;
@@ -55,6 +61,12 @@ namespace Coffee.Services
         /// </returns>
         public async Task<(string, TableDTO)> updateTable(TableDTO table)
         {
+            // Kiểm tra tên bàn
+            (string label, TableDTO tableFind) = await TableDAL.Ins.findTableByName(table.TenBan, table.MaBan);
+
+            if (tableFind != null)
+                return ("Tên bàn đã tồn tại", null);
+
             return await TableDAL.Ins.updateTable(table);
         }
 
@@ -91,6 +103,19 @@ namespace Coffee.Services
         public async Task<(string, List<TableDTO>)> getListTable()
         {
             return await TableDAL.Ins.getListTable();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableID"> Mã bàn </param>
+        /// <returns>
+        ///     1. Thông báo
+        ///     2. Bàn
+        /// </returns>
+        public async Task<(string, TableDTO)> getTable(string tableID)
+        {
+            return await TableDAL.Ins.getTable(tableID);
         }
     }
 }

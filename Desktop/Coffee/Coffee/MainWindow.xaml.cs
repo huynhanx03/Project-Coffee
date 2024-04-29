@@ -44,13 +44,7 @@ namespace Coffee
         }
         public async void t()
         {
-            TableDTO table = new TableDTO
-            {
-                MaBan = "BA0010",
-                TenBan = "X"
-            };
-
-            TableDAL.Ins.updateTable(table);
+            await RecommendSystemService.Ins.getRecommend("SP0001");
         }
     }
 }

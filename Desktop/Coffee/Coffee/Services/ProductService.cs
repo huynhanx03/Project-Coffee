@@ -38,6 +38,12 @@ namespace Coffee.Services
         /// </returns>
         public async Task<(string, ProductDTO)> createProduct(ProductDTO product, List<ProductSizeDetailDTO> listProductSizeDetail, List<ProductRecipeDTO> listProductRecipe)
         {
+            // Kiểm tra tên sản phẩm
+            (string label, ProductDTO productFind) = await ProductDAL.Ins.findProductByName(product.TenSanPham, product.MaSanPham);
+
+            if (productFind != null)
+                return ("Tên sản phẩm đã tồn tại", null);
+
             // Tìm mã sản phẩm lớn nhất
             string maSanPhamMax = await this.getMaxMaSanPham();
             string maSanPhamNew = Helper.nextID(maSanPhamMax, "SP");
@@ -75,9 +81,32 @@ namespace Coffee.Services
         ///     1: Thông báo
         ///     2: Sản phẩm
         /// </returns>
-        public async Task<(string, ProductDTO)> updateProduct(ProductDTO product)
+        public async Task<(string, ProductDTO)> updateProduct(ProductDTO product, List<ProductSizeDetailDTO> listProductSizeDetail, List<ProductRecipeDTO> listProductRecipe)
         {
-            return await ProductDAL.Ins.updateProduct(product);
+            // Kiểm tra tên sản phẩm
+            (string label, ProductDTO productFind) = await ProductDAL.Ins.findProductByName(product.TenSanPham, product.MaSanPham);
+
+            if (productFind != null)
+                return ("Tên sản phẩm đã tồn tại", null);
+
+            (string labelUpdate, ProductDTO productUpdate) = await ProductDAL.Ins.updateProduct(product);
+
+            if (productUpdate == null)
+                return (labelUpdate, null);
+
+            // Thêm chi tiết kích thước sản phẩm
+            (string labelCreateProductSizeDetail, bool isCreateProductSizeDetail) = await ProductSizeDetailService.Ins.createProductSizeDetail(product.MaSanPham, listProductSizeDetail); ;
+
+            // Thêm công thức sản phẩm 
+            (string labelCreateProductRecipe, bool isCreateProductRecipe) = await ProductRecipeService.Ins.createProductRecipe(product.MaSanPham, listProductRecipe);
+
+            if (!isCreateProductSizeDetail)
+                return (labelCreateProductSizeDetail, null);
+
+            if (!isCreateProductRecipe)
+                return (labelCreateProductRecipe, null);
+
+            return (labelUpdate, productUpdate);
         }
 
         /// <summary>
@@ -95,11 +124,33 @@ namespace Coffee.Services
         /// 
         /// </summary>
         /// <returns>
+        ///     Lấy tên sản phâm
+        /// </returns>
+        public async Task<ProductDTO> getNameProduct(string id)
+        {
+            return await ProductDAL.Ins.getNameProduct(id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
         ///     Danh sách sản phẩm
         /// </returns>
         public async Task<(string, List<ProductDTO>)> getListProduct()
         {
             return await ProductDAL.Ins.getListProduct();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
+        ///     Danh sách sản phẩm
+        /// </returns>
+        public async Task<(string, List<ProductRecommendDTO>)> getListProductRecommend()
+        {
+            return await ProductDAL.Ins.getListProductRecommend();
         }
 
         /// <summary>
@@ -114,7 +165,7 @@ namespace Coffee.Services
         {
             await CloudService.Ins.DeleteImage(product.HinhAnh);
 
-            return await ProductDAL.Ins.DeleteProduct(product.MaSanPham);
+            return await ProductDAL.Ins.deleteProduct(product.MaSanPham);
         }
 
         /// <summary>
@@ -128,7 +179,37 @@ namespace Coffee.Services
         /// </returns>
         public async Task<(string, bool)> increaseQuantityProduct(string productID, int quantity)
         {
-            return await ProductDAL.Ins.increaseQuantityProduct(productID, quantity);
+            (string label, ProductDTO product) = await ProductDAL.Ins.findProduct(productID);
+
+            if (product != null)
+            {
+                product.SoLuong += quantity;
+                return await ProductDAL.Ins.updateQuantityProduct(productID, product.SoLuong);
+            }
+            else
+                return (label, false);
+        }
+
+        /// <summary>
+        /// Tăng số lượng sản phẩm
+        /// </summary>
+        /// <param name="productID"> mã sản phẩm </param>
+        /// <param name="quantity"> số lượng </param>
+        /// <returns>\
+        ///     1. Thông báo
+        ///     2. True nếu xoá thành công, False xoá thất bại
+        /// </returns>
+        public async Task<(string, bool)> reduceQuantityProduct(string productID, int quantity)
+        {
+            (string label, ProductDTO product) = await ProductDAL.Ins.findProduct(productID);
+
+            if (product != null)
+            {
+                product.SoLuong -= quantity;
+                return await ProductDAL.Ins.updateQuantityProduct(productID, product.SoLuong);
+            }
+            else
+                return (label, false);
         }
     }
 }

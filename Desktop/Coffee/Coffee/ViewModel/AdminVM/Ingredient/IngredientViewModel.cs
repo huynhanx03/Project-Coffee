@@ -271,7 +271,7 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
 
             // Cập nhật dữ liệu
             EmployeeName = Memory.user.HoTen;
-            InvoiceDate = DateTime.Now.ToString("dd/MM/yyyy");
+            InvoiceDate = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
 
             InvoiceValue = 0;
             foreach (var detailImport in DetailImportList)

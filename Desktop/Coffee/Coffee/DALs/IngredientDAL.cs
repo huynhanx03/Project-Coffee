@@ -1,4 +1,5 @@
 ﻿using Coffee.DTOs;
+using Coffee.Models;
 using Coffee.Utils;
 using Coffee.Utils.Helper;
 using FireSharp.Response;
@@ -189,6 +190,36 @@ namespace Coffee.DALs
                     IngredientDTO ingredient = response.ResultAs<IngredientDTO>();
 
                     return ("Lấy nguyên liệu thành công", ingredient);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
+
+        /// <summary>
+        /// Tìm nguyên liệu theo tên nguyên liệu
+        /// </summary>
+        /// <param name="ingredientName"> Tên nguyên liệu </param>
+        /// <returns>
+        ///     1. Thông báo
+        ///     2. Nguyên liệu
+        /// </returns>
+        public async Task<(string, IngredientDTO)> findIngredientByName(string ingredientName, string ingredientID = "null")
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    FirebaseResponse ingredientResponse = await context.Client.GetTaskAsync("NguyenLieu");
+                    Dictionary<string, IngredientDTO> ingredientData = ingredientResponse.ResultAs<Dictionary<string, IngredientDTO>>();
+                    IngredientDTO ingredient = ingredientData.Values.FirstOrDefault(x => x.TenNguyenLieu == ingredientName && x.MaNguyenLieu != ingredientID);
+
+                    if (ingredient != null)
+                        return ("Tìm thành công", ingredient);
+                    else
+                        return ("Không tồn tại", null);
                 }
             }
             catch (Exception ex)

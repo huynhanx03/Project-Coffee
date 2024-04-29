@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Coffee.Utils
 {
-    internal class CloudService
+    public class CloudService
     {
         private static CloudService _ins;
 

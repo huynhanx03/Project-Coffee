@@ -100,6 +100,18 @@ namespace Coffee.Services
         }
 
         /// <summary>
+        /// Danh sách hóa đơn kho theo thời gian
+        /// </summary>
+        /// <returns>
+        ///     1: Thông báo
+        ///     2: True nếu xoá thành công, False xoá thất bại
+        /// </returns>
+        public async Task<(string, List<ImportDTO>)> getListBillImporttime(DateTime FromDate,DateTime ToDate)
+        {
+            return await BillImportDAL.Ins.getListBillImporttime(FromDate, ToDate);
+        }
+
+        /// <summary>
         /// Xoá phiếu nhập kho
         /// </summary>
         /// <param name="importID"></param>
@@ -110,6 +122,19 @@ namespace Coffee.Services
         public async Task<(string, bool)> DeleteBillImport(string importID)
         {
             return await BillImportDAL.Ins.DeleteBillImport(importID);
+        }
+
+        /// <summary>
+        /// Lấy chi tiết của phiếu nhập kho
+        /// </summary>
+        /// <param name="importID"></param>
+        /// <returns>
+        ///     1: Thông báo
+        ///     2: True nếu xoá thành công, False xoá thất bại
+        /// </returns>
+        public async Task<(string, List<DetailImportDTO>)> getDetailBillImport(string importID)
+        {
+            return await BillImportDAL.Ins.getDetailBillImport(importID);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using CloudinaryDotNet.Actions;
 using Coffee.DTOs;
 using Coffee.Services;
-using Coffee.Views.Admin.EmployeePage;
 using Coffee.Views.Admin.MenuPage;
 using Coffee.Views.MessageBox;
 using MaterialDesignThemes.Wpf;
@@ -74,6 +73,7 @@ namespace Coffee.ViewModel.AdminVM.Menu
         public ICommand editProductIC { get; set; }
         public ICommand addQuantityProductIC { get; set; }
         public ICommand confirmAddQuantityProductIC { get; set; }
+        public ICommand openWindowEditProductIC { get; set; }
         #endregion
 
         public MenuViewModel()
@@ -91,6 +91,11 @@ namespace Coffee.ViewModel.AdminVM.Menu
             openWindowAddProductIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 openWindowAddProduct();
+            });
+
+            openWindowEditProductIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                openWindowEditProduct();
             });
 
             deleteProductIC = new RelayCommand<ProductDTO>((p) => { return true; }, (p) =>
@@ -117,7 +122,11 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 addQuantityProduct();
             });
 
-            confirmAddQuantityProductIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            confirmAddQuantityProductIC = new RelayCommand<object>((p) =>
+            { 
+                return SelectedProduct != null && ProductQuantity > 0; 
+            },
+            (p) =>
             {
                 confirmAddQuantityProduct();
             });
@@ -176,21 +185,6 @@ namespace Coffee.ViewModel.AdminVM.Menu
             }
         }
 
-        /// <summary>
-        /// Mở cửa số sửa sản phẩm
-        /// </summary>
-        public void openWindowEditEmployee()
-        {
-            MaskName.Visibility = Visibility.Visible;
-            loadProductType();
-            loadProductSizeDetail();
-            OperationEmployeeWindow w = new OperationEmployeeWindow();
-            TypeOperation = 2; // Edit employee
-            loadProduct(SelectedProduct);
-            w.ShowDialog();
-            MaskName.Visibility = Visibility.Collapsed;
-        }
-
 
         /// <summary>
         /// Load dữ liệu sản phẩm click
@@ -198,7 +192,13 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// <param name="product"> Sản phẩm </param>
         private void loadProduct(ProductDTO product)
         {
-            
+            ProductName = product.TenSanPham;
+            SelectedProdcutTypeName = product.LoaiSanPham;
+            Quantity = product.SoLuong;
+            ListProductSizeDetail = new ObservableCollection<ProductSizeDetailDTO>(product.DanhSachChiTietKichThuocSanPham);
+            ProductRecipeList = new ObservableCollection<ProductRecipeDTO>(product.DanhSachCongThuc);
+            Description = product.Mota;
+            Image = product.HinhAnh;
         }
 
         /// <summary>
@@ -209,7 +209,6 @@ namespace Coffee.ViewModel.AdminVM.Menu
             ProductName = "";
             ProductType = "";
             Quantity = 0;
-            Price = 0;
             loadProductSizeDetail();
             ProductRecipeList = new ObservableCollection<ProductRecipeDTO>();
             Description = "";
@@ -259,6 +258,23 @@ namespace Coffee.ViewModel.AdminVM.Menu
         }
 
         /// <summary>
+        /// Mở cửa sổ thêm sản phẩm
+        /// </summary>
+        public void openWindowEditProduct()
+        {
+            MaskName.Visibility = Visibility.Visible;
+            loadProduct(SelectedProduct);
+            loadProductType();
+            loadProductSizeDetail();
+            loadIngredientList();
+            loadUnitList();
+            OperationProductWindow w = new OperationProductWindow();
+            TypeOperation = 2; // Edit product
+            w.ShowDialog();
+            MaskName.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// Chỉnh sửa sản phẩm
         /// </summary>
         private void editProduct()
@@ -290,6 +306,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
 
             if (isIncrease)
             {
+                ProductQuantity = 0;
+
                 MessageBoxCF ms = new MessageBoxCF("Thêm số lượng sản phẩm thành công", MessageType.Accept, MessageButtons.OK);
                 ms.ShowDialog();
 

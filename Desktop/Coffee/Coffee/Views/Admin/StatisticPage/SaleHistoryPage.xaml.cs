@@ -27,14 +27,9 @@ namespace Coffee.Views.Admin.StatisticPage
             InitializeComponent();
         }
 
-        private void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            //(DataContext as StatisticViewModel).openWindowEditBill();
-        }
-
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as StatisticViewModel).deleteBillImport();
+            (DataContext as StatisticViewModel).deleteBill();
         }
     }
 }

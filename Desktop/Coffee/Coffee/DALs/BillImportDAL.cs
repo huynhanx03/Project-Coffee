@@ -1,10 +1,13 @@
 ﻿using Coffee.DTOs;
+using Coffee.Models;
+using Coffee.Services;
 using Coffee.Utils;
 using FireSharp.Response;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition.Primitives;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -155,6 +158,55 @@ namespace Coffee.DALs
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
+        ///     Danh sách hóa đơn nhập kho theo thời gian
+        /// </returns>
+        public async Task<(string, List<ImportDTO>)> getListBillImporttime(DateTime fromdate, DateTime todate)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    // Lấy dữ liệu từ nút "PhieuNhapKho" trong Firebase
+                    FirebaseResponse billimportResponse = await context.Client.GetTaskAsync("PhieuNhapKho");
+                    Dictionary<string, ImportDTO> billimportData = billimportResponse.ResultAs<Dictionary<string, ImportDTO>>();
+
+                    // Lấy dữ liệu từ nút "NguoiDung" trong Firebase
+                    FirebaseResponse userResponse = await context.Client.GetTaskAsync("NguoiDung");
+                    Dictionary<string, UserDTO> userData = userResponse.ResultAs<Dictionary<string, UserDTO>>();
+
+                    var result = new List<ImportDTO>();
+
+                    foreach (var billimport in billimportData.Values)
+                    {
+                        if (DateTime.ParseExact(billimport.NgayTaoPhieu, "HH:mm:ss dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) >= fromdate &&
+                            DateTime.ParseExact(billimport.NgayTaoPhieu, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture) <= todate)
+                        {
+                            var user = userData.Values.FirstOrDefault(u => u.MaNguoiDung == billimport.MaNhanVien);
+                            var importDto = new ImportDTO
+                            {
+                                MaNhanVien = billimport.MaNhanVien,
+                                MaPhieuNhapKho = billimport.MaPhieuNhapKho,
+                                NgayTaoPhieu = billimport.NgayTaoPhieu,
+                                TongTien = billimport.TongTien,
+                                TenNhanVien = user != null ? user.HoTen : null
+                            };
+                            result.Add(importDto);
+                        }
+                    }
+
+                    return ("Lấy danh sách hóa đơn nhập kho thành công", result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
+
+        /// <summary>
         /// Xoá phiếu nhập kho
         /// </summary>
         /// <param name="importID"></param>
@@ -175,6 +227,37 @@ namespace Coffee.DALs
             catch (Exception ex)
             {
                 return (ex.Message, false);
+            }
+        }
+
+        /// <summary>
+        /// Lấy danh sách chi tiết hoá đơn nhập kho
+        /// </summary>
+        /// <param name="billID"></param>
+        /// <returns></returns>
+        public async Task<(string, List<DetailImportDTO>)> getDetailBillImport(string billimportID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    FirebaseResponse billResponse = await context.Client.GetTaskAsync("PhieuNhapKho/" + billimportID + "/ChiTietPhieuNhapKho");
+                    Dictionary<string, DetailImportDTO> billimportData = billResponse.ResultAs<Dictionary<string, DetailImportDTO>>();
+                    List<DetailImportDTO> detailBillImportList = billimportData.Values.ToList();
+
+                    if (detailBillImportList != null)
+                    {
+                        return ("Lấy danh sách chi tiết thành công", detailBillImportList);
+                    }
+                    else
+                    {
+                        return ("Lấy danh sách chi tiết thất bại", null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
             }
         }
     }

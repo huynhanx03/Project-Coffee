@@ -1,5 +1,7 @@
 ﻿using Coffee.DTOs;
 using Coffee.Services;
+using Coffee.Utils;
+using Coffee.Views.Admin.TablePage;
 using Coffee.Views.MessageBox;
 using System;
 using System.Collections.Generic;
@@ -66,9 +68,9 @@ namespace Coffee.ViewModel.AdminVM.Table
 
             if (listProduct != null)
             {
-                ProductList = new ObservableCollection<ProductDTO>(listProduct);
-                __ProductList = new List<ProductDTO>(listProduct);
                 __ProductSearchList = new List<ProductDTO>(listProduct);
+                __ProductList = new List<ProductDTO>(listProduct);
+                ProductList = new ObservableCollection<ProductDTO>(listProduct);
             }
         }
 
@@ -77,11 +79,18 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private void selectedTypeProduct()
         {
-            if (SelectedProductType != null) 
-                if (SelectedProductType.MaLoaiSanPham == "LS0000")
-                    ProductList = new ObservableCollection<ProductDTO>(__ProductSearchList);
-                else
-                    ProductList = new ObservableCollection<ProductDTO>(__ProductSearchList.FindAll(p => p.MaLoaiSanPham == SelectedProductType.MaLoaiSanPham));
+            try
+            {
+                if (SelectedProductType != null)
+                    if (SelectedProductType.MaLoaiSanPham == "LS0000")
+                        ProductList = new ObservableCollection<ProductDTO>(__ProductSearchList);
+                    else
+                        ProductList = new ObservableCollection<ProductDTO>(__ProductSearchList.FindAll(p => p.MaLoaiSanPham == SelectedProductType.MaLoaiSanPham));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         /// <summary>
@@ -105,17 +114,40 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// <summary>
         /// Thêm sản phẩm vào hoá đơn
         /// </summary>
-        private void addProductToBill()
+        private async void addProductToBill()
         {
             List<DetailBillDTO> listFind = DetailBillList.Where(x => x.MaSanPham == SelectedProduct.MaSanPham).ToList();
 
             int totalQuantity = listFind.Sum(x => x.SoLuong);
 
+            string productID = SelectedProduct.MaSanPham;
+
             // Đã hết số lượng
             if (totalQuantity == SelectedProduct.SoLuong)
             {
-                MessageBoxCF ms = new MessageBoxCF("Sản phẩm đã hết hàng", MessageType.Error, MessageButtons.OK);
-                ms.ShowDialog();
+                MessageBoxCF ms = new MessageBoxCF("Sản phẩm đã hết hàng\nGợi ý sản phẩm?", MessageType.Error, MessageButtons.YesNo);
+                
+                MaskName.Visibility = Visibility.Visible;
+
+                if (ms.ShowDialog() == true)
+                {
+                    List<ProductRecommendDTO> listProductRecommend = await RecommendSystemService.Ins.getRecommend(productID);
+
+                    if (listProductRecommend != null)
+                    {
+                        ProductRecommendList = new ObservableCollection<ProductRecommendDTO>(listProductRecommend);
+                        RecommendProductWindow w = new RecommendProductWindow();
+
+                        w.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBoxCF msEr = new MessageBoxCF("Lỗi", MessageType.Error, MessageButtons.YesNo);
+                        msEr.ShowDialog();
+                    }
+                }
+
+                MaskName.Visibility = Visibility.Collapsed;
                 return;
             }
 

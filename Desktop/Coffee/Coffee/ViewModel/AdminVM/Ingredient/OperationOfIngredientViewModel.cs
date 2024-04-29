@@ -48,7 +48,7 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
 
             IngredientDTO ingredient = new IngredientDTO
             {
-                TenNguyenLieu = IngredientName,
+                TenNguyenLieu = IngredientName.Trim(),
                 MaDonVi = Unit.MaDonVi,
             };
 

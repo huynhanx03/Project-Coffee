@@ -154,7 +154,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// <summary>
         /// Lấy danh sách chức vị
         /// </summary>
-        public async void loadPosition()
+        public async Task loadPosition()
         {
             (string label, List<PositionDTO> listPosition) = await PositionService.Ins.getAllPosition();
 
@@ -199,19 +199,19 @@ namespace Coffee.ViewModel.AdminVM.Employee
 
             EmployeeDTO employee = new EmployeeDTO
             {
-                HoTen = FullName,
-                CCCD_CMND = IDCard,
-                Email = Email,
-                SoDienThoai = NumberPhone,
-                DiaChi = Address,
+                HoTen = FullName.Trim(),
+                CCCD_CMND = IDCard.Trim(),
+                Email = Email.Trim(),
+                SoDienThoai = NumberPhone.Trim(),
+                DiaChi = Address.Trim(),
                 GioiTinh = SelectedGender,
                 MaChucVu = positionDTO.MaChucVu,
                 Luong = Wage,
                 NgayLam = WorkingDay.ToString("dd/MM/yyyy"),
                 NgaySinh = Birthday.ToString("dd/MM/yyyy"),
                 HinhAnh = newImage,
-                TaiKhoan = Username,
-                MatKhau = Password,
+                TaiKhoan = Username.Trim(),
+                MatKhau = Password.Trim(),
                 TenChucVu = SelectedPositionName
             };
 

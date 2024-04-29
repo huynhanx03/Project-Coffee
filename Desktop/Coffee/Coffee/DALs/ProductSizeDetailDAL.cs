@@ -61,6 +61,42 @@ namespace Coffee.DALs
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
+        ///     Lấy tên kích thước
+        /// </returns>
+        public async Task<ProductSizeDetailDTO> getNameSize(string sizeID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    // Lấy dữ liệu từ nút "KichThuocSanPham" trong Firebase
+                    FirebaseResponse sizeResponse = await context.Client.GetTaskAsync("KichThuocSanPham");
+
+                    if (sizeResponse.Body != null && sizeResponse.Body != "null")
+                    {
+                        Dictionary<string, ProductSizeDetailDTO> sizedata = sizeResponse.ResultAs<Dictionary<string, ProductSizeDetailDTO>>();
+
+                        ProductSizeDetailDTO sizeProduct = (from size in sizedata.Values
+                                              where size.MaKichThuoc == sizeID
+                                              select new ProductSizeDetailDTO
+                                              {
+                                                  TenKichThuoc = size.TenKichThuoc
+                                              }).FirstOrDefault();
+                        return sizeProduct;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và trả về thông báo lỗi
+                throw new Exception("Có lỗi xảy ra: " + ex.Message);
+            }
+        }
+        /// <summary>
         /// Tạo chi tiết kích thước sản phẩm
         /// </summary>
         /// <param name="productID"> mã sản phẩm </param>
