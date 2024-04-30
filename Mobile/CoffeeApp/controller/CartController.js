@@ -27,13 +27,58 @@ const getNewId = async () => {
 }
 
 /**
+ * @notice Check if an item is present in cart
+ * @param item product to be checked
+ * @return true if item is present, false otherwise
+ */
+const itemPresent = async (item) => {
+    const userData = await getUserData();
+    const dbRef = ref(getDatabase());
+
+    try {
+        const cartSnapshot = await get(child(dbRef, `GioHang/${userData.MaNguoiDung}/`));
+        const cart = cartSnapshot.val();
+
+        // console.log(cart)
+        if (cart) {
+            for (const [key, value] of Object.entries(cart)) {
+                if (key === item.MaSanPham) {
+                    return [true, value.SoLuongGioHang];
+                }
+            }
+        }
+
+        return false;
+    } catch (err) {
+        console.log(err)
+        return err
+    }
+}
+
+/**
  * @notice Add a new item to cart
+ * @dev If item is already present in cart, increase the quantity of the item
  * @param item the item to be added to cart
  */
 const setCart = async (item) => {
     const userData = await getUserData()
     try {
+        const present = await itemPresent(item);
         const db = getDatabase()
+
+        if (present[0]) {
+            set(ref(db, `GioHang/${userData.MaNguoiDung}/${item.MaSanPham}`), {
+                TenSanPham: item.TenSanPham,
+                Gia: item.Gia,
+                HinhAnh: item.HinhAnh,
+                KichThuoc: item.KichThuoc,
+                MaSanPham: item.MaSanPham,
+                SoLuongGioHang: present[1] + item.SoLuongGioHang,
+                SoLuong: item.SoLuong
+            })
+            return
+        }
+
         set(ref(db, `GioHang/${userData.MaNguoiDung}/${item.MaSanPham}`), {
             TenSanPham: item.TenSanPham,
             Gia: item.Gia,
