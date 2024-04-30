@@ -20,11 +20,14 @@ import ItemPayList from "../components/itemPayList";
 import { colors } from "../theme";
 import { formatPrice } from "../utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as geolib from 'geolib';
+import { clearCart } from "../redux/slices/cartSlice";
+import { removeItemCart } from "../controller/CartController";
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const addressData = getDefaultAddress();
     const [totalProduct, setTotalProduct] = useState(0);
     const [transFee, setTransFee] = useState(10000); // 10,000 VND
@@ -56,7 +59,7 @@ const PreparePayScreen = () => {
         return distance;
     }
 
-    const handleCheckOut = () => {
+    const handleCheckOut = async () => {
         const distance = handleCheckDistance();
         if (!distance) {
             Alert.alert(
@@ -71,6 +74,8 @@ const PreparePayScreen = () => {
             return;
         }
 
+        dispatch(clearCart());
+        await removeItemCart();
         navigation.navigate("OrderSuccess");
     }
 
