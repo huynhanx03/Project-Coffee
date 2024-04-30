@@ -41,6 +41,7 @@ const setCart = async (item) => {
             KichThuoc: item.KichThuoc,
             MaSanPham: item.MaSanPham,
             SoLuongGioHang: item.SoLuongGioHang,
+            SoLuong: item.SoLuong
         })
     } catch (error) {
         console.log(error)

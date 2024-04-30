@@ -92,6 +92,7 @@ const DetailItemScreen = ({route}) => {
             KichThuoc: item.initialSize,
             MaSanPham: item.MaSanPham,
             SoLuongGioHang: item.quantity,
+            SoLuong: item.SoLuong
         }
         dispatch(addToCart(itemCart));
         setCart(itemCart)
