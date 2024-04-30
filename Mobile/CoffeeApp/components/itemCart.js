@@ -7,11 +7,13 @@ import { decrementQuantity, incrementQuantity, removeFromCart } from "../redux/s
 import { deleteItemCard } from "../controller/CartController";
 import * as Icons from "react-native-heroicons/outline";
 import { formatPrice } from "../utils";
+import Toast from "react-native-toast-message";
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart)
     const [total, setTotal] = useState(0);
+    const [quantity, setQuantity] = useState(props.item.SoLuongGioHang);
 
     const handleDeleteProduct = () => {
         dispatch(removeFromCart(props.item))
@@ -19,10 +21,24 @@ const ItemCart = (props) => {
     }
 
     const handleIncrease = () => {
-        dispatch(incrementQuantity(props.item))
+        if (quantity < props.item.SoLuong) {
+            setQuantity((quantity) => quantity + 1);
+            dispatch(incrementQuantity(props.item))
+        } else {
+            Toast.show({
+                type: 'error',
+                text1: 'Lỗi',
+                text2: 'Số lượng sản phẩm không đủ!',
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+                visibilityTime: 2000,
+            })
+        }
     }
 
     const handleDecrese = () => {
+        setQuantity((quantity) => quantity - 1)
         dispatch(decrementQuantity(props.item))
     }
 
