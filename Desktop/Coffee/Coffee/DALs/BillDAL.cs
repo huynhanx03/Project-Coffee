@@ -1,10 +1,12 @@
 ﻿using Coffee.DTOs;
 using Coffee.Models;
+using Coffee.Services;
 using Coffee.Utils;
 using FireSharp.Response;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -217,7 +219,54 @@ namespace Coffee.DALs
             }
         }
 
-       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
+        ///     Danh sách hóa đơn theo thời gian
+        /// </returns>
+        public async Task<(string, List<BillDTO>)> getListBilltime(DateTime fromdate, DateTime todate)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    // Lấy dữ liệu từ nút "HoaDon" trong Firebase
+                    FirebaseResponse billResponse = await context.Client.GetTaskAsync("HoaDon");
+                    Dictionary<string, BillDTO> billData = billResponse.ResultAs<Dictionary<string, BillDTO>>();
+
+                    // Lấy dữ liệu từ nút "NguoiDung" trong Firebase
+                    FirebaseResponse userResponse = await context.Client.GetTaskAsync("NguoiDung");
+                    Dictionary<string, UserDTO> userData = userResponse.ResultAs<Dictionary<string, UserDTO>>();
+
+                    // Lấy dữ liệu từ nút "Tables" trong Firebase
+                    FirebaseResponse tableResponse = await context.Client.GetTaskAsync("Ban");
+                    Dictionary<string, TableDTO> tableData = tableResponse.ResultAs<Dictionary<string, TableDTO>>();
+
+                    var result = (from bill in billData.Values
+                                  join user in userData.Values on bill.MaNhanVien equals user.MaNguoiDung
+                                  join table in tableData.Values on bill.MaBan equals table.MaBan
+                                  where DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) >= fromdate &&
+                                    DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture) <= todate
+                                  select new BillDTO
+                                  {
+                                      MaBan = bill.MaBan,
+                                      MaHoaDon = bill.MaHoaDon,
+                                      MaNhanVien = bill.MaNhanVien,
+                                      NgayTao = bill.NgayTao,
+                                      TongTien = bill.TongTien,
+                                      TrangThai = bill.TrangThai,
+                                      TenNhanVien = user.HoTen
+                                  }).ToList();
+
+                    return ("Lấy danh sách hóa đơn thành công", result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
         /// <summary>
         /// lấy chi tiết hoá đơn với mã hoá đơn
         /// </summary>
@@ -356,9 +405,21 @@ namespace Coffee.DALs
                     List<DetailBillModel> detailBillList = billData.Values.ToList();
 
                     if (detailBillList != null)
+                    {
+                        // Gọi LoadProductName cho mỗi mục trong detailBillList
+                        foreach (var detailBill in detailBillList)
+                        {
+                            await detailBill.LoadProductName();
+                            await detailBill.LoadSizeName();
+                            await detailBill.LoadTinhTongTien();
+                        }
+
                         return ("Lấy danh sách chi tiết thành công", detailBillList);
+                    }
                     else
+                    {
                         return ("Lấy danh sách chi tiết thất bại", null);
+                    }
                 }
             }
             catch (Exception ex)
@@ -366,5 +427,59 @@ namespace Coffee.DALs
                 return (ex.Message, null);
             }
         }
+
+        /// <summary>
+        /// Lấy danh sách các món ăn được mua nhiều nhất.
+        /// </summary>
+        /// <returns>Danh sách các món ăn và số lượng đã bán.</returns>
+        public async Task<(string, List<ProductDTO>)> GetMostSoldFoods()
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    // Lấy dữ liệu từ nút "HoaDon" trong Firebase
+                    FirebaseResponse BillResponse = await context.Client.GetTaskAsync("HoaDon");
+                    Dictionary<string, BillDTO> BillData = BillResponse.ResultAs<Dictionary<string, BillDTO>>();
+                    List<BillDTO> listBill = BillData.Values.ToList();
+
+                    // Lấy dữ liệu từ nút "SanPham" trong Firebase
+                    FirebaseResponse ProductResponse = await context.Client.GetTaskAsync("SanPham");
+                    Dictionary<string, ProductDTO> ProductData = ProductResponse.ResultAs<Dictionary<string, ProductDTO>>();
+
+                    Dictionary<string, int> foodCounts = new Dictionary<string, int>();
+
+                    foreach (var bill in listBill)
+                    {
+                        // Lấy dữ liệu từ nút "ChiTietHoaDon" trong Firebase
+                        FirebaseResponse detailbillResponse = await context.Client.GetTaskAsync("HoaDon/" + bill.MaHoaDon + "/ChiTietHoaDon");
+                        Dictionary<string, DetailBillModel> DetailBillData = detailbillResponse.ResultAs<Dictionary<string, DetailBillModel>>();
+                        List<DetailBillModel> detailBills = DetailBillData.Values.ToList();
+
+                        foreach (var detailbill in detailBills)
+                        {
+                            if (!foodCounts.ContainsKey(detailbill.MaSanPham))
+                            {
+                                foodCounts[detailbill.MaSanPham] = 0;
+                            }
+                            foodCounts[detailbill.MaSanPham] += detailbill.SoLuong;
+                        }
+                    }
+
+                    // Tìm món ăn được bán nhiều nhất
+                    var mostSoldFoodIds = foodCounts.OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
+
+                    // Lấy thông tin chi tiết của các món ăn
+                    var mostSoldFoods = ProductData.Where(x => mostSoldFoodIds.Contains(x.Key)).Select(x => x.Value).ToList();
+
+                    return ("Lấy danh sách các món ăn bán chạy nhất thành công", mostSoldFoods);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
+
     }
 }

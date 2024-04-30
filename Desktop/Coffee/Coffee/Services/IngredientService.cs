@@ -37,6 +37,12 @@ namespace Coffee.Services
         /// </returns>
         public async Task<(string, IngredientDTO)> createIngredient(IngredientDTO ingredient)
         {
+            // Kiểm tra tên nguyên liệu
+            (string label, IngredientDTO ingredientFind) = await IngredientDAL.Ins.findIngredientByName(ingredient.TenNguyenLieu, ingredient.MaNguyenLieu);
+
+            if (ingredientFind != null)
+                return ("Tên nguyên liệu đã tồn tại", null);
+
             // Tạo mã nguyên liệu mới nhất
             string MaxMaNguyenLieu = await this.getMaxMaNguyenLieu();
             string NewMaNguyenLieu = Helper.nextID(MaxMaNguyenLieu, "NL");
@@ -56,6 +62,12 @@ namespace Coffee.Services
         /// </returns>
         public async Task<(string, IngredientDTO)> updateIngredient(IngredientDTO ingredient)
         {
+            // Kiểm tra tên nguyên liệu
+            (string label, IngredientDTO ingredientFind) = await IngredientDAL.Ins.findIngredientByName(ingredient.TenNguyenLieu, ingredient.MaNguyenLieu);
+
+            if (ingredientFind != null)
+                return ("Tên nguyên liệu đã tồn tại", null);
+
             return await IngredientDAL.Ins.updateIngredient(ingredient);
         }
 
@@ -175,7 +187,7 @@ namespace Coffee.Services
                     maxQuantity = Math.Min(maxQuantity, quantity);
                 }
                 else
-                    return ("Nguyên liệu trong công thức không tồn tại nữa", -1);
+                    return ("Nguyên liệu trong công thức không tồn tại nữa", 0);
             }
 
             return ("Tìm giá trị thành công", maxQuantity);

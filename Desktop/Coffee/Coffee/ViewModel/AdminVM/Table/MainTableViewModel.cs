@@ -225,6 +225,13 @@ namespace Coffee.ViewModel.AdminVM.Table
                 pay();
             });
             #endregion
+
+            #region recommend product
+            closeRecommendProductWindowIC = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                p.Close();
+            });
+            #endregion
         }
 
         /// <summary>

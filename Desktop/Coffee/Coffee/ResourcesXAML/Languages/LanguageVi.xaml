@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="Dashboard">Trang chủ</system:String>
     <system:String x:Key="Table">Bàn</system:String>
     <system:String x:Key="Item">Thực đơn</system:String>
@@ -21,6 +22,7 @@
     <system:String x:Key="WorkingDay">Ngày làm</system:String>
     <system:String x:Key="Wage">Lương</system:String>
     <system:String x:Key="LoginInformation">Thông tin đăng nhập</system:String>
+    <system:String x:Key="AccountInformation">Thông tin tài khoản</system:String>
     <system:String x:Key="Username">Tài khoản</system:String>
     <system:String x:Key="Password">Mật khẩu</system:String>
     <system:String x:Key="ConfirmPassword">Xác nhận mật khẩu</system:String>
@@ -73,4 +75,11 @@
     <system:String x:Key="TableNameTransferred">Tên bàn chuyển đến</system:String>
     <system:String x:Key="TableNameNumber1">Tên bàn thứ nhất</system:String>
     <system:String x:Key="TableNameNumber2">Tên bàn thứ hai</system:String>
+    <system:String x:Key="ingredientID">Mã nguyên liệu</system:String>
+    <system:String x:Key="unitID">Mã đơn vị</system:String>
+    <system:String x:Key="AddQuantityProduct">Thêm số lượng sản phẩm</system:String>
+    <system:String x:Key="RecommendProduct">Gợi ý sản phẩm</system:String>
+    <system:String x:Key="MoneyIn">Doanh thu</system:String>
+    <system:String x:Key="MoneyOut">Chi phí</system:String>
+    <system:String x:Key="Profit">Lợi nhuận</system:String>
 </ResourceDictionary>

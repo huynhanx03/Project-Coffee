@@ -14,7 +14,7 @@ namespace Coffee.ViewModel.AdminVM.Statistic
     public partial class StatisticViewModel:BaseViewModel
     {
         #region variable
-        private ObservableCollection<ImportDTO> _BillImportList;
+        private ObservableCollection<ImportDTO> _BillImportList = new ObservableCollection<ImportDTO>();
         public ObservableCollection<ImportDTO> BillImportList
         {
             get { return _BillImportList; }
@@ -29,14 +29,15 @@ namespace Coffee.ViewModel.AdminVM.Statistic
         #endregion
 
         #region Icommand
-        public ICommand loadWarehouseListIC {  get; set; }
+        public ICommand loadBillImportListtimeIC {  get; set; }
+        public ICommand openWindowBillImportIC { get; set; }
         #endregion
         /// <summary>
         /// load danh sách hóa đơn nhập kho
         /// </summary>
-        private async void loadWareHouseList()
+        private async Task loadBillImportList(DateTime fromDate = default(DateTime), DateTime toDate = default(DateTime))
         {
-            (string label, List<ImportDTO> billimportlist) = await BillImportService.Ins.getListBillImport();
+            (string label, List<ImportDTO> billimportlist) = await BillImportService.Ins.getListBillImporttime(fromDate,toDate);
 
             if (billimportlist != null)
             {
@@ -57,7 +58,7 @@ namespace Coffee.ViewModel.AdminVM.Statistic
                 if (isDeleteBillImportList)
                 {
                     MessageBoxCF msn = new MessageBoxCF(label, MessageType.Accept, MessageButtons.OK);
-                    loadWareHouseList();
+                    loadBillImportList();
                     msn.ShowDialog();
                 }
                 else

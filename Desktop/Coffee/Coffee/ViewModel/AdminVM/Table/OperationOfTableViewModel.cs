@@ -87,7 +87,7 @@ namespace Coffee.ViewModel.AdminVM.Table
 
             TableDTO table = new TableDTO
             {
-                TenBan = TableName,
+                TenBan = TableName.Trim(),
                 MaLoaiBan = tableType.MaLoaiBan,
                 Cot = Coloumn,
                 Hang = Row,

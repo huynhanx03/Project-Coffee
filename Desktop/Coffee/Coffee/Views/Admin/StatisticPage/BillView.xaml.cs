@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Forms;
-using Coffee.ViewModel.AdminVM.Statistic;
 
 namespace Coffee.Views.Admin.StatisticPage
 {
     /// <summary>
-    /// Interaction logic for MainStatisticPage.xaml
+    /// Interaction logic for BillView.xaml
     /// </summary>
-    public partial class MainStatisticPage : Page
+    public partial class BillView : Window
     {
-        public MainStatisticPage()
+        public BillView()
         {
             InitializeComponent();
         }

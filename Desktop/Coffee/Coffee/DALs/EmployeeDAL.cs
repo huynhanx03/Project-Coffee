@@ -115,6 +115,45 @@ namespace Coffee.DALs
         /// 
         /// </summary>
         /// <returns>
+        ///     Lấy thông tin nhân viên
+        /// </returns>
+        public async Task<EmployeeDTO> getDetailEmployee(string EmployeeID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    // Lấy dữ liệu từ nút "NhanVien" trong Firebase
+                    FirebaseResponse employeesResponse = await context.Client.GetTaskAsync("NhanVien");
+                    // Lấy dữ liệu từ nút "NguoiDung" trong Firebase
+                    FirebaseResponse userResponse = await context.Client.GetTaskAsync("NguoiDung");
+
+                    if (employeesResponse.Body != null && employeesResponse.Body != "null" && userResponse.Body != null && userResponse.Body != "null")
+                    {
+                        Dictionary<string, EmployeeDTO> employdata = employeesResponse.ResultAs<Dictionary<string, EmployeeDTO>>();
+                        Dictionary<string, UserDTO> userdata = userResponse.ResultAs<Dictionary<string, UserDTO>>();
+
+                        EmployeeDTO Employee = (from employee in employdata.Values join user in userdata.Values
+                                                on employee.MaNhanVien equals user.MaNguoiDung where employee.MaNhanVien == EmployeeID select new EmployeeDTO
+                                                {
+                                                    HoTen = user.HoTen,
+                                                }).FirstOrDefault();
+                        return Employee;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và trả về thông báo lỗi
+                throw new Exception("Có lỗi xảy ra: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
         ///     Danh sách nhân viên
         /// </returns>
         public async Task<(string, List<EmployeeDTO>)> getListEmployee()

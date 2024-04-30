@@ -194,6 +194,17 @@ namespace Coffee.Services
         /// 
         /// </summary>
         /// <returns>
+        ///     lấy thông tin nhân viên
+        /// </returns>
+        public async Task<EmployeeDTO> getDetailEmployee(string employeeID)
+        {
+            return await EmployeeDAL.Ins.getDetailEmployee(employeeID);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
         ///     Danh sách nhân viên
         /// </returns>
         public async Task<(string, List<EmployeeDTO>)> getListEmployee()

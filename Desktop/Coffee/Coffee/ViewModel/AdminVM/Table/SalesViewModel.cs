@@ -205,7 +205,8 @@ namespace Coffee.ViewModel.AdminVM.Table
         
             if (isCreate)
             {
-                // Thành công:
+                // Thành công: Xoá số lượng sản phẩm
+                reduceProduct();
 
                 // Chuyển sang bàn có khách
                 currentTable.TrangThai = Constants.StatusTable.BOOKED;
@@ -233,19 +234,22 @@ namespace Coffee.ViewModel.AdminVM.Table
             {
                 //Thanh toán luôn
                 //Lưu thế thông tin chi tiết hoá đơn lên trên cơ sở dữ liệu
-               BillModel bill = new BillModel
-               {
+                BillModel bill = new BillModel
+                {
                    MaBan = null,
                    MaNhanVien = Memory.user.MaNguoiDung,
                    NgayTao = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
                    TongTien = TotalBill,
                    TrangThai = StatusBill.PAID
-               };
+                };
 
                 (string label, bool isCreate) = await BillService.Ins.createBill(bill, DetailBillList);
 
                 if (isCreate)
                 {
+                    // Giảm số lượng sản phẩm
+                    reduceProduct();
+
                     // Thành công:
                     MessageBoxCF ms = new MessageBoxCF("Thanh toán thành công", MessageType.Accept, MessageButtons.OK);
                     ms.ShowDialog();
@@ -285,6 +289,26 @@ namespace Coffee.ViewModel.AdminVM.Table
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Giảm số lượng sản phẩm
+        /// </summary>
+        private async void reduceProduct()
+        {
+            var groupedData = DetailBillList.GroupBy(item => item.MaSanPham)
+                                .Select(group => new
+                                {
+                                    MaSanPham = group.Key,
+                                    SoLuong = group.Sum(item => item.SoLuong)
+                                });
+
+            foreach (var group in groupedData)
+            {
+                await ProductService.Ins.reduceQuantityProduct(group.MaSanPham, group.SoLuong);
+            }
+
+            loadMenuList();
         }
     }
 }

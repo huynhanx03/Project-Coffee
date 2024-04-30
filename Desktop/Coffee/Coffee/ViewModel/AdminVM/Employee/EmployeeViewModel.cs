@@ -152,10 +152,10 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// <summary>
         /// Mở cửa số sửa nhân viên
         /// </summary>
-        public void openWindowEditEmployee()
+        public async Task openWindowEditEmployee()
         {
             MaskName.Visibility = Visibility.Visible;
-            loadPosition();
+            await loadPosition();
             OperationEmployeeWindow w = new OperationEmployeeWindow();
             TypeOperation = 2; // Edit employee
             loadEmployee(SelectedEmployee);
