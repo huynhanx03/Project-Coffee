@@ -5,6 +5,7 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
+    Pressable
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
@@ -115,12 +116,16 @@ const EditScreen = () => {
                         className="justify-center items-center"
                         style={{ marginTop: hp(6) }}
                     >
-                        <Image
-                            source={{ uri: user?.HinhAnh }}
+                        {user?.HinhAnh ? (
+                            <Image
+                            source={{uri: user?.HinhAnh}}
                             resizeMode="cover"
                             style={{ width: hp(12), height: hp(12) }}
                             className="rounded-full"
                         />
+                        ) : (
+                            <Image source={require('../assets/images/avtDemo.png')} resizeMode='cover' style={{width: hp(12), height: hp(12)}} className='rounded-full'/>
+                        )}
                     </View>
                 </View>
 

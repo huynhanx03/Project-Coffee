@@ -61,12 +61,16 @@ const ProfileScreen = () => {
                         <Text className="text-white text-xl font-bold text-center">Hồ sơ của tôi</Text>
                     </View>
                     <View className="justify-center items-center" style={{marginTop: hp(6)}}>
-                        <Image
+                        {user?.HinhAnh ? (
+                            <Image
                             source={{uri: user?.HinhAnh}}
                             resizeMode="cover"
                             style={{ width: hp(12), height: hp(12) }}
                             className="rounded-full"
                         />
+                        ) : (
+                            <Image source={require('../assets/images/avtDemo.png')} resizeMode='cover' style={{width: hp(12), height: hp(12)}} className='rounded-full'/>
+                        )}
                     </View>
                 </View>
 
