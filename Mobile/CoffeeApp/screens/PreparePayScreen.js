@@ -25,6 +25,7 @@ import * as geolib from 'geolib';
 import { clearCart } from "../redux/slices/cartSlice";
 import { removeItemCart } from "../controller/CartController";
 import Toast from "react-native-toast-message";
+import { saveOrder } from "../controller/OrderController";
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
@@ -86,7 +87,7 @@ const PreparePayScreen = () => {
 
             return;
         }
-
+        saveOrder(cart);
         dispatch(clearCart());
         await removeItemCart();
         navigation.navigate("OrderSuccess");
