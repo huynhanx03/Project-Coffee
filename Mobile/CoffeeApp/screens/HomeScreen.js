@@ -59,6 +59,7 @@ const HomeScreen = () => {
                     HinhAnh: listProducts[key].HinhAnh,
                     SoLuong: listProducts[key].SoLuong,
                     LoaiSanPham: listProducts[key].LoaiSanPham,
+                    Mota: listProducts[key].Mota,
                     Size: {
                         Nho: {
                             TenKichThuoc:
@@ -171,7 +172,6 @@ const HomeScreen = () => {
                             />
 
                             <TouchableOpacity
-                                onPress={handleGetProducts}
                                 className="p-1 bg-yellow-950 rounded-lg"
                             >
                                 <Icons.MagnifyingGlassIcon
