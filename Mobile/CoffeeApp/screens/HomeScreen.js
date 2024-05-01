@@ -31,6 +31,7 @@ const HomeScreen = () => {
     const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
     const [categories, setCategories] = useState(null);
+    const [user, setUser] = useState(null);
 
     const addressData = getDefaultAddress();
 
@@ -100,9 +101,19 @@ const HomeScreen = () => {
         }
     }
 
+    const getUser = async () => {
+        try {
+            const userData = await getUserData();
+            setUser(userData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         handleGetProducts();
         handleGetCategories();
+        getUser();
         // handleGetCart();
     }, []);
 
@@ -132,10 +143,22 @@ const HomeScreen = () => {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Image
-                                source={require("../assets/images/avtDemo.png")}
-                                style={{ width: hp(8), height: hp(8) }}
-                            />
+                            {
+                                user?.HinhAnh ? (
+                                    <Image
+                                        source={{uri: user?.HinhAnh}}
+                                        style={{ width: hp(8), height: hp(8) }}
+                                        resizeMode="cover"
+                                        className='rounded-full'
+                                    />
+                                ):(
+                                    <Image
+                                        source={require("../assets/images/avtDemo.png")}
+                                        style={{ width: hp(8), height: hp(8) }}
+                                        className='rounded-full'
+                                    />
+                                )
+                            }
                         </View>
                     </View>
 
