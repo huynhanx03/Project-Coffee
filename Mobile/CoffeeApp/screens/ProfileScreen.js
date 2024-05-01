@@ -91,7 +91,7 @@ const ProfileScreen = () => {
                 {/* menu item */}
                 <View className="mx-5">
                     <View className='p-4 border rounded-[14px]' style={{borderColor: '#9d9d9d', marginTop: wp(10)}}>
-                        <TouchableOpacity className='flex-row justify-between items-center'>
+                        <TouchableOpacity onPress={() => navigation.navigate('OrderInfo')} className='flex-row justify-between items-center'>
                             <View className='flex-row items-center gap-5'>
                                 <Icons.ClipboardDocumentListIcon size={30} color={colors.active} />
                                 <Text className='text-lg font-semibold'>Thông tin đơn hàng</Text>

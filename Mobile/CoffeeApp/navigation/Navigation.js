@@ -18,6 +18,7 @@ import AddAddressScreen from '../screens/AddAddressScreen';
 import MapScreen from '../screens/MapScreen';
 import PreparePayScreen from '../screens/PreparePayScreen';
 import OrderSuccessScreen from '../screens/OrderSuccessScreen';
+import OrderInfoScreen from '../screens/OrderInfoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ export default function Navigation() {
         <Stack.Screen name="AddAddress" component={AddAddressScreen} />
         <Stack.Screen name="Prepare" component={PreparePayScreen} />
         <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
+        <Stack.Screen name="OrderInfo" component={OrderInfoScreen} />
         <Stack.Screen name="MapView" component={MapScreen} options={{presentation: 'modal'}}/>
       </Stack.Navigator>
     </NavigationContainer>
