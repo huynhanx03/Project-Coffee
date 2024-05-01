@@ -23,7 +23,7 @@ import { getCategories, getProducts } from "../controller/ProductController";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "../controller/CartController";
 import { addToCartFromDatabase } from "../redux/slices/cartSlice";
-import getUserData from "../controller/StorageController";
+import {getUserData} from "../controller/StorageController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();

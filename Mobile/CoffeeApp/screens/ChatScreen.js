@@ -16,7 +16,7 @@ import CustomKeyboard from "../components/customKeyboard";
 import MessageList from "../components/messageList";
 import { getMessage, sendMessage } from "../controller/MessageController";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
-import getUserData from "../controller/StorageController";
+import {getUserData} from "../controller/StorageController";
 
 const ChatScreen = () => {
     const [message, setMessage] = useState("");

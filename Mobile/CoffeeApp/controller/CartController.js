@@ -1,5 +1,5 @@
 import { getDatabase, ref, remove, set, child, get, } from "firebase/database"
-import getUserData from "./StorageController"
+import {getUserData} from "./StorageController"
 
 /**
  * @notice Get new id for new item in cart

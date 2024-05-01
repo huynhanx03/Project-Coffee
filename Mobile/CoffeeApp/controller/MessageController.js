@@ -1,7 +1,7 @@
 import { getDatabase, ref, onValue, push, get, set, child, orderByChild, query } from "firebase/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { orderBy } from "firebase/firestore";
-import getUserData from "./StorageController";
+import {getUserData} from "./StorageController";
 
 /**
  * @notice Get new message id in the database

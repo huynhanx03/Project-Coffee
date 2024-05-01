@@ -1,6 +1,6 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import getUserData from "./StorageController";
+import {getUserData} from "./StorageController";
 
 
 /**
