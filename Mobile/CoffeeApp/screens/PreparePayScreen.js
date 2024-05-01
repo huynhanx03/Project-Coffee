@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as geolib from 'geolib';
 import { clearCart } from "../redux/slices/cartSlice";
 import { removeItemCart } from "../controller/CartController";
+import Toast from "react-native-toast-message";
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
@@ -60,6 +61,18 @@ const PreparePayScreen = () => {
     }
 
     const handleCheckOut = async () => {
+        if (!addressData) {
+            Toast.show({
+                type: "error",
+                text1: "Lỗi",
+                text2: "Vui lòng chọn địa chỉ nhận hàng",
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+                visibilityTime: 2000,
+            })
+            return
+        }
         const distance = handleCheckDistance();
         if (!distance) {
             Alert.alert(
