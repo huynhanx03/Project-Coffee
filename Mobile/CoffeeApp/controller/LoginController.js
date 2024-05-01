@@ -22,7 +22,7 @@ const handleLogin = async (username, password) => {
             for (const [userId, userData] of Object.entries(users)) {
                 if (userId.slice(0, 2) === 'KH' && userData.TaiKhoan === username && userData.MatKhau === password) {
                     // Store user data in AsyncStorage
-                    storeData(userData);
+                    await storeData(userData);
                     account = {username, password}
                     return account;
                 }
