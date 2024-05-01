@@ -9,6 +9,6 @@ namespace Coffee.Utils
 {
     public class Memory
     {
-        public static UserDTO user { get; set; }
+        public static UserDTO user { get; set; } = new UserDTO { HoTen = "Nhân", VaiTro = 1};
     }
 }

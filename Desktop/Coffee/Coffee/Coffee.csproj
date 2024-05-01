@@ -176,6 +176,7 @@
     </ApplicationDefinition>
     <Compile Include="DALs\BillDAL.cs" />
     <Compile Include="DALs\BillImportDAL.cs" />
+    <Compile Include="DALs\ChatDAL.cs" />
     <Compile Include="DALs\EmployeeDAL.cs" />
     <Compile Include="DALs\IngredientDAL.cs" />
     <Compile Include="DALs\PositionDAL.cs" />
@@ -187,8 +188,10 @@
     <Compile Include="DALs\TableDAL.cs" />
     <Compile Include="DALs\TableTypeDAL.cs" />
     <Compile Include="DALs\UnitDAL.cs" />
+    <Compile Include="DALs\UserContactDAL.cs" />
     <Compile Include="DALs\UserDAL.cs" />
     <Compile Include="DTOs\BillDTO.cs" />
+    <Compile Include="DTOs\ChatDTO.cs" />
     <Compile Include="DTOs\DetailBillDTO.cs" />
     <Compile Include="DTOs\DetailImportDTO.cs" />
     <Compile Include="DTOs\DetailProductSizeDTO.cs" />
@@ -205,12 +208,15 @@
     <Compile Include="DTOs\TableDTO.cs" />
     <Compile Include="DTOs\TableTypeDTO.cs" />
     <Compile Include="DTOs\UnitDTO.cs" />
+    <Compile Include="DTOs\UserContactDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="Models\BillModel.cs" />
+    <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\DetailBillModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Services\BillImportService.cs" />
     <Compile Include="Services\BillService.cs" />
+    <Compile Include="Services\ChatService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\IngredientService.cs" />
     <Compile Include="Services\PositionService.cs" />
@@ -222,6 +228,7 @@
     <Compile Include="Services\TableService.cs" />
     <Compile Include="Services\TableTypeService.cs" />
     <Compile Include="Services\UnitService.cs" />
+    <Compile Include="Services\UserContactService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UserControls\ControlbarUC.xaml.cs">
@@ -241,6 +248,7 @@
     <Compile Include="Utils\Helper\Helper.cs" />
     <Compile Include="Utils\Memory.cs" />
     <Compile Include="Utils\RecommendSystemService.cs" />
+    <Compile Include="ViewModel\AdminVM\Chat\ChatViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\OperationOfEmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Ingredient\ImportViewModel.cs" />
@@ -266,6 +274,9 @@
     <Compile Include="ViewModel\IConstraintViewModel.cs" />
     <Compile Include="ViewModel\LoginVM\LoginViewModel.cs" />
     <Compile Include="ViewModel\UserControlVM\ControlbarViewModel.cs" />
+    <Compile Include="Views\Admin\ChatPage\MainChatPage.xaml.cs">
+      <DependentUpon>MainChatPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin\EmployeePage\MainEmployeePage.xaml.cs">
       <DependentUpon>MainEmployeePage.xaml</DependentUpon>
     </Compile>
@@ -384,6 +395,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TableUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\ChatPage\MainChatPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

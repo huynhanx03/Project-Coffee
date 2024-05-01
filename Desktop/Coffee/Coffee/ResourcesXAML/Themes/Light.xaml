@@ -6,6 +6,7 @@
     <SolidColorBrush x:Key="HoverColorCF" Color="#B8A199" />
     <SolidColorBrush x:Key="BorderBrushCF" Color="#ECEDEE" />
     <SolidColorBrush x:Key="BackgroundCF" Color="White" />
+    <SolidColorBrush x:Key="WhiteSmoke" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="Background2CF" Color="#F7F7F7" />
     <SolidColorBrush x:Key="Background3CF" Color="#E6E6E9" />
     <SolidColorBrush x:Key="ForegroundCF" Color="Black" />

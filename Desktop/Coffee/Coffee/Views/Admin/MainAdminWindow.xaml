@@ -82,6 +82,9 @@
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="SettingBtn">
             <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
         </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ChatBtn">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
     </Window.Triggers>
 
     <i:Interaction.Triggers>
@@ -179,7 +182,7 @@
                             NavigationUIVisibility="Hidden">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding loadTablesPageIC}" CommandParameter="{Binding ElementName=mainFrame}" />
+                                    <i:InvokeCommandAction Command="{Binding loadChatPageIC}" CommandParameter="{Binding ElementName=mainFrame}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Frame>
@@ -299,6 +302,22 @@
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AccountGroup" Style="{StaticResource menuButtonIcon}" />
                                 <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Employee}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Border>
+
+                    <!--  Button quản lý tin nhắn  -->
+                    <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                        <RadioButton
+                            Name="ChatBtn"
+                            Command="{Binding loadChatPageIC}"
+                            CommandParameter="{Binding ElementName=mainFrame}"
+                            GroupName="mainOptions"
+                            Style="{StaticResource MenuButtonMain}"
+                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Chat" Style="{StaticResource menuButtonIcon}" />
+                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Chat}" />
                             </StackPanel>
                         </RadioButton>
                     </Border>

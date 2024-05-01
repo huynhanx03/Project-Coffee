@@ -82,4 +82,5 @@
     <system:String x:Key="MoneyIn">Doanh thu</system:String>
     <system:String x:Key="MoneyOut">Chi phí</system:String>
     <system:String x:Key="Profit">Lợi nhuận</system:String>
+    <system:String x:Key="Chat">Tin nhắn</system:String>
 </ResourceDictionary>
