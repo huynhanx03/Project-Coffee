@@ -86,7 +86,7 @@ const Register = async (username, email, password) => {
         DiaChi: "",
         GioiTinh: "",
         HoTen: "",
-        MaNguoiDung: "",
+        MaNguoiDung: newId,
         NgayTao: dateCreated,
         SoDienThoai: "",
         HinhAnh: "",
