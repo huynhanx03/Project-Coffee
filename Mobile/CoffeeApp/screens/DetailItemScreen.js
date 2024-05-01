@@ -1,18 +1,15 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform } from "react-native";
-import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import * as Icons from "react-native-heroicons/solid";
-import { colors } from "../theme";
-import { Divider } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import CustomeKeyboard from "../components/customKeyboard";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import Button from "../components/button";
-import { formatPrice } from "../utils";
+import React, { useEffect, useRef, useState } from "react";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import * as Icons from "react-native-heroicons/solid";
+import { Divider } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/slices/cartSlice";
 import { setCart } from "../controller/CartController";
+import { addToCart } from "../redux/slices/cartSlice";
+import { colors } from "../theme";
+import { formatPrice } from "../utils";
 const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({route}) => {
@@ -29,6 +26,7 @@ const DetailItemScreen = ({route}) => {
     const [total, setTotal] = useState(initialPrice);
     const [note, setNote] = useState('')
     const [isFavorite, setIsFavorite] = useState(false)
+    const scrollRef = useRef(null);
 
     const cart = useSelector(state => state.cart.cart);
 
@@ -45,6 +43,12 @@ const DetailItemScreen = ({route}) => {
 
     const handleTotal = () => {
         setTotal(formatPrice(parseInt(price) * quantity));
+    }
+
+    const updateScrollView = () => {
+        setTimeout(() => {
+            scrollRef?.current?.scrollToEnd({ animated: true });
+        }, 100);
     }
 
     useEffect(() => {
@@ -133,7 +137,7 @@ const DetailItemScreen = ({route}) => {
                 </View>
             </SafeAreaView>
 
-            <ScrollView className='mx-5 pt-1 space-y-3 flex-[6]' showsVerticalScrollIndicator={false}>
+            <ScrollView ref={scrollRef} className='mx-5 pt-1 space-y-3 flex-[6]' showsVerticalScrollIndicator={false}>
                 {/* image */}
                 <Image source={{uri: product.HinhAnh}} resizeMode="cover" style={{ width: '100%', height: 300, borderRadius: 16 }} />
 
@@ -200,7 +204,7 @@ const DetailItemScreen = ({route}) => {
                         <Text className='text-base font-semibold' style={{color: colors.text(1)}}>Ghi chú </Text>
                         <Text className='italic text-sm'>(không bắt buộc)</Text>
                     </View>
-                    <TextInput multiline={true} placeholder="Ghi chú" className='mb-10 text-base h-20 rounded-lg p-2 border border-gray-400'/>
+                    <TextInput onFocus={updateScrollView} multiline={true} placeholder="Ghi chú" className='mb-10 text-base h-20 rounded-lg p-2 border border-gray-400'/>
                 </View>
 
             </ScrollView>
