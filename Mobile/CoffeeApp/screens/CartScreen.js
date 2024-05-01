@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     FlatList,
     Pressable,
@@ -45,18 +45,18 @@ const CartScreen = () => {
     }
 
     //calculate total price of all items in cart
-    const handleTotalPrice = () => {
+    const handleTotalPrice = useMemo(() => {
         let total = 0;
         cart.forEach((item) => {
             total += item.SoLuongGioHang * item.Gia;
         });
 
         setTotalPrice(total);
-    }
-
-    useEffect(() => {
-        handleTotalPrice();
     }, [cart])
+
+    // useEffect(() => {
+    //     handleTotalPrice();
+    // }, [cart])
 
     return (
         <View className="flex-1">
