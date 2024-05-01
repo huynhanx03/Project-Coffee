@@ -9,11 +9,14 @@ import {
     TextInput,
 } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Button from "../components/button";
 import { colors } from "../theme";
 import { changePassword } from "../controller/ChangePasswordController";
 import Toast from "react-native-toast-message";
+import {
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 
 const width = Dimensions.get("window").width;
 
@@ -77,10 +80,9 @@ const EditScreen = () => {
                             <Icons.ChevronLeftIcon size={30} color="#ffffff" />
                         </TouchableOpacity>
                     </View>
-                    <View className="absolute bottom-5 mx-5">
+                    <View className="items-center justify-center" style={{marginTop: wp(10)}}>
                         <Text className="text-white text-base font-semibold text-center">
-                            Thay đổi mật khẩu thường xuyên để bảo vệ tài khoản
-                            của bạn
+                            Thay đổi mật khẩu để bảo vệ tài khoản của bạn
                         </Text>
                     </View>
                 </View>

@@ -128,7 +128,7 @@ const DetailItemScreen = ({route}) => {
                     <Text className="text-lg font-semibold">Chi tiết sản phẩm</Text>
 
                     <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)}>
-                        <Icons.HeartIcon size={30} color={isFavorite ? colors.active : "gray"} />
+                        <Icons.HeartIcon size={30} color={isFavorite ? colors.active : "transparent"} />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -208,7 +208,7 @@ const DetailItemScreen = ({route}) => {
             <View className='bg-white flex-1 rounded-lg justify-center shadow-md'>
                 <View className='mx-5 flex-row justify-between items-center'>
                     <View>
-                        <Text className='text-sm font-semibold text-gray-700'>Tổng</Text>
+                        <Text className='text-base font-semibold text-gray-700'>Tổng</Text>
                         <Text className='text-xl font-semibold'>{total}</Text>
                     </View>
                     <View>
