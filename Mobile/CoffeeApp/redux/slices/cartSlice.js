@@ -7,7 +7,6 @@ export const CartSlice = createSlice({
     },
     reducers: {
         addToCart: (state, action) => {
-            console.log(action.payload)
             const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
             if (itemPresent) {
