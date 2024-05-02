@@ -6,6 +6,7 @@ using Coffee.Views.Admin.MenuPage;
 using Coffee.Views.Admin.SettingPage;
 using Coffee.Views.Admin.StatisticPage;
 using Coffee.Views.Admin.TablePage;
+using Coffee.Views.Admin.VoucherPage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace Coffee.ViewModel.AdminVM
         public ICommand loadSettingPageIC { get; set; }
         public ICommand loadChatPageIC { get; set; }
         public ICommand loadRoleIC { get; set; }
+        public ICommand loadVoucherPageIC { get; set; }
         public ICommand changeLanguageIC { get; set; }
 
         private string _optionName { get; set; }
@@ -96,6 +98,11 @@ namespace Coffee.ViewModel.AdminVM
             loadChatPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainChatPage();
+            });
+
+            loadVoucherPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
+            {
+                p.Content = new MainVoucherPage();
             });
 
             changeLanguageIC = new RelayCommand<Button>((p) => { return true; }, (p) =>

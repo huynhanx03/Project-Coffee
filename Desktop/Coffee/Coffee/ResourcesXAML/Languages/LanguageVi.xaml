@@ -83,4 +83,12 @@
     <system:String x:Key="MoneyOut">Chi phí</system:String>
     <system:String x:Key="Profit">Lợi nhuận</system:String>
     <system:String x:Key="Chat">Tin nhắn</system:String>
+    <system:String x:Key="ExpirationDate">Ngày hết hạn</system:String>
+    <system:String x:Key="ReleaseDate">Ngày phát hành</system:String>
+    <system:String x:Key="PercentDiscount">Phần trăm giảm</system:String>
+    <system:String x:Key="MinimumRank">Hạng tối thiểu</system:String>
+    <system:String x:Key="Voucher">Phiếu giảm giá</system:String>
+    <system:String x:Key="Content">Nội dung</system:String>
+    <system:String x:Key="Release">Phát hành</system:String>
+    <system:String x:Key="ReleaseVoucher">Phát hành phiếu giảm giá</system:String>
 </ResourceDictionary>

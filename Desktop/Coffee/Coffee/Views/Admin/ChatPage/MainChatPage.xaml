@@ -38,7 +38,7 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding loadShadowMaskIC}" CommandParameter="{Binding ElementName=ShadowMask}" />
             <i:InvokeCommandAction Command="{Binding loadUserContactListIC}" />
-            <i:InvokeCommandAction Command="{Binding loadScrollChatIC}" CommandParameter="{Binding ElementName=scrollChat}"/>
+            <i:InvokeCommandAction Command="{Binding loadScrollChatIC}" CommandParameter="{Binding ElementName=scrollChat}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -343,8 +343,10 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <ScrollViewer Margin="10,0,0,0" HorizontalScrollBarVisibility="Disabled"
-                                          Name="scrollChat">
+                            <ScrollViewer
+                                Name="scrollChat"
+                                Margin="10,0,0,0"
+                                HorizontalScrollBarVisibility="Disabled">
                                 <ItemsControl
                                     Background="{DynamicResource WhiteSmoke}"
                                     ItemTemplate="{StaticResource MessageItemTemale}"

@@ -185,11 +185,13 @@
     <Compile Include="DALs\ProductSizeDAL.cs" />
     <Compile Include="DALs\ProductSizeDetailDAL.cs" />
     <Compile Include="DALs\ProductTypeDAL.cs" />
+    <Compile Include="DALs\RankDAL.cs" />
     <Compile Include="DALs\TableDAL.cs" />
     <Compile Include="DALs\TableTypeDAL.cs" />
     <Compile Include="DALs\UnitDAL.cs" />
     <Compile Include="DALs\UserContactDAL.cs" />
     <Compile Include="DALs\UserDAL.cs" />
+    <Compile Include="DALs\VoucherDAL.cs" />
     <Compile Include="DTOs\BillDTO.cs" />
     <Compile Include="DTOs\ChatDTO.cs" />
     <Compile Include="DTOs\DetailBillDTO.cs" />
@@ -210,10 +212,12 @@
     <Compile Include="DTOs\UnitDTO.cs" />
     <Compile Include="DTOs\UserContactDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
+    <Compile Include="DTOs\VoucherDTO.cs" />
     <Compile Include="Models\BillModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\DetailBillModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\RankModel.cs" />
     <Compile Include="Services\BillImportService.cs" />
     <Compile Include="Services\BillService.cs" />
     <Compile Include="Services\ChatService.cs" />
@@ -225,11 +229,13 @@
     <Compile Include="Services\ProductSizeDetailService.cs" />
     <Compile Include="Services\ProductSizeService.cs" />
     <Compile Include="Services\ProductTypeService.cs" />
+    <Compile Include="Services\RankService.cs" />
     <Compile Include="Services\TableService.cs" />
     <Compile Include="Services\TableTypeService.cs" />
     <Compile Include="Services\UnitService.cs" />
     <Compile Include="Services\UserContactService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\VoucherService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UserControls\ControlbarUC.xaml.cs">
       <DependentUpon>ControlbarUC.xaml</DependentUpon>
@@ -270,6 +276,7 @@
     <Compile Include="ViewModel\AdminVM\Table\RecommendProductViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\SalesViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\TableViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Voucher\VoucherViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\IConstraintViewModel.cs" />
     <Compile Include="ViewModel\LoginVM\LoginViewModel.cs" />
@@ -348,6 +355,9 @@
     </Compile>
     <Compile Include="Views\Admin\TablePage\TablePage.xaml.cs">
       <DependentUpon>TablePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\VoucherPage\MainVoucherPage.xaml.cs">
+      <DependentUpon>MainVoucherPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -497,6 +507,10 @@
     <Page Include="Views\Admin\TablePage\TablePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Admin\VoucherPage\MainVoucherPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Login\LoginPage.xaml">
       <SubType>Designer</SubType>
