@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewmodelChatAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Chat"
     xmlns:viewmodelEmployyAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Employee"
     xmlns:viewmodelIngredientAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Ingredient"
     xmlns:viewmodelLogin="clr-namespace:Coffee.ViewModel.LoginVM"
@@ -9,7 +10,8 @@
     xmlns:viewmodelSettingAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Setting"
     xmlns:viewmodelStatisticAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Statistic"
     xmlns:viewmodelTableAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Table"
-    xmlns:viewmodelUserControl="clr-namespace:Coffee.ViewModel.UserControlVM">
+    xmlns:viewmodelUserControl="clr-namespace:Coffee.ViewModel.UserControlVM"
+    xmlns:viewmodelVoucherAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Voucher">
     <viewmodelUserControl:ControlbarViewModel x:Key="ControlbarVM" />
     <viewmodelMainAdmin:MainAdminViewModel x:Key="AdminVM" />
     <viewmodelEmployyAdmin:EmployeeViewModel x:Key="EmployeeVM" />
@@ -19,4 +21,6 @@
     <viewmodelTableAdmin:MainTableViewModel x:Key="TableVM" />
     <viewmodelStatisticAdmin:StatisticViewModel x:Key="StatisticVM" />
     <viewmodelSettingAdmin:SettingViewModel x:Key="SettingVM" />
+    <viewmodelChatAdmin:ChatViewModel x:Key="ChatVM" />
+    <viewmodelVoucherAdmin:VoucherViewModel x:Key="VoucherVM" />
 </ResourceDictionary>
