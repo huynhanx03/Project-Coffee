@@ -1,7 +1,6 @@
 import { getDatabase, ref, onValue, push, get, set, child, orderByChild, query } from "firebase/database";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { orderBy } from "firebase/firestore";
-import getUserData from "./StorageController";
+import {getUserData} from "./StorageController";
 
 /**
  * @notice Get new message id in the database
@@ -34,12 +33,23 @@ const db = getDatabase();
  * @param message the message that user want to send
  */
 const sendMessage = async (message) => {
-    const currentTime = new Date().toString();
+    const currentDate = new Date();
+    const options = { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit',
+        hour12: false
+      };
+    const formattedDate = currentDate.toLocaleString('vi-VN', options);
+
     const newId = await getNewId();
     const dataUser = await getUserData();
 
     set(ref(db, `TinNhan/${dataUser.MaNguoiDung}/${newId}`), {
-        ThoiGian: currentTime,
+        ThoiGian: formattedDate,
         NguoiGui: dataUser.HoTen,
         NoiDung: message,
         MaKH: dataUser.MaNguoiDung,

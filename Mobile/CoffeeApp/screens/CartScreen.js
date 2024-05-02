@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     FlatList,
     Pressable,
@@ -45,18 +45,18 @@ const CartScreen = () => {
     }
 
     //calculate total price of all items in cart
-    const handleTotalPrice = () => {
+    const handleTotalPrice = useMemo(() => {
         let total = 0;
         cart.forEach((item) => {
             total += item.SoLuongGioHang * item.Gia;
         });
 
         setTotalPrice(total);
-    }
-
-    useEffect(() => {
-        handleTotalPrice();
     }, [cart])
+
+    // useEffect(() => {
+    //     handleTotalPrice();
+    // }, [cart])
 
     return (
         <View className="flex-1">
@@ -85,38 +85,7 @@ const CartScreen = () => {
 
             <View
                 className="mx-5 pt-2 space-y-3 flex-1"
-                // showsVerticalScrollIndicator={false}
-                >
-                {/* address */}
-                <View className="flex-row items-center gap-3">
-                    <Icons.MapPinIcon size={24} color={"red"} />
-                    <Text className="text-base">Địa chỉ nhận hàng</Text>
-                </View>
-
-                <Pressable
-                    onPress={() => navigation.navigate("Address")}
-                    className="ml-9 space-y-1 flex-row justify-between">
-                    <View style={{ width: wp(70) }}>
-                        <View className="flex-row gap-1 items-center">
-                            <Text className="text-base">
-                                {addressData?.HoTen}
-                            </Text>
-                            <Text>|</Text>
-                            <Text className="text-base">
-                                {addressData?.SoDienThoai}
-                            </Text>
-                        </View>
-                        <View>
-                            <Text>{addressData?.DiaChi}</Text>
-                        </View>
-                    </View>
-
-                    <View>
-                        <Icons.ChevronRightIcon size={24} color={"black"} />
-                    </View>
-                </Pressable>
-
-                <Divider />
+            >
 
                 {/* item cart */}
                 <View className="space-y-2 flex-1">

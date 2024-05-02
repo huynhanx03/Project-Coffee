@@ -20,11 +20,16 @@ import ItemPayList from "../components/itemPayList";
 import { colors } from "../theme";
 import { formatPrice } from "../utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as geolib from 'geolib';
+import { clearCart } from "../redux/slices/cartSlice";
+import { removeItemCart } from "../controller/CartController";
+import Toast from "react-native-toast-message";
+import { saveOrder } from "../controller/OrderController";
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const addressData = getDefaultAddress();
     const [totalProduct, setTotalProduct] = useState(0);
     const [transFee, setTransFee] = useState(10000); // 10,000 VND
@@ -56,7 +61,19 @@ const PreparePayScreen = () => {
         return distance;
     }
 
-    const handleCheckOut = () => {
+    const handleCheckOut = async () => {
+        if (!addressData) {
+            Toast.show({
+                type: "error",
+                text1: "Lỗi",
+                text2: "Vui lòng chọn địa chỉ nhận hàng",
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+                visibilityTime: 2000,
+            })
+            return
+        }
         const distance = handleCheckDistance();
         if (!distance) {
             Alert.alert(
@@ -70,7 +87,9 @@ const PreparePayScreen = () => {
 
             return;
         }
-
+        saveOrder(cart);
+        dispatch(clearCart());
+        await removeItemCart();
         navigation.navigate("OrderSuccess");
     }
 

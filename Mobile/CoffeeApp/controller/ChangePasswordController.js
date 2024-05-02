@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDatabase, ref, set, update } from "firebase/database";
-import getUserData from "./StorageController";
+import {getUserData} from "./StorageController";
 
 /**
  * @notice Check if the old password is correct

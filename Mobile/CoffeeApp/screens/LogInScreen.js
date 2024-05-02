@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import { handleLogin } from "../controller/LoginController";
 import Toast from "react-native-toast-message";
-import getUserData from "../controller/StorageController";
+import {getUserData} from "../controller/StorageController";
 import { useDispatch } from "react-redux";
 import { getCart } from "../controller/CartController";
 import { addToCartFromDatabase } from "../redux/slices/cartSlice";

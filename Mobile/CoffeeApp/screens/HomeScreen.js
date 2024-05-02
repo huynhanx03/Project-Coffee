@@ -23,7 +23,7 @@ import { getCategories, getProducts } from "../controller/ProductController";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "../controller/CartController";
 import { addToCartFromDatabase } from "../redux/slices/cartSlice";
-import getUserData from "../controller/StorageController";
+import {getUserData} from "../controller/StorageController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -31,6 +31,7 @@ const HomeScreen = () => {
     const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
     const [categories, setCategories] = useState(null);
+    const [user, setUser] = useState(null);
 
     const addressData = getDefaultAddress();
 
@@ -58,6 +59,7 @@ const HomeScreen = () => {
                     HinhAnh: listProducts[key].HinhAnh,
                     SoLuong: listProducts[key].SoLuong,
                     LoaiSanPham: listProducts[key].LoaiSanPham,
+                    Mota: listProducts[key].Mota,
                     Size: {
                         Nho: {
                             TenKichThuoc:
@@ -100,9 +102,19 @@ const HomeScreen = () => {
         }
     }
 
+    const getUser = async () => {
+        try {
+            const userData = await getUserData();
+            setUser(userData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         handleGetProducts();
         handleGetCategories();
+        getUser();
         // handleGetCart();
     }, []);
 
@@ -132,10 +144,22 @@ const HomeScreen = () => {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Image
-                                source={require("../assets/images/avtDemo.png")}
-                                style={{ width: hp(8), height: hp(8) }}
-                            />
+                            {
+                                user?.HinhAnh ? (
+                                    <Image
+                                        source={{uri: user?.HinhAnh}}
+                                        style={{ width: hp(8), height: hp(8) }}
+                                        resizeMode="cover"
+                                        className='rounded-full'
+                                    />
+                                ):(
+                                    <Image
+                                        source={require("../assets/images/avtDemo.png")}
+                                        style={{ width: hp(8), height: hp(8) }}
+                                        className='rounded-full'
+                                    />
+                                )
+                            }
                         </View>
                     </View>
 
@@ -148,7 +172,6 @@ const HomeScreen = () => {
                             />
 
                             <TouchableOpacity
-                                onPress={handleGetProducts}
                                 className="p-1 bg-yellow-950 rounded-lg"
                             >
                                 <Icons.MagnifyingGlassIcon
