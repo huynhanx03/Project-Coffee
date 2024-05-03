@@ -59,5 +59,29 @@ namespace Coffee.DALs
                 return (ex.Message, null);
             }
         }
+
+        /// <summary>
+        /// Lấy mức độ thân thiết theo mã mức độ thân thiết
+        /// </summary>
+        /// <param name="rankID"></param>
+        /// <returns></returns>
+        public async Task<(string, RankModel)> getRank(string rankID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    FirebaseResponse response = await context.Client.GetTaskAsync("MucDoThanThiet/" + rankID);
+
+                    RankModel rank = response.ResultAs<RankModel>();
+
+                    return ("Lấy mức độ thân thiết thành công", rank);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
     }
 }

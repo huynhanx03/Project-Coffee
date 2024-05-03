@@ -152,6 +152,37 @@ namespace Coffee.DALs
         }
 
         /// <summary>
+        /// Kiểm tra số điện thoại đã tồn tại chưa
+        /// </summary>
+        /// <param name="userNumberPhone"></param>
+        /// <returns>
+        /// </returns>
+        public async Task<UserDTO> getUserByNumberphone(string userNumberPhone)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    FirebaseResponse response = await context.Client.GetTaskAsync("NguoiDung");
+                    if (response.Body != null && response.Body != "null")
+                    {
+                        Dictionary<string, UserDTO> data = response.ResultAs<Dictionary<string, UserDTO>>();
+
+                        UserDTO user = data.Values.FirstOrDefault(u => u.SoDienThoai == userNumberPhone);
+
+                        return user;
+                    }
+
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Kiểm tra CCCD/CMND đã tồn tại chưa
         /// </summary>
         /// <param name="user"></param>

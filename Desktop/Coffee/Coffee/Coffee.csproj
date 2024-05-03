@@ -177,6 +177,8 @@
     <Compile Include="DALs\BillDAL.cs" />
     <Compile Include="DALs\BillImportDAL.cs" />
     <Compile Include="DALs\ChatDAL.cs" />
+    <Compile Include="DALs\CustomerDAL.cs" />
+    <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DALs\EmployeeDAL.cs" />
     <Compile Include="DALs\IngredientDAL.cs" />
     <Compile Include="DALs\PositionDAL.cs" />
@@ -216,11 +218,14 @@
     <Compile Include="Models\BillModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\DetailBillModel.cs" />
+    <Compile Include="Models\DetailRankModel.cs" />
+    <Compile Include="Models\DetailVoucherModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RankModel.cs" />
     <Compile Include="Services\BillImportService.cs" />
     <Compile Include="Services\BillService.cs" />
     <Compile Include="Services\ChatService.cs" />
+    <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\IngredientService.cs" />
     <Compile Include="Services\PositionService.cs" />

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,7 +17,7 @@ using static Coffee.Utils.Constants;
 
 namespace Coffee.ViewModel.AdminVM.Table
 {
-    public partial class MainTableViewModel: BaseViewModel
+    public partial class MainTableViewModel: BaseViewModel, IConstraintViewModel
     {
         #region variable
         private ObservableCollection<DetailBillDTO> _DetailBillList = new ObservableCollection<DetailBillDTO>();
@@ -64,6 +65,30 @@ namespace Coffee.ViewModel.AdminVM.Table
             get { return _EmployeeName; }
             set { _EmployeeName = value; OnPropertyChanged(); }
         }
+        
+        private string _CustomeName = "Khách vãng lai";
+
+        public string CustomeName
+        {
+            get { return _CustomeName; }
+            set { _CustomeName = value; OnPropertyChanged(); }
+        }
+        
+        private string _CustomerPhone;
+
+        public string CustomerPhone
+        {
+            get { return _CustomerPhone; }
+            set { _CustomerPhone = value; OnPropertyChanged(); }
+        }
+        
+        private UserDTO _Customer;
+
+        public UserDTO Customer
+        {
+            get { return _Customer; }
+            set { _Customer = value; OnPropertyChanged(); }
+        }
 
         private TableDTO currentTable { get; set; }
         private BillModel billCurrent { get; set; }
@@ -78,6 +103,7 @@ namespace Coffee.ViewModel.AdminVM.Table
         public ICommand loadDateSalesIC { get; set; }
         public ICommand bookingIC { get; set; }
         public ICommand payIC { get; set; }
+        public ICommand loadCustomerIC { get; set; }
 
         #endregion
 
@@ -198,13 +224,25 @@ namespace Coffee.ViewModel.AdminVM.Table
                 MaNhanVien = Memory.user.MaNguoiDung,
                 NgayTao = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
                 TongTien = TotalBill,
-                TrangThai = StatusBill.UNPAID
+                TrangThai = StatusBill.UNPAID,
+                MaKhachHang = ""
             };
+
+            if (Customer != null)
+                bill.MaKhachHang = Customer.MaNguoiDung;
 
             (string label, bool isCreate) = await BillService.Ins.createBill(bill, DetailBillList);
         
             if (isCreate)
             {
+                // Cộng điểm cho khách hàng
+                if (Customer != null)
+                {
+                    (string labelUpdatePoint, double point) = await CustomerService.Ins.updatePointRankCustomer(Customer.MaNguoiDung, (double)bill.TongTien / 10000);
+
+                    CustomerService.Ins.checkUpdateRankCustomer(Customer.MaNguoiDung, point);
+                }
+
                 // Thành công: Xoá số lượng sản phẩm
                 reduceProduct();
 
@@ -213,6 +251,7 @@ namespace Coffee.ViewModel.AdminVM.Table
 
                 (string labelTable, TableDTO table) = await TableService.Ins.updateTable(currentTable);
                 loadTableList();
+                TotalBill = 0;
 
                 billCurrent = bill;
 
@@ -236,17 +275,29 @@ namespace Coffee.ViewModel.AdminVM.Table
                 //Lưu thế thông tin chi tiết hoá đơn lên trên cơ sở dữ liệu
                 BillModel bill = new BillModel
                 {
-                   MaBan = null,
+                   MaBan = "",
                    MaNhanVien = Memory.user.MaNguoiDung,
                    NgayTao = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
                    TongTien = TotalBill,
-                   TrangThai = StatusBill.PAID
+                   TrangThai = StatusBill.PAID,
+                   MaKhachHang = ""
                 };
+
+                if (Customer != null)
+                    bill.MaKhachHang = Customer.MaNguoiDung;
 
                 (string label, bool isCreate) = await BillService.Ins.createBill(bill, DetailBillList);
 
                 if (isCreate)
                 {
+                    // Cộng điểm cho khách hàng
+                    if (Customer != null)
+                    {
+                        (string labelUpdatePoint, double point) = await CustomerService.Ins.updatePointRankCustomer(Customer.MaNguoiDung, (double)bill.TongTien / 10000);
+
+                        CustomerService.Ins.checkUpdateRankCustomer(Customer.MaNguoiDung, point);
+                    }
+
                     // Giảm số lượng sản phẩm
                     reduceProduct();
 
@@ -255,6 +306,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                     ms.ShowDialog();
 
                     DetailBillList.Clear();
+                    TotalBill = 0;
                 }
                 else
                 {
@@ -309,6 +361,40 @@ namespace Coffee.ViewModel.AdminVM.Table
             }
 
             loadMenuList();
+        }
+
+        /// <summary>
+        /// tìm kiếm khách hàng theo số điện thoại
+        /// </summary>
+        private async void loadCustomer()
+        {
+            if (CustomerPhone.Length == 10)
+            {
+                // Kiểm tra số điện thoại
+                UserDTO user = await UserService.Ins.getUserByNumberphone(CustomerPhone);
+
+                if (user != null)
+                {
+                    Customer = user;
+                    CustomeName = user.HoTen;
+                }
+            }
+            else
+            {
+                CustomeName = "Khách vãng lai";
+                Customer = null;
+            }
+        }
+
+        /// <summary>
+         /// Kiểm tra chỉ được nhập số
+         /// </summary>
+         /// <param name="sender"></param>
+         /// <param name="e"></param>
+        public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

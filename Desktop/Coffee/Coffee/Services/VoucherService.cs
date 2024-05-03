@@ -51,7 +51,13 @@ namespace Coffee.Services
 
             voucher.MaPhieuGiamGia = NewVoucher;
 
-            return await VoucherDAL.Ins.createVoucher(voucher);
+            (string label, VoucherDTO voucherCreate) = await VoucherDAL.Ins.createVoucher(voucher);
+
+            (string labelGetCustomerID, List<string> customerIDList) = await CustomerDAL.Ins.getCustomerIDByRankMininum(voucher.HangToiThieu);
+
+            await VoucherDAL.Ins.createDetailVoucher(voucher.MaPhieuGiamGia, customerIDList);
+
+            return (label, voucherCreate);
         }
 
         /// <summary>

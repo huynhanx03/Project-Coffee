@@ -88,6 +88,33 @@ namespace Coffee.DALs
             }
         }
 
+        public async Task<(string, bool)> createDetailVoucher(string voucherID, List<string> customerIDList)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    DetailVoucherModel detailVoucher = new DetailVoucherModel
+                    {
+                        MaPhieuGiamGia = voucherID,
+                        TrangThai = "Chưa sử dụng"
+                    };
+
+                    foreach (var customerID in customerIDList)
+                    {
+                        detailVoucher.MaKhachHang = customerID;
+                        await context.Client.SetTaskAsync("PhieuGiamGia/" + voucherID + "/ChiTiet/" + customerID, detailVoucher);
+                    }
+
+                    return ("Thêm phiếu giảm giá thành công", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, false);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

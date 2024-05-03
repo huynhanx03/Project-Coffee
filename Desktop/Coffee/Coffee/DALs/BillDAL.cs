@@ -189,17 +189,16 @@ namespace Coffee.DALs
                     FirebaseResponse billResponse = await context.Client.GetTaskAsync("HoaDon");
                     Dictionary<string, BillDTO> billData = billResponse.ResultAs<Dictionary<string, BillDTO>>();
 
-                    // Lấy dữ liệu từ nút "Employees" trong Firebase
-                    FirebaseResponse employeeResponse = await context.Client.GetTaskAsync("NhanVien");
-                    Dictionary<string, EmployeeDTO> employeeData = employeeResponse.ResultAs<Dictionary<string, EmployeeDTO>>();
+                    // Lấy dữ liệu từ nút "User" trong Firebase
+                    FirebaseResponse userResponse = await context.Client.GetTaskAsync("NguoiDung");
+                    Dictionary<string, UserDTO> userData = userResponse.ResultAs<Dictionary<string, UserDTO>>();
 
                     // Lấy dữ liệu từ nút "Tables" trong Firebase
                     FirebaseResponse tableResponse = await context.Client.GetTaskAsync("Ban");
                     Dictionary<string, TableDTO> tableData = tableResponse.ResultAs<Dictionary<string, TableDTO>>();
 
                     var result = (from bill in billData.Values
-                                  join employee in employeeData.Values on bill.MaNhanVien equals employee.MaNhanVien
-                                  join table in tableData.Values on bill.MaBan equals table.MaBan
+                                  join employee in userData.Values on bill.MaNhanVien equals employee.MaNguoiDung
                                   select new BillDTO
                                   {
                                       MaBan = bill.MaBan,
@@ -207,7 +206,11 @@ namespace Coffee.DALs
                                       MaNhanVien = bill.MaNhanVien,
                                       NgayTao = bill.NgayTao,
                                       TongTien = bill.TongTien,
-                                      TrangThai = bill.TrangThai
+                                      TrangThai = bill.TrangThai,
+                                      MaKhachHang = bill.MaKhachHang,
+                                      TenNhanVien = employee.HoTen,
+                                      TenKhachHang = userData.Values.FirstOrDefault(x => x.MaNguoiDung == bill.MaKhachHang)?.HoTen ?? "Khách vãng lai",
+                                      TenBan = tableData.Values.FirstOrDefault(x => x.MaBan == bill.MaBan)?.TenBan ?? "Mang về"
                                   }).ToList();
 
                     return ("Lấy danh sách hóa đơn thành công", result);
@@ -244,8 +247,7 @@ namespace Coffee.DALs
                     Dictionary<string, TableDTO> tableData = tableResponse.ResultAs<Dictionary<string, TableDTO>>();
 
                     var result = (from bill in billData.Values
-                                  join user in userData.Values on bill.MaNhanVien equals user.MaNguoiDung
-                                  join table in tableData.Values on bill.MaBan equals table.MaBan
+                                  join employee in userData.Values on bill.MaNhanVien equals employee.MaNguoiDung
                                   where DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) >= fromdate &&
                                     DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture) <= todate
                                   select new BillDTO
@@ -256,7 +258,10 @@ namespace Coffee.DALs
                                       NgayTao = bill.NgayTao,
                                       TongTien = bill.TongTien,
                                       TrangThai = bill.TrangThai,
-                                      TenNhanVien = user.HoTen
+                                      MaKhachHang = bill.MaKhachHang,
+                                      TenNhanVien = employee.HoTen,
+                                      TenKhachHang = userData.Values.FirstOrDefault(x => x.MaNguoiDung == bill.MaKhachHang)?.HoTen ?? "Khách vãng lai",
+                                      TenBan = tableData.Values.FirstOrDefault(x => x.MaBan == bill.MaBan)?.TenBan ?? "Mang về"
                                   }).ToList();
 
                     return ("Lấy danh sách hóa đơn thành công", result);
