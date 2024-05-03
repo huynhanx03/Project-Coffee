@@ -27,7 +27,18 @@ const getNewId = async () => {
 /**
  * @notice Save order to database
  */
-const saveOrder = async (products) => {
+const saveOrder = async (products, total) => {
+    const currentDate = new Date();
+    const options = { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit',
+        hour12: false
+      };
+    const formattedDate = currentDate.toLocaleString('vi-VN', options);
     const newId = await getNewId();
     const userData = await getUserData();
     const db = getDatabase();
@@ -38,7 +49,9 @@ const saveOrder = async (products) => {
         TrangThai: "Chờ xác nhận",
         SanPham: {
             ...products
-        }
+        },
+        ThanhTien: total,
+        NgayTaoDon: formattedDate,
     });
 };
 

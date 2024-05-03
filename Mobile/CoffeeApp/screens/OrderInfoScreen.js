@@ -5,6 +5,7 @@ import * as Icons from "react-native-heroicons/solid";
 import ItemOrder from "../components/itemOrder";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import ItemOrderList from "../components/itemOrderList";
 
 const OrderInfoScreen = () => {
     const navigation = useNavigation()
@@ -40,10 +41,8 @@ const OrderInfoScreen = () => {
                 </View>
             </SafeAreaView>
 
-            <ScrollView showsVerticalScrollIndicator={false} className='pt-1' contentContainerStyle={{padding: 8}}>
-                <ItemOrder />
-                <ItemOrder />
-                <ItemOrder />
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{padding: 8}}>
+                <ItemOrderList />
             </ScrollView>
         </View>
     );

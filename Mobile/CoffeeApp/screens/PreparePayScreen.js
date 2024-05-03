@@ -87,7 +87,7 @@ const PreparePayScreen = () => {
 
             return;
         }
-        saveOrder(cart);
+        saveOrder(cart, total);
         dispatch(clearCart());
         await removeItemCart();
         navigation.navigate("OrderSuccess");
