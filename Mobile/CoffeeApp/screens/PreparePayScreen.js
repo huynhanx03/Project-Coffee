@@ -26,6 +26,7 @@ import { clearCart } from "../redux/slices/cartSlice";
 import { removeItemCart } from "../controller/CartController";
 import Toast from "react-native-toast-message";
 import { saveOrder } from "../controller/OrderController";
+import { removeVoucher } from "../redux/slices/voucherSlice";
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
@@ -34,7 +35,27 @@ const PreparePayScreen = () => {
     const [totalProduct, setTotalProduct] = useState(0);
     const [transFee, setTransFee] = useState(10000); // 10,000 VND
     const [total, setTotal] = useState(0);
+    const [isVisible, setIsVisible] = useState(false);
+    const [coord, setCoord] = useState({latitude: 0, longtitude: 0});
     const cart = useSelector((state) => state.cart.cart);
+    const voucher = useSelector((state) => state.voucher.voucher)
+
+    useEffect(() => {
+        if (addressData) {
+            setCoord({
+                latitude: addressData.latitude,
+                longtitude: addressData.longtitude,
+            });
+        }
+    }, [addressData])
+    
+    useEffect(() => {
+        if (Object.keys(voucher).length > 0) {
+            setIsVisible(true);
+        } else {
+            setIsVisible(false);
+        }
+    }, [voucher])
 
     const handleTotal = () => {
         let totalProduct = 0;
@@ -42,23 +63,48 @@ const PreparePayScreen = () => {
             totalProduct += item.SoLuongGioHang * item.Gia;
         });
 
-        setTotal(totalProduct + transFee);
+        if (voucher.PhanTramGiam) {
+            setTotal((totalProduct * (1 - voucher.PhanTramGiam / 100) + transFee));
+        } else {
+            setTotal(totalProduct + transFee);
+        }
 
         setTotalProduct(totalProduct);
     }
 
     useEffect(() => {
         handleTotal();
-    }, [totalProduct, transFee])
+    }, [totalProduct, transFee, voucher])
+
+    const handleCalDistance = () => {
+        const distance = geolib.getPreciseDistance(
+            { latitude: 10.8700233, longitude: 106.8025735 },
+            { latitude: coord.latitude, longitude: coord.longtitude },
+            1
+        );
+
+        return distance;
+    }
+
+    useEffect(() => {
+        const distance = handleCalDistance();
+        let TransFee = distance / 1000 * 10000;
+        setTransFee(TransFee);
+    }, [coord])
 
     const handleCheckDistance = () => {
-        const distance = geolib.isPointWithinRadius(
+        const isDistance = geolib.isPointWithinRadius(
             { latitude: 10.8700233, longitude: 106.8025735 },
             { latitude: addressData.latitude, longitude: addressData.longtitude },
             5000
         )
 
-        return distance;
+        return isDistance;
+    }
+
+    const handleCancelVoucher = () => {
+        dispatch(removeVoucher());
+        setIsVisible(false);
     }
 
     const handleCheckOut = async () => {
@@ -74,8 +120,8 @@ const PreparePayScreen = () => {
             })
             return
         }
-        const distance = handleCheckDistance();
-        if (!distance) {
+        const isDistance = handleCheckDistance();
+        if (!isDistance) {
             Alert.alert(
                 "Thông báo",
                 "Địa chỉ nhận hàng không hỗ trợ giao hàng",
@@ -164,7 +210,7 @@ const PreparePayScreen = () => {
                 <Divider className='p-1 bg-white'/>
 
                 <View className='p-3'>
-                    <TouchableOpacity className='flex-row justify-between'>
+                    <TouchableOpacity onPress={() => navigation.navigate('Voucher')} className='flex-row justify-between'>
                         <View className='flex-row space-x-1'>
                             <Icons.TicketIcon size={24} color={colors.active} strokeWidth={2} />
                             <Text className='text-base font-semibold'>Voucher giảm giá</Text>
@@ -172,6 +218,26 @@ const PreparePayScreen = () => {
                         <Icons.ChevronRightIcon size={24} color={"black"} />
                     </TouchableOpacity>
                 </View>
+
+                {
+                    isVisible && (
+                        <View className='mx-3'>
+                            <View className='p-2 bg-white rounded-md'>
+                                <Text className='text-base font-semibold'>Áp dụng voucher: {voucher.NoiDung}</Text>
+                                <View className='flex-row items-end'>
+                                    <Text className='mb-1'>Giảm giá: </Text>
+                                    <Text className='text-lg font-bold text-red-500'>{voucher.PhanTramGiam}%</Text>
+                                </View>
+
+                                <View className='absolute right-0'>
+                                    <TouchableOpacity onPress={handleCancelVoucher} className='items-center justify-center rounded-full' style={{width: wp(8), height: wp(8)}}>
+                                        <Icons.XMarkIcon size={24} color='black'/>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    )
+                }
 
                 <Divider className='p-1 bg-white'/>
 
@@ -226,6 +292,14 @@ const PreparePayScreen = () => {
                                 <Text className='text-base'>Tổng tiền phí vận chuyển: </Text>
                                 <Text className='text-base'>{formatPrice(transFee)}</Text>
                             </View>
+                            {
+                                isVisible && (
+                                    <View className='flex-row justify-between'>
+                                        <Text className='text-base'>Khuyến mãi: </Text>
+                                        <Text className='text-base'>{voucher.PhanTramGiam}%</Text>
+                                    </View>
+                                )
+                            }
                             <View className='flex-row justify-between mt-1'>
                                 <Text className='text-base font-semibold'>Tổng thanh toán: </Text>
                                 <Text className='text-base font-semibold'>{formatPrice(total)}</Text>
