@@ -16,7 +16,9 @@ export const CartSlice = createSlice({
             }
         },
         addToCartFromDatabase: (state, action) => {
-            state.cart.push({...action.payload})
+            if (state.cart.length === 0) {
+                state.cart.push({...action.payload})
+            }
         },
         removeFromCart: (state, action) => {
             state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
