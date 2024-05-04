@@ -142,7 +142,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                     }
                     else
                     {
-                        MessageBoxCF msEr = new MessageBoxCF("Lỗi", MessageType.Error, MessageButtons.YesNo);
+                        MessageBoxCF msEr = new MessageBoxCF("Lỗi", MessageType.Error, MessageButtons.OK);
                         msEr.ShowDialog();
                     }
                 }

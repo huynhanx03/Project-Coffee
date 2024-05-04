@@ -69,5 +69,15 @@ namespace Coffee.Services
 
             return ("Lỗi", false);
         }
+
+        /// <summary>
+        /// Láy rank của khách hàng
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        public async Task<(string, string)> getRankCustomer(string customerID)
+        {
+            return await CustomerDAL.Ins.getRankCustomer(customerID);
+        }
     }
 }

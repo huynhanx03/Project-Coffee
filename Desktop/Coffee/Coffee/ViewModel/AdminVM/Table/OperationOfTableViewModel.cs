@@ -14,7 +14,7 @@ using System.Xml;
 
 namespace Coffee.ViewModel.AdminVM.Table
 {
-    public partial class MainTableViewModel: BaseViewModel
+    public partial class MainTableViewModel: BaseViewModel, IConstraintViewModel
     {
         #region variable
         private int TypeOperation { get; set; }

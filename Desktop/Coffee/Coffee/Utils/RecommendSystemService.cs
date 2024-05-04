@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace Coffee.Utils
 {
@@ -34,7 +35,13 @@ namespace Coffee.Utils
         {
             try
             {
-                string json = JsonConvert.SerializeObject(MaSanPham);
+                var data = new
+                {
+                    MaSanPham = MaSanPham,
+                    MaKhachHang = ""
+                };
+
+                string json = JsonConvert.SerializeObject(data);
 
                 // Gửi yêu cầu POST đến Colab
                 using (var httpClient = new HttpClient())

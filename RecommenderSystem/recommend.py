@@ -12,11 +12,13 @@ class HybridRecommender:
         self.cb_recommender = self.CB(products)
         self.cb_recommender.fit()
 
-        # self.cf_recommender = self.CF(coffee_danh_gia = ratings, k = k)
-        # self.cf_recommender.clear_data()
-        # self.cf_recommender.fit()
+        self.cf_recommender = self.CF(evaluates = ratings, k = k)
+        self.cf_recommender.clear_data()
+        self.cf_recommender.fit()
 
         self.k = k
+
+        self.products = products
 
     class CB(object):
         def __init__(self, Y_data, k = 10):
@@ -75,31 +77,37 @@ class HybridRecommender:
         Từ đó, hệ thống gợi ý những items gần giống với những items
         mà user có mức độ quan tâm cao.
         """
-        def __init__(self, coffee_danh_gia, k = 10, dist_func = cosine_similarity, uuCF = 1):
+        def __init__(self, evaluates, k = 10, dist_func = cosine_similarity, uuCF = 1):
             self.uuCF = uuCF # user-user (1) or item-item (0) CF
             self.k = k
             self.dist_func = dist_func
-            self.coffee_danh_gia = coffee_danh_gia
+            self.evaluates = evaluates
             self.Ybar_data = None
 
         def clear_data(self):
-            self.coffee_danh_gia['khach_hang_id'] = [int(KH[2:]) for KH in self.coffee_danh_gia['khach_hang_id']]
-            self.coffee_danh_gia['mon_an_id'] = [int(SP[2:]) for SP in self.coffee_danh_gia['mon_an_id']]
-            self.coffee_danh_gia['danh_gia'] = [int(DG) for DG in self.coffee_danh_gia['danh_gia']]
+            for evaluate in self.evaluates:
+                evaluate['MaKhachHang'] = int(evaluate['MaKhachHang'][2:])
+                evaluate['MaSanPham'] = int(evaluate['MaSanPham'][2:])
+                evaluate['DiemDanhGia'] = int(evaluate['DiemDanhGia'])
 
-            coffee_danh_gia_data = self.coffee_danh_gia.to_numpy()
-            self.khach_hang = np.unique(coffee_danh_gia_data[:, 0])
+            self.evaluates = np.array([
+                [item['MaKhachHang'], item['MaSanPham'], item['DiemDanhGia']]
+                for item in self.evaluates
+            ])
 
-            self.khach_hang.sort()
-            indices = np.searchsorted(self.khach_hang, coffee_danh_gia_data[:, 0])
-            coffee_danh_gia_data[:, 0] = indices
+            evaluates_data = np.array(self.evaluates)
+            
+            self.cusomter = np.unique(evaluates_data[:, 0])
+            self.cusomter.sort()
+            indices = np.searchsorted(self.cusomter, evaluates_data[:, 0])
+            evaluates_data[:, 0] = indices
 
-            self.mon_an = np.unique(coffee_danh_gia_data[:, 1])
-            self.mon_an.sort()
-            indices = np.searchsorted(self.mon_an, coffee_danh_gia_data[:, 1])
-            coffee_danh_gia_data[:, 1] = indices
+            self.product = np.unique(evaluates_data[:, 1])
+            self.product.sort()
+            indices = np.searchsorted(self.product, evaluates_data[:, 1])
+            evaluates_data[:, 1] = indices
 
-            self.Y_data = coffee_danh_gia_data if self.uuCF else coffee_danh_gia_data[:, [1, 0, 2]]
+            self.Y_data = evaluates_data if self.uuCF else evaluates_data[:, [1, 0, 2]]
             self.users = np.unique(self.Y_data[:, 0])
             self.items = np.unique(self.Y_data[:, 1])
             self.n_users = len(self.users)
@@ -181,7 +189,6 @@ class HybridRecommender:
             if self.uuCF: return self.__pred(u, i, normalized)
             return self.__pred(i, u, normalized)
 
-
         def recommend(self, u):
             """
             Determine all items should be recommended for user u.
@@ -200,6 +207,17 @@ class HybridRecommender:
 
             return recommended_items
 
+        def update_data_recommend(self, recommended_items):
+            """
+            INPUT: Các chỉ số của phần tử
+            OUTPUT: Các mã sản phẩm tương ứng
+            """
+
+            selected_values = [self.product[index] for index in recommended_items]
+            recommended_values = ["SP{:04d}".format(value) for value in selected_values]
+
+            return recommended_values
+
         def recommend_u(self, u):
             """
             INPUT: Mã ban đầu của khách hàng
@@ -207,54 +225,40 @@ class HybridRecommender:
             # Tách số ra chuỗi
             number_u = int(u[2:])
             # Mã khách hàng sau khi nén ra
-            indices = np.where(self.khach_hang == number_u)[0]
+            indices = np.where(self.cusomter == number_u)[0]
 
             if (len(indices) > 0):
                 return self.update_data_recommend(self.recommend(indices[0]))
             else:
                 return []
 
-        def update_data_recommend(self, recommended_items):
-            """
-            INPUT: Các chỉ số của phần tử
-            OUTPUT: Các mã sản phẩm tương ứng
-            """
-
-            selected_values = [self.khach_hang[index] for index in recommended_items]
-            recommended_values = ["SP{:04d}".format(value) for value in selected_values]
-
-            return recommended_values
-
-        def print_recommendation(self):
-            """
-            print all items which should be recommended for each user
-            """
-            print('Recommendation: ')
-            for u in range(self.n_users):
-                recommended_items = self.recommend(u)
-                if self.uuCF:
-                    print('Recommend item(s):', recommended_items, 'for user', u)
-                else:
-                    print('Recommend item', u, 'for user(s) : ', recommended_items)
-
     def recommend(self, user_id, product_id):
-        # Sử dụng Collaborative Filtering đầu tiên
-        # cf_recommendations = self.cf_recommender.recommend_u(user_id)
-        cf_recommendations = []
-        recommendations = cf_recommendations
+        recommendations = []
+
+        if user_id:
+            # Sử dụng Collaborative Filtering đầu tiên
+            # Chỉ có các mã sản phẩm
+            cf_recommendations = self.cf_recommender.recommend_u(user_id)
+            cf_recommendations = [product for product in self.products if product['MaSanPham'] in cf_recommendations]
+            recommendations = cf_recommendations
 
         if product_id:
-            if len(cf_recommendations) < self.k:
+            if len(recommendations) < self.k:
                 # Nếu không đủ, sử dụng Content-based Filtering
-                num_more = self.k - len(cf_recommendations)
+                num_more = self.k - len(recommendations)
                 cb_recommendations = self.cb_recommender.recommend(product_id)
 
                 for product in cb_recommendations:
+                    if product['MaSanPham'] == product_id:
+                        continue
+
                     if num_more == 0:
                         break
 
                     if product not in recommendations:
                         recommendations.append(product)
                         num_more -= 1
+
+        print(recommendations)
 
         return recommendations

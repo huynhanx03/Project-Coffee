@@ -75,7 +75,7 @@ namespace Coffee.DALs
         }
 
         /// <summary>
-        /// 
+        /// Láy rank của khách hàng
         /// </summary>
         /// <param name="customerID"></param>
         /// <returns></returns>

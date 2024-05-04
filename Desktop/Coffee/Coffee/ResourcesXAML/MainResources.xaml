@@ -11,7 +11,8 @@
     xmlns:viewmodelStatisticAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Statistic"
     xmlns:viewmodelTableAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Table"
     xmlns:viewmodelUserControl="clr-namespace:Coffee.ViewModel.UserControlVM"
-    xmlns:viewmodelVoucherAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Voucher">
+    xmlns:viewmodelVoucherAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Voucher"
+    xmlns:viewmodelEvaluateAdmin="clr-namespace:Coffee.ViewModel.AdminVM.Evaluate">
     <viewmodelUserControl:ControlbarViewModel x:Key="ControlbarVM" />
     <viewmodelMainAdmin:MainAdminViewModel x:Key="AdminVM" />
     <viewmodelEmployyAdmin:EmployeeViewModel x:Key="EmployeeVM" />
@@ -23,4 +24,5 @@
     <viewmodelSettingAdmin:SettingViewModel x:Key="SettingVM" />
     <viewmodelChatAdmin:ChatViewModel x:Key="ChatVM" />
     <viewmodelVoucherAdmin:VoucherViewModel x:Key="VoucherVM" />
+    <viewmodelEvaluateAdmin:EvaluateViewModel x:Key="EvaluateVM" />
 </ResourceDictionary>
