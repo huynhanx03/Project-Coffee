@@ -10,7 +10,7 @@ const uploadImage = async (image) => {
             HinhAnh: image
         })
 
-        return [true, "Cập nhật ảnh đại diện thành công"]
+        return [true, "Cập nhật thành công"]
     } catch (error) {
         console.log(error)
         return error

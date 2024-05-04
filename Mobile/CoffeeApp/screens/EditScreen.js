@@ -1,33 +1,25 @@
+import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
+import React, { useEffect, useState } from "react";
 import {
-    View,
-    Text,
     Dimensions,
     Image,
+    Pressable,
     ScrollView,
+    Text,
     TouchableOpacity,
-    Pressable
+    View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import Carousel from "react-native-reanimated-carousel";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import * as Icons from "react-native-heroicons/solid";
-import MenuItemProfile from "../components/menuItemProfile";
-import { useNavigation } from "@react-navigation/native";
-import InputCustom from "../components/inputCustom";
-import { colors } from "../theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { set } from "firebase/database";
 import {
-    getUserData,
-    removeUserData,
-    storeData,
-} from "../controller/StorageController";
-import * as ImagePicker from "expo-image-picker";
-import { Cloudinary, upload } from "@cloudinary/url-gen";
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
+import InputCustom from "../components/inputCustom";
+import MenuItemProfile from "../components/menuItemProfile";
+import { getUserData } from "../controller/StorageController";
 import { uploadImage } from "../controller/UploadAvatarController";
+import Toast from "react-native-toast-message";
 
 const width = Dimensions.get("window").width;
 
@@ -63,8 +55,17 @@ const EditScreen = () => {
             body: data,
         })
             .then((res) => res.json())
-            .then((data) => {
-                uploadImage(data.url);
+            .then(async (data) => {
+                const rs = await uploadImage(data.url);
+                Toast.show({
+                    type: rs[0] ? "success" : "error",
+                    text1: rs[1],
+                    text2: rs[0] ? "Vui lòng đăng nhập lại" : "Vui lòng thử lại",
+                    topOffset: 70,
+                    text1Style: { fontSize: 18 },
+                    text2Style: { fontSize: 15 },
+                    visibilityTime: 2000,
+                });
             });
     };
 
@@ -118,13 +119,18 @@ const EditScreen = () => {
                     >
                         {user?.HinhAnh ? (
                             <Image
-                            source={{uri: user?.HinhAnh}}
-                            resizeMode="cover"
-                            style={{ width: hp(12), height: hp(12) }}
-                            className="rounded-full"
-                        />
+                                source={{ uri: user?.HinhAnh }}
+                                resizeMode="cover"
+                                style={{ width: hp(12), height: hp(12) }}
+                                className="rounded-full"
+                            />
                         ) : (
-                            <Image source={require('../assets/images/avtDemo.png')} resizeMode='cover' style={{width: hp(12), height: hp(12)}} className='rounded-full'/>
+                            <Image
+                                source={require("../assets/images/avtDemo.png")}
+                                resizeMode="cover"
+                                style={{ width: hp(12), height: hp(12) }}
+                                className="rounded-full"
+                            />
                         )}
                     </View>
                 </View>
