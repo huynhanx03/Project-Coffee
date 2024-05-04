@@ -178,6 +178,7 @@
     <Compile Include="DALs\BillImportDAL.cs" />
     <Compile Include="DALs\ChatDAL.cs" />
     <Compile Include="DALs\CustomerDAL.cs" />
+    <Compile Include="DALs\EvaluateDAL.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DALs\EmployeeDAL.cs" />
     <Compile Include="DALs\IngredientDAL.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="DTOs\DetailImportDTO.cs" />
     <Compile Include="DTOs\DetailProductSizeDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="DTOs\EvaluateDTO.cs" />
     <Compile Include="DTOs\ImportDTO.cs" />
     <Compile Include="DTOs\IngredientDTO.cs" />
     <Compile Include="DTOs\PositionDTO.cs" />
@@ -227,6 +229,7 @@
     <Compile Include="Services\ChatService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\EvaluateService.cs" />
     <Compile Include="Services\IngredientService.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Services\ProductRecipeService.cs" />
@@ -262,6 +265,7 @@
     <Compile Include="ViewModel\AdminVM\Chat\ChatViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\OperationOfEmployeeViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Evaluate\EvaluateViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Ingredient\ImportViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Ingredient\IngredientViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Ingredient\OperationOfIngredientViewModel.cs" />
@@ -294,6 +298,9 @@
     </Compile>
     <Compile Include="Views\Admin\EmployeePage\OperationEmployeeWindow.xaml.cs">
       <DependentUpon>OperationEmployeeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\EvaluatePage\MainEvaluatePage.xaml.cs">
+      <DependentUpon>MainEvaluatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\IngredientPage\BillImportWindow.xaml.cs">
       <DependentUpon>BillImportWindow.xaml</DependentUpon>
@@ -422,6 +429,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\EmployeePage\OperationEmployeeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\EvaluatePage\MainEvaluatePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

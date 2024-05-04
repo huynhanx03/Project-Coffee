@@ -88,6 +88,9 @@
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="VoucherBtn">
             <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
         </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="EvaluateBtn">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
     </Window.Triggers>
 
     <i:Interaction.Triggers>
@@ -337,6 +340,22 @@
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="TicketPercent" Style="{StaticResource menuButtonIcon}" />
                                 <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Voucher}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Border>
+
+                    <!--  Button quản lý đánh giá sản phẩm  -->
+                    <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                        <RadioButton
+                            Name="EvaluateBtn"
+                            Command="{Binding loadEvaluatePageIC}"
+                            CommandParameter="{Binding ElementName=mainFrame}"
+                            GroupName="mainOptions"
+                            Style="{StaticResource MenuButtonMain}"
+                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountStar" Style="{StaticResource menuButtonIcon}" />
+                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Evaluate}" />
                             </StackPanel>
                         </RadioButton>
                     </Border>

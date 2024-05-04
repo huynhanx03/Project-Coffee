@@ -92,4 +92,7 @@
     <system:String x:Key="Release">Phát hành</system:String>
     <system:String x:Key="ReleaseVoucher">Phát hành phiếu giảm giá</system:String>
     <system:String x:Key="CustomeName">Tên khách hàng</system:String>
+    <system:String x:Key="Rank">Mức độ thân thiết</system:String>
+    <system:String x:Key="Evaluate">Đánh giá</system:String>
+    <system:String x:Key="Start">Sao</system:String>
 </ResourceDictionary>
