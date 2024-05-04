@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     Image,
     KeyboardAvoidingView,
@@ -23,6 +23,9 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import ItemReviewList from "../components/itemReviewList";
+import { Rating } from "react-native-ratings";
+import { getReview } from "../controller/ReviewController";
 const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({ route }) => {
@@ -40,6 +43,8 @@ const DetailItemScreen = ({ route }) => {
     const [note, setNote] = useState("");
     const [isFavorite, setIsFavorite] = useState(false);
     const scrollRef = useRef(null);
+    const [reviewList, setReviewList] = useState([])
+    const [ratingPoint, setRatingPoint] = useState(0)
 
     const cart = useSelector((state) => state.cart.cart);
 
@@ -60,7 +65,7 @@ const DetailItemScreen = ({ route }) => {
 
     const updateScrollView = () => {
         setTimeout(() => {
-            scrollRef?.current?.scrollToEnd({ animated: true });
+            scrollRef?.current?.scrollTo({x: 0, y: 500, animated: true})
         }, 100);
     };
 
@@ -123,6 +128,21 @@ const DetailItemScreen = ({ route }) => {
             visibilityTime: 2000,
         });
     };
+
+    const handleGetReview = async () => {
+        const reviews = await getReview(product.MaSanPham)
+        let totalRatingPoint = 0
+        reviews?.forEach(review => {
+            totalRatingPoint += review?.DiemDanhGia
+        }
+        )
+        setRatingPoint(totalRatingPoint/reviews.length)
+        setReviewList(reviews)
+    }
+
+    useEffect(() => {
+        handleGetReview()
+    }, [])
     return (
         <KeyboardAvoidingView
             behavior={ios ? "padding" : "height"}
@@ -172,7 +192,7 @@ const DetailItemScreen = ({ route }) => {
                     <Image
                         source={{ uri: product.HinhAnh }}
                         resizeMode="cover"
-                        style={{ width: "100%", height: 300, borderRadius: 16 }}
+                        style={{ width: "100%", height: 350, borderRadius: 16 }}
                     />
 
                     {/* info */}
@@ -199,9 +219,9 @@ const DetailItemScreen = ({ route }) => {
                     </View>
 
                     {/* star */}
-                    <View className="flex-row items-center space-x-5">
+                    <View className="flex-row items-center space-x-3">
                         <Icons.StarIcon size={24} color={"#fbbe21"} />
-                        <Text>4.8/5</Text>
+                        <Text className='text-base font-semibold'>{ratingPoint}/5</Text>
                     </View>
 
                     <Divider />
@@ -339,6 +359,26 @@ const DetailItemScreen = ({ route }) => {
                             placeholder="Ghi chú"
                             className="mb-10 text-base h-20 rounded-lg p-2 border border-gray-400"
                         />
+                    </View>
+                    
+                    {/* review */}
+                    <View>
+                        <Text className='text-lg font-bold'>Đánh giá sản phẩm</Text>
+                        <View className='flex-row items-center'>
+                            <Rating tintColor="#f2f2f2"
+                                    readonly
+                                    startingValue={ratingPoint}
+                                    type="star"
+                                    style={{alignItems: 'flex-start', marginRight: 10 }}/>
+                            <Text className='text-base font-semibold mr-1'>{ratingPoint}/5</Text>
+                            <Text className='text-base text-gray-400'>({reviewList.length} đánh giá)</Text>
+                        </View>
+                    </View>
+
+                    <View className='mt-10'>
+                        <View>
+                            {reviewList && <ItemReviewList reviewList={reviewList}/>}
+                        </View>
                     </View>
                 </ScrollView>
                 {/* add to cart */}
