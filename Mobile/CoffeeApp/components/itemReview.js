@@ -13,8 +13,8 @@ const ItemReview = (props) => {
     const review = props.review;
     const handleGetUser = async () => {
         try {
-            const user = await getUserById(review.MaNguoiDung);
-            setUser(user);
+            const userData = await getUserById(review.MaNguoiDung);
+            setUser(userData);
         } catch (error) {
             console.log(error);
         }
@@ -27,10 +27,15 @@ const ItemReview = (props) => {
             <View className="flex-row justify-between items-center">
                 <View className="flex-row items-center space-x-3">
                     <Image
-                        source={{ uri: user?.HinhAnh }}
+                        source={{
+                            uri:
+                                user?.HinhAnh ? user?.HinhAnh :
+                                "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
+                        }}
                         style={{ width: wp(15), height: wp(15) }}
                         className="rounded-full"
                     />
+
                     <View style={{ width: wp(55) }}>
                         <Text className="text-base font-bold">
                             {user?.HoTen}
@@ -45,7 +50,7 @@ const ItemReview = (props) => {
                         startingValue={review.DiemDanhGia}
                         imageSize={15}
                         type="star"
-                        style={{ alignItems: "flex-start", marginBottom: 5}}
+                        style={{ alignItems: "flex-start", marginBottom: 5 }}
                     />
                     <Text>{review?.ThoiGianDanhGia.split(" ")[1]}</Text>
                 </View>

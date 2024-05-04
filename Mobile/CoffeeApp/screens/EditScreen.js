@@ -60,7 +60,9 @@ const EditScreen = () => {
                 Toast.show({
                     type: rs[0] ? "success" : "error",
                     text1: rs[1],
-                    text2: rs[0] ? "Vui lòng đăng nhập lại" : "Vui lòng thử lại",
+                    text2: rs[0]
+                        ? "Vui lòng đăng nhập lại"
+                        : "Vui lòng thử lại",
                     topOffset: 70,
                     text1Style: { fontSize: 18 },
                     text2Style: { fontSize: 15 },
@@ -117,21 +119,16 @@ const EditScreen = () => {
                         className="justify-center items-center"
                         style={{ marginTop: hp(6) }}
                     >
-                        {user?.HinhAnh ? (
-                            <Image
-                                source={{ uri: user?.HinhAnh }}
-                                resizeMode="cover"
-                                style={{ width: hp(12), height: hp(12) }}
-                                className="rounded-full"
-                            />
-                        ) : (
-                            <Image
-                                source={require("../assets/images/avtDemo.png")}
-                                resizeMode="cover"
-                                style={{ width: hp(12), height: hp(12) }}
-                                className="rounded-full"
-                            />
-                        )}
+                        <Image
+                            source={{
+                                uri: user?.HinhAnh
+                                    ? user?.HinhAnh
+                                    : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
+                            }}
+                            resizeMode="cover"
+                            style={{ width: hp(12), height: hp(12) }}
+                            className="rounded-full"
+                        />
                     </View>
                 </View>
 

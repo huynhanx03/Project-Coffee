@@ -23,7 +23,7 @@ import { getCategories, getProducts } from "../controller/ProductController";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "../controller/CartController";
 import { addToCartFromDatabase } from "../redux/slices/cartSlice";
-import {getUserData} from "../controller/StorageController";
+import { getUserData } from "../controller/StorageController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -97,10 +97,12 @@ const HomeScreen = () => {
         const items = await getCart();
         if (items) {
             for (const key in items[userData.MaNguoiDung]) {
-                dispatch(addToCartFromDatabase(items[userData.MaNguoiDung][key]))
+                dispatch(
+                    addToCartFromDatabase(items[userData.MaNguoiDung][key])
+                );
             }
         }
-    }
+    };
 
     const getUser = async () => {
         try {
@@ -109,7 +111,7 @@ const HomeScreen = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     useEffect(() => {
         handleGetProducts();
@@ -144,22 +146,16 @@ const HomeScreen = () => {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            {
-                                user?.HinhAnh ? (
-                                    <Image
-                                        source={{uri: user?.HinhAnh}}
-                                        style={{ width: hp(8), height: hp(8) }}
-                                        resizeMode="cover"
-                                        className='rounded-full'
-                                    />
-                                ):(
-                                    <Image
-                                        source={require("../assets/images/avtDemo.png")}
-                                        style={{ width: hp(8), height: hp(8) }}
-                                        className='rounded-full'
-                                    />
-                                )
-                            }
+                            <Image
+                                source={{
+                                    uri: user?.HinhAnh
+                                        ? user?.HinhAnh
+                                        : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
+                                }}
+                                resizeMode="cover"
+                                style={{ width: hp(8), height: hp(8) }}
+                                className="rounded-full"
+                            />
                         </View>
                     </View>
 
@@ -171,9 +167,7 @@ const HomeScreen = () => {
                                 className="text-lg"
                             />
 
-                            <TouchableOpacity
-                                className="p-1 bg-yellow-950 rounded-lg"
-                            >
+                            <TouchableOpacity className="p-1 bg-yellow-950 rounded-lg">
                                 <Icons.MagnifyingGlassIcon
                                     size={24}
                                     color="#ffffff"
@@ -244,7 +238,8 @@ const HomeScreen = () => {
                                       />
                                   );
                               })
-                        : products && products
+                        : products &&
+                          products
                               .filter(
                                   (item) =>
                                       item.SoLuong > 0 &&
