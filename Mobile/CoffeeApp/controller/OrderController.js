@@ -1,4 +1,4 @@
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { getUserData } from "./StorageController";
 
 const getNewId = async () => {
@@ -55,6 +55,10 @@ const saveOrder = async (products, total) => {
     });
 };
 
+/**
+ * @notive Get the order of the user
+ * @returns The order of the user
+ */
 const getOrder = async () => {
     const dbRef = ref(getDatabase())
     const userData = await getUserData()
@@ -70,4 +74,22 @@ const getOrder = async () => {
     }
 }
 
-export { saveOrder, getOrder };
+/**
+ * @notice Set the status of the order
+ * @param orderId The id of the order
+ */
+const setStatusOrder = async (orderId) => {
+    const db = getDatabase()
+    const userData = await getUserData()
+
+    try {
+        update(ref(db, `DonHang/${userData.MaNguoiDung}/${orderId}`), {
+            TrangThai: "Đã nhận hàng"
+        })
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export { saveOrder, getOrder, setStatusOrder };

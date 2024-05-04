@@ -10,124 +10,229 @@ import { colors } from "../theme";
 import * as Icons from "react-native-heroicons/outline";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import Animated, { FadeInUp, FadeOut } from "react-native-reanimated";
+import { setStatusOrder } from "../controller/OrderController";
+import Toast from "react-native-toast-message";
 
 const ItemOrder = (props) => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const [quantity, setQuantity] = useState(0);
     const [isReview, setIsReview] = useState(true);
+    const [isReceive, setIsReceive] = useState(false);
+    const [status, setStatus] = useState('');
     const calQuantity = useMemo(() => {
         let total = 0;
         props.order.SanPham.forEach((item) => {
             total += item.SoLuongGioHang;
-        })
+        });
 
         setQuantity(total);
-    }, [])
+    }, []);
 
     const handleReview = () => {
+        const MaDonHang = props.order.MaDonHang;
+        setStatusOrder(MaDonHang);
+        setIsReceive(true);
         setIsReview(false);
+        Toast.show({
+            type: 'success',
+            text1: 'Đã nhận đơn hàng',
+            text2: 'Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi',
+            topOffset: 70,
+            text1Style: {fontSize: 18},
+            text2Style: {fontSize: 15},
+            visibilityTime: 2000,
+        })
+    };
+
+    const handleReceive = () => {
+        if (props.order.TrangThai === 'Đã xác nhận') {
+            setIsReceive(true);
+        }
     }
+
+    const handleStatus = () => {
+        const status = props.order.TrangThai
+        setIsReview(status === 'Đã nhận hàng' ? false : true)
+    }
+
+    const handleStatusDelivery = () => {
+        const status = props.order.TrangThai
+        
+        if (status === 'Chờ xác nhận') {
+            setStatus('Đơn hàng đang trong quá trình xác nhận')
+        } else if (status === 'Đã xác nhận') {
+            setStatus('Đơn hàng đang trong quá trình vận chuyển')
+        } else {
+            setStatus('Đơn hàng đã được giao thành công')
+        }
+    }
+
+    useEffect(() => {
+        handleStatusDelivery();
+    }, [props.order.TrangThai])
+
+    useEffect(() => {
+        handleStatus();
+        handleReceive()
+    }, [])
 
     return (
         <View className="flex-1">
-            <View className="space-y-3 rounded-md mt-4 bg-white shadow-md">
-                <View className="space-y-5 mx-2">
-                    <View className="flex-row justify-between p-1">
-                        <Text
-                            className="text-base font-bold"
-                            style={{ color: colors.text(1) }}
-                        >
-                            {props.order.MaDonHang}
-                        </Text>
-                        <View className="flex-row justify-end">
-                            <Text className="text-base">Trạng thái: </Text>
-                            <Text
-                                className="text-base font-semibold"
-                                style={{ color: colors.text(1) }}
-                            >
-                                {props.order.TrangThai}
-                            </Text>
-                        </View>
-                    </View>
+            <View className="mt-5 flex-row justify-between items-center">
+                <Text
+                    style={{
+                        height: 1,
+                        borderColor: "rgba(59, 29, 12, 0.4)",
+                        borderWidth: 1,
+                        width: wp(25),
+                    }}
+                ></Text>
 
-                    {props.order.SanPham.map((item, index) => {
-                        return (
-                            <View className="flex-row space-x-5">
-                                <Image
-                                    source={require("../assets/images/coffeeDemo.png")}
-                                    style={{
-                                        width: wp(20),
-                                        height: wp(22),
-                                    }}
-                                    className="rounded-lg"
-                                />
+                <Text
+                    style={{ color: "#8B6122" }}
+                    className="text-lg font-semibold"
+                >
+                    Đơn hàng {props.order.MaDonHang}
+                </Text>
 
-                                <View className="flex-1 space-y-2">
-                                    <Text className="text-lg font-semibold">
-                                        {item.TenSanPham}
+                <Text
+                    style={{
+                        height: 1,
+                        borderColor: "rgba(59, 29, 12, 0.4)",
+                        borderWidth: 1,
+                        width: wp(25),
+                    }}
+                ></Text>
+            </View>
+            {props.order.SanPham.map((item) => {
+                return (
+                    <Animated.View
+                        entering={FadeInUp}
+                        exiting={FadeOut}
+                        key={item.MaSanPham}
+                        className="flex-1 mt-4"
+                    >
+                        <View className="space-y-3 rounded-md pt-2 bg-white shadow-md">
+                            <View className="space-y-5 mx-2">
+                                <View className="flex-row justify-between p-1">
+                                    <Text
+                                        className="text-base font-bold"
+                                        style={{ color: colors.text(1) }}
+                                    >
+                                        {props.order.MaDonHang}
                                     </Text>
-                                    <Text className="text-base">
-                                        Size: {item.KichThuoc}
-                                    </Text>
-                                    <View className="flex-row justify-between">
+                                    <View className="flex-row justify-end">
                                         <Text className="text-base">
-                                            {formatPrice(item.Gia)}
+                                            Trạng thái:{" "}
                                         </Text>
-                                        <Text className="text-base">
-                                            x{item.SoLuongGioHang}
+                                        <Text
+                                            className="text-base font-semibold"
+                                            style={{ color: colors.text(1) }}
+                                        >
+                                            {props.order.TrangThai}
                                         </Text>
                                     </View>
                                 </View>
+
+                                <View
+                                    key={item.MaSanPham}
+                                    className="flex-row space-x-5"
+                                >
+                                    <Image
+                                        source={{ uri: item.HinhAnh }}
+                                        style={{
+                                            width: wp(20),
+                                            height: wp(22),
+                                        }}
+                                        className="rounded-lg"
+                                    />
+
+                                    <View className="flex-1 space-y-2">
+                                        <Text className="text-lg font-semibold">
+                                            {item.TenSanPham}
+                                        </Text>
+                                        <Text className="text-base">
+                                            Size: {item.KichThuoc}
+                                        </Text>
+                                        <View className="flex-row justify-between">
+                                            <Text className="text-base">
+                                                {formatPrice(item.Gia)}
+                                            </Text>
+                                            <Text className="text-base">
+                                                x{item.SoLuongGioHang}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
                             </View>
-                        );
-                    })}
-                </View>
 
-                <Divider className="bg-gray-400 p-[0.2px]" />
+                            <Divider className="bg-gray-400 p-[0.2px]" />
 
-                <View className="flex-row items-center justify-between">
-                    <View className='flex-row mx-2'>
-                        <Ionicons
-                            name="fast-food-outline"
-                            size={24}
-                            color={'gray'}
-                        />
-                        <Text className="mx-2 text-base text-gray-500 font-semibold">
-                            {quantity} sản phẩm
-                        </Text>
-                    </View>
-                    <View className="flex-row justify-end mx-2">
-                        <Text className="text-base">Thành tiền: </Text>
-                        <Text
-                            style={{ color: colors.text(1) }}
-                            className="text-base font-semibold"
-                        >
-                            {formatPrice(props.order.ThanhTien)}
-                        </Text>
-                    </View>
-                </View>
+                            <View className="flex-row items-center justify-between">
+                                <View className="flex-row mx-2">
+                                    <Ionicons
+                                        name="fast-food-outline"
+                                        size={24}
+                                        color={"gray"}
+                                    />
+                                    <Text className="mx-2 text-base text-gray-500 font-semibold">
+                                        {item.SoLuongGioHang} sản phẩm
+                                    </Text>
+                                </View>
+                                <View className="flex-row justify-end mx-2">
+                                    <Text className="text-base">
+                                        Thành tiền:{" "}
+                                    </Text>
+                                    <Text
+                                        style={{ color: colors.text(1) }}
+                                        className="text-base font-semibold"
+                                    >
+                                        {formatPrice(props.order.ThanhTien)}
+                                    </Text>
+                                </View>
+                            </View>
 
-                <Divider className="bg-gray-400 p-[0.2px]" />
+                            <Divider className="bg-gray-400 p-[0.2px]" />
 
-                <View className="mx-2 flex-row items-center space-x-2">
-                    <Icons.TruckIcon size={30} color={colors.active} />
-                    <Text className="text-base">
-                        Đơn hàng đang trong quá trình xác nhận
-                    </Text>
-                </View>
+                            <View className="mx-2 flex-row items-center space-x-2">
+                                <Icons.TruckIcon
+                                    size={30}
+                                    color={colors.active}
+                                />
+                                <Text className="text-base">
+                                    {status}
+                                </Text>
+                            </View>
 
-                <Divider className="bg-gray-400 p-[0.2px]" />
+                            <Divider className="bg-gray-400 p-[0.2px]" />
 
-                <View className='flex-row justify-between mx-2 pb-2'>
-                    <TouchableOpacity onPress={handleReview} disabled={!isReview} className='p-3 rounded-lg' style={{backgroundColor: isReview ? colors.active : '#d2d2d2'}}>
-                        <Text className='text-base font-semibold'>Đã nhận được hàng</Text>
-                    </TouchableOpacity>
+                            <View className="flex-1 mx-2 pb-2">
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate("Review", {MaSanPham: item.MaSanPham})
+                                    }
+                                    disabled={isReview}
+                                    className="p-3 rounded-lg"
+                                    style={{
+                                        backgroundColor: isReview
+                                            ? "#d2d2d2"
+                                            : colors.active,
+                                    }}
+                                >
+                                    <Text className="text-base font-semibold text-center">
+                                        Đánh giá sản phẩm
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Animated.View>
+                );
+            })}
 
-                    <TouchableOpacity onPress={() => navigation.navigate('Review')} disabled={isReview} className='p-3 rounded-lg' style={{backgroundColor: isReview ? '#d2d2d2' : colors.active}}>
-                        <Text className='text-base font-semibold'>Đánh giá sản phẩm</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <TouchableOpacity disabled={true} onPress={handleReview} className='rounded-lg p-3 mt-3 mx-2' style={{backgroundColor: isReview ? colors.active : '#d2d2d2'}}>
+                <Text className='text-base font-semibold text-center'>Đã nhận được đơn hàng</Text>
+            </TouchableOpacity>
         </View>
     );
 };

@@ -6,6 +6,8 @@ import ItemOrder from "./itemOrder";
 const ItemOrderList = () => {
     const [orderInfo, setOrderInfo] = useState(null);
 
+    const keyOrder = []
+
     const handleGetOrder = async () => {
         try {
             const info = await getOrder();
@@ -22,7 +24,7 @@ const ItemOrderList = () => {
     return (
         <View>
             {orderInfo &&
-                Object.keys(orderInfo).map((key) => (
+                Object.keys(orderInfo).reverse().map((key) => (
                     <ItemOrder key={key} order={orderInfo[key]} />
                 ))}
         </View>

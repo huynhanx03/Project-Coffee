@@ -97,9 +97,7 @@ const ProfileScreen = () => {
                                 <Text className='text-lg font-semibold'>Thông tin đơn hàng</Text>
                             </View>
 
-                            <TouchableOpacity>
-                                <Icons.ChevronRightIcon size={30} color={colors.text(0.5)} />
-                            </TouchableOpacity>
+                            <Icons.ChevronRightIcon size={30} color={colors.text(0.5)} />
                         </TouchableOpacity>
                     </View>
                 </View>
