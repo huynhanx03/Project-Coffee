@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as IconsSolid from "react-native-heroicons/solid";
 import { colors } from "../theme";
 import { formatPrice } from "../utils";
+import { getReview } from "../controller/ReviewController";
 
 const Item = ({product}) => {
     const [initialPrice, setInitialPrice] = useState((product.Size.Thuong.Gia));
@@ -12,8 +13,27 @@ const Item = ({product}) => {
     const navigation = useNavigation();
     const [size, setSize] = useState(initialSize)
     const [price, setPrice] = useState(formatPrice(initialPrice));
+    const [ratingPoint, setRatingPoint] = useState(0);
 
     let disabledButton = product.SoLuong === 0 ? true : false;
+
+    const handleGetReview = async () => {
+        const reviews = await getReview(product.MaSanPham)
+        let totalRatingPoint = 0
+        reviews?.forEach(review => {
+            totalRatingPoint += review?.DiemDanhGia
+        })
+        if (totalRatingPoint > 0) {
+            setRatingPoint(totalRatingPoint/reviews.length)
+        } else {
+            setRatingPoint(0)
+        }
+    }
+
+    useEffect(() => {
+        handleGetReview()
+    
+    }, [])
 
     const handleSizeAndPrice = (size) => {
         setSize(size);
@@ -45,7 +65,7 @@ const Item = ({product}) => {
 
                     <View className='absolute flex-row items-center bottom-0 right-0 p-1' style={{borderTopLeftRadius: 12, borderBottomRightRadius: 16, backgroundColor: 'rgba(0,0,0,0.16)'}}>
                         <IconsSolid.StarIcon size={16} color={'#fbbe21'} />
-                        <Text className='text-white font-bold p-1'>5</Text>
+                        <Text className='text-white font-bold p-1'>{ratingPoint}</Text>
                     </View>
                 </View>
             </View>
