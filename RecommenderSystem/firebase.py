@@ -29,3 +29,19 @@ def GetProduct():
     ]
 
     return products
+
+def GetEvaluate():
+    evaluate_data = db.reference('DanhGia').get()
+
+    evaluates = [
+        {
+            'MaKhachHang': evaluete['MaNguoiDung'],
+            'MaSanPham': evaluete['MaSanPham'],
+            'DiemDanhGia': evaluete['DiemDanhGia'] 
+        }
+        for evaluete in evaluate_data.values() 
+    ]
+
+    return evaluates
+
+x = GetEvaluate()

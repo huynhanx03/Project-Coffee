@@ -4,6 +4,8 @@ import firebase
 import recommend
 
 products = firebase.GetProduct()
+evaluates = firebase.GetEvaluate()
+RS = recommend.HybridRecommender(products, evaluates, k = 5)
 
 app = Flask(__name__)
 CORS(app)  
@@ -11,14 +13,13 @@ CORS(app)
 @app.route('/recommend', methods=['POST'])
 def recommendHTTP():
     try:
-        product_id = request.get_json()
-        print(product_id)
-        evaluates = []
-        
-        RS = recommend.HybridRecommender(products, evaluates, k = 5)
-        productRecommend = RS.recommend("", product_id)
-        print(productRecommend)
+        data = request.get_json()
 
+        product_id = data['MaSanPham']
+        user_id = data['MaKhachHang']
+
+        productRecommend = RS.recommend(user_id, product_id)
+        print(productRecommend)
         # Chuyển danh sách List<Product> khuyến nghị thành chuỗi JSON và gửi trả về cho ứng dụng C#
         return jsonify(productRecommend)
     
@@ -27,3 +28,4 @@ def recommendHTTP():
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
+
