@@ -64,7 +64,7 @@
                 FontSize="17"
                 FontWeight="DemiBold"
                 Foreground="{DynamicResource MainColorCF}"
-                Text="Hóa đơn" />
+                Text="{DynamicResource Bill}" />
         </Border>
 
         <Grid Grid.Row="1" Background="{DynamicResource BackgroundCF}">
@@ -132,59 +132,68 @@
                 </Grid>
             </StackPanel>
 
-            <!--<StackPanel Grid.Column="1"
-                        Margin="30 8 15 0">
+            <StackPanel Grid.Column="1" Margin="30,8,15,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0"
-                           Content="{DynamicResource Table}"
-                           Foreground="{DynamicResource ForegroundCF}"
-                           FontSize="14"
-                           FontWeight="Bold"/>
-                    <Label Grid.Column="1"
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,5,0,0"
+                        Content="{DynamicResource NumberPhone}"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource ForegroundCF}" />
+                    <!--<Label Grid.Column="1"
                            Content="{Binding EmployeeName}"
                            Foreground="{DynamicResource ForegroundCF}"
-                           FontSize="14"/>
+                           FontSize="14"/>-->
+                    <!--  Nhập số điện thoại  -->
+
+                    <TextBox
+                        Grid.Column="1"
+                        Height="30"
+                        Margin="0,0,20,0"
+                        Padding="0,-15,0,0"
+                        Background="Transparent"
+                        BorderBrush="{DynamicResource MainColorCF}"
+                        FontSize="15"
+                        Foreground="{DynamicResource ForegroundCF}"
+                        SelectionBrush="{DynamicResource HoverColorCF}"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding CustomerPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding loadCustomerIC}" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="PreviewTextInput">
+                                <i:CallMethodAction MethodName="NumberValidationTextBox" TargetObject="{Binding}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
                 </Grid>
 
-                <Grid>
+                <Grid Margin="0,20,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0"
-                           Content="{DynamicResource Employee}"
-                           Foreground="{DynamicResource ForegroundCF}"
-                           FontSize="14"
-                           FontWeight="Bold"/>
-                    <Label Grid.Column="1"
-                           Content="{Binding EmployeeName}"
-                           Foreground="{DynamicResource ForegroundCF}"
-                           FontSize="14"/>
+                    <Label
+                        Grid.Column="0"
+                        Content="{DynamicResource CustomeName}"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource ForegroundCF}" />
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding CustomeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        FontSize="14"
+                        Foreground="{DynamicResource ForegroundCF}" />
                 </Grid>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Column="0"
-                           Content="{DynamicResource CreatedDate}"
-                           Foreground="{DynamicResource ForegroundCF}"
-                           FontSize="14"
-                           FontWeight="Bold"/>
-                    <Label Grid.Column="1"
-                           Content="{Binding CreatedDate}"
-                           Foreground="{DynamicResource ForegroundCF}"
-                           FontSize="14"/>
-                </Grid>
-            </StackPanel>-->
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="2" Background="{DynamicResource BackgroundCF}">

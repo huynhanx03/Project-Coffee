@@ -91,4 +91,5 @@
     <system:String x:Key="Content">Nội dung</system:String>
     <system:String x:Key="Release">Phát hành</system:String>
     <system:String x:Key="ReleaseVoucher">Phát hành phiếu giảm giá</system:String>
+    <system:String x:Key="CustomeName">Tên khách hàng</system:String>
 </ResourceDictionary>

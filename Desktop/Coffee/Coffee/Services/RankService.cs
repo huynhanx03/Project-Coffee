@@ -35,5 +35,15 @@ namespace Coffee.Services
         {
             return await RankDAL.Ins.getAllRank();
         }
+
+        /// <summary>
+        /// Lấy mức độ thân thiết theo mã mức độ thân thiết
+        /// </summary>
+        /// <param name="rankID"></param>
+        /// <returns></returns>
+        public async Task<(string, RankModel)> getRank(string rankID)
+        {
+            return await RankDAL.Ins.getRank(rankID);
+        }
     }
 }

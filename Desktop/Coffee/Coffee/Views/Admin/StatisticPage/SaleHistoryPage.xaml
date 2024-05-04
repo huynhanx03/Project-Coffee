@@ -60,11 +60,11 @@
 
                 <DataGridTemplateColumn
                     Width="auto"
-                    Header="{DynamicResource IDtable}"
-                    SortMemberPath="MaBan">
+                    Header="{DynamicResource CustomeName}"
+                    SortMemberPath="TenKhachHang">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding MaBan}" />
+                            <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding TenKhachHang}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -76,6 +76,17 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding TenNhanVien}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                    Width="auto"
+                    Header="{DynamicResource TableName}"
+                    SortMemberPath="TenBan">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding TenBan}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

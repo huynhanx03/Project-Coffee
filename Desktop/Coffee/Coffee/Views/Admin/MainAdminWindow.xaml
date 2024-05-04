@@ -185,7 +185,7 @@
                             NavigationUIVisibility="Hidden">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Loaded">
-                                    <i:InvokeCommandAction Command="{Binding loadVoucherPageIC}" CommandParameter="{Binding ElementName=mainFrame}" />
+                                    <i:InvokeCommandAction Command="{Binding loadTablesPageIC}" CommandParameter="{Binding ElementName=mainFrame}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Frame>

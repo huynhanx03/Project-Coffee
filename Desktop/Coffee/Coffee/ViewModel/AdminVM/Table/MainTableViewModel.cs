@@ -205,6 +205,11 @@ namespace Coffee.ViewModel.AdminVM.Table
                 loadDateSales();
             });
 
+            loadCustomerIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                loadCustomer();
+            });
+
             bookingIC = new RelayCommand<object>((p) => 
             { 
                 return (currentTable != null 

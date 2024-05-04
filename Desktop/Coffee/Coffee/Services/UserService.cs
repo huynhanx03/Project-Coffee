@@ -134,5 +134,16 @@ namespace Coffee.Services
         {
             return await UserDAL.Ins.findUser(username, password);
         }
+
+        /// <summary>
+        /// Kiểm tra số điện thoại đã tồn tại chưa
+        /// </summary>
+        /// <param name="userNumberPhone"></param>
+        /// <returns>
+        /// </returns>
+        public async Task<UserDTO> getUserByNumberphone(string userNumberPhone)
+        {
+            return await UserDAL.Ins.getUserByNumberphone(userNumberPhone);
+        }
     }
 }

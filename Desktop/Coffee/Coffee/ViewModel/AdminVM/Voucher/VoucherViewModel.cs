@@ -185,6 +185,9 @@ namespace Coffee.ViewModel.AdminVM.Voucher
 
             if (voucherCreate != null)
             {
+                // Tạo các phiếu cho khách hàng
+
+
                 MaskName.Visibility = Visibility.Visible;
 
                 MessageBoxCF ms = new MessageBoxCF("Phát hành phiếu giảm giá thành công", MessageType.Accept, MessageButtons.OK);
@@ -223,6 +226,7 @@ namespace Coffee.ViewModel.AdminVM.Voucher
 
                 if (isDelete)
                 {
+                    loadVoucherList();
                     MessageBoxCF msDelete = new MessageBoxCF(label, MessageType.Accept, MessageButtons.OK);
                     msDelete.ShowDialog();
                 }
