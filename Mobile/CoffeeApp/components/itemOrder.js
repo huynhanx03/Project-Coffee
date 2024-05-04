@@ -46,9 +46,8 @@ const ItemOrder = (props) => {
     };
 
     const handleReceive = () => {
-        if (props.order.TrangThai === 'Đã xác nhận') {
-            setIsReceive(true);
-        }
+        const status = props.order.TrangThai
+        setIsReceive(status === 'Đã xác nhận' ? false : true);
     }
 
     const handleStatus = () => {
@@ -230,7 +229,7 @@ const ItemOrder = (props) => {
                 );
             })}
 
-            <TouchableOpacity disabled={true} onPress={handleReview} className='rounded-lg p-3 mt-3 mx-2' style={{backgroundColor: isReview ? colors.active : '#d2d2d2'}}>
+            <TouchableOpacity disabled={isReceive} onPress={handleReview} className='rounded-lg p-3 mt-3 mx-2' style={{backgroundColor: isReview ? colors.active : '#d2d2d2'}}>
                 <Text className='text-base font-semibold text-center'>Đã nhận được đơn hàng</Text>
             </TouchableOpacity>
         </View>
