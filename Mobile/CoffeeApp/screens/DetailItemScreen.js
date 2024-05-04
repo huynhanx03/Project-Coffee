@@ -130,14 +130,16 @@ const DetailItemScreen = ({ route }) => {
     };
 
     const handleGetReview = async () => {
-        const reviews = await getReview(product.MaSanPham)
-        let totalRatingPoint = 0
-        reviews?.forEach(review => {
-            totalRatingPoint += review?.DiemDanhGia
+        const reviews = await getReview(product.MaSanPham);
+        if (reviews && reviews.length > 0) {
+            let totalRatingPoint = 0;
+            reviews.forEach(review => {
+                totalRatingPoint += review?.DiemDanhGia;
+            });
+            let point = totalRatingPoint / reviews.length;
+            setRatingPoint(point);
+            setReviewList(reviews);
         }
-        )
-        setRatingPoint(totalRatingPoint/reviews.length)
-        setReviewList(reviews)
     }
 
     useEffect(() => {
