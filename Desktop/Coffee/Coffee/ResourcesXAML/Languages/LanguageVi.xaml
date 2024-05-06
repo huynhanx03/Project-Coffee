@@ -95,4 +95,13 @@
     <system:String x:Key="Rank">Mức độ thân thiết</system:String>
     <system:String x:Key="Evaluate">Đánh giá</system:String>
     <system:String x:Key="Start">Sao</system:String>
+    <system:String x:Key="DiscountToday">Giảm giá hôm nay</system:String>
+    <system:String x:Key="CreateDiscount">Tạo giảm giá mới</system:String>
+    <system:String x:Key="MinimumPercentage">Phầm trăm tối thiểu</system:String>
+    <system:String x:Key="MaximumPercentage">Phầm trăm tối đa</system:String>
+    <system:String x:Key="Store">Quán</system:String>
+    <system:String x:Key="Order">Đơn hàng</system:String>
+    <system:String x:Key="Customer">Khách hàng</system:String>
+    <system:String x:Key="Banner">Banner</system:String>
+    <system:String x:Key="AddBanner">Thêm Banner</system:String>
 </ResourceDictionary>

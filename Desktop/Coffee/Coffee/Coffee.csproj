@@ -174,10 +174,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DALs\BannerDAL.cs" />
     <Compile Include="DALs\BillDAL.cs" />
     <Compile Include="DALs\BillImportDAL.cs" />
     <Compile Include="DALs\ChatDAL.cs" />
     <Compile Include="DALs\CustomerDAL.cs" />
+    <Compile Include="DALs\DiscountProductDAL.cs" />
     <Compile Include="DALs\EvaluateDAL.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DALs\EmployeeDAL.cs" />
@@ -200,6 +202,7 @@
     <Compile Include="DTOs\DetailBillDTO.cs" />
     <Compile Include="DTOs\DetailImportDTO.cs" />
     <Compile Include="DTOs\DetailProductSizeDTO.cs" />
+    <Compile Include="DTOs\DiscountProductDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\EvaluateDTO.cs" />
     <Compile Include="DTOs\ImportDTO.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="DTOs\UserContactDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="DTOs\VoucherDTO.cs" />
+    <Compile Include="Models\BannerModel.cs" />
     <Compile Include="Models\BillModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\DetailBillModel.cs" />
@@ -224,10 +228,12 @@
     <Compile Include="Models\DetailVoucherModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RankModel.cs" />
+    <Compile Include="Services\BannerService.cs" />
     <Compile Include="Services\BillImportService.cs" />
     <Compile Include="Services\BillService.cs" />
     <Compile Include="Services\ChatService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DiscountProductService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EvaluateService.cs" />
     <Compile Include="Services\IngredientService.cs" />
@@ -279,6 +285,9 @@
     <Compile Include="ViewModel\AdminVM\Statistic\SaleHistoryViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Statistic\StatisticPageViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Statistic\StatisticViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Store\BannerViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Store\DiscountTodayViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Store\StoreViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\MainTableViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\MenuViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\OperationOfTableViewModel.cs" />
@@ -343,6 +352,9 @@
     </Compile>
     <Compile Include="Views\Admin\StatisticPage\StatisticPage.xaml.cs">
       <DependentUpon>StatisticPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\StorePage\MainStorePage.xaml.cs">
+      <DependentUpon>MainStorePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\TablePage\ChangeTableWindow.xaml.cs">
       <DependentUpon>ChangeTableWindow.xaml</DependentUpon>
@@ -489,6 +501,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\StatisticPage\StatisticPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\StorePage\MainStorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
