@@ -269,13 +269,14 @@ namespace Coffee.Services
             (string labelEmployee, bool isDeleteEmployee) = await CustomerDAL.Ins.DeleteCustomer(customer.MaKhachHang);
             (string labelUser, bool isDeleteUser) = await UserDAL.Ins.DeleteUser(customer.MaKhachHang);
             (string labelRank, bool isDeleteRank) = await CustomerDAL.Ins.deleteRankCustomer(customer.MaKhachHang);
+            (string labelAddress, bool isDeleteAddress) = await CustomerDAL.Ins.deleteAddressCustomer(customer.MaKhachHang);
 
             if (isDeleteUser)
             {
                 await CloudService.Ins.DeleteImage(customer.HinhAnh);
             }
 
-            if (isDeleteEmployee && isDeleteUser && isDeleteRank)
+            if (isDeleteEmployee && isDeleteUser && isDeleteRank && isDeleteAddress)
             {
                 return (labelEmployee, true);
             }
@@ -286,6 +287,9 @@ namespace Coffee.Services
 
                 if (!isDeleteUser)
                     return (labelUser, false);
+
+                if (!isDeleteAddress)
+                    return (labelAddress, false);
 
                 return (labelRank, false);
             }

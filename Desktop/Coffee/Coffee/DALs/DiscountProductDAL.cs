@@ -36,7 +36,7 @@ namespace Coffee.DALs
             {
                 using (var context = new Firebase())
                 {
-                    await context.Client.SetTaskAsync("SanPhamGiamGiaHomNay/" + discountProduct.MaSanPham, discountProduct);
+                    await context.Client.UpdateTaskAsync("SanPham/" + discountProduct.MaSanPham, new { PhanTramGiam = discountProduct.PhanTramGiam});
 
                     return ("Thêm sản phẩm giảm giá thành công", discountProduct);
                 }
@@ -61,18 +61,17 @@ namespace Coffee.DALs
                     FirebaseResponse productResponse = await context.Client.GetTaskAsync("SanPham");
                     Dictionary<string, ProductDTO> productData = productResponse.ResultAs<Dictionary<string, ProductDTO>>();
 
-                    FirebaseResponse discountProductResponse = await context.Client.GetTaskAsync("SanPhamGiamGiaHomNay");
-                    Dictionary<string, DiscountProductDTO> discountProductData = discountProductResponse.ResultAs<Dictionary<string, DiscountProductDTO>>();
+                    //FirebaseResponse discountProductResponse = await context.Client.GetTaskAsync("SanPhamGiamGiaHomNay");
+                    //Dictionary<string, DiscountProductDTO> discountProductData = discountProductResponse.ResultAs<Dictionary<string, DiscountProductDTO>>();
 
 
-                    var result = (from discount in discountProductData.Values
-                                  join product in productData.Values
-                                  on discount.MaSanPham equals product.MaSanPham
+                    var result = (from product in productData.Values
+                                  where product.PhanTramGiam > 0
                                   select new DiscountProductDTO
                                   {
                                       MaSanPham = product.MaSanPham,
                                       TenSanPham = product.TenSanPham,
-                                      PhanTramGiam = discount.PhanTramGiam
+                                      PhanTramGiam = product.PhanTramGiam
                                   }).ToList();
 
                     return ("Lấy danh sách sản phẩm giảm giá thành công", result);
@@ -91,14 +90,15 @@ namespace Coffee.DALs
         ///     1. Thông báo
         ///     2. True/False
         /// </returns>
-        public async Task<(string, bool)> DeleteDiscountProductToday()
+        public async Task<(string, bool)> DeleteDiscountProductToday(string productID)
         {
             try
             {
                 using (var context = new Firebase())
                 {
-                    await context.Client.DeleteTaskAsync("SanPhamGiamGiaHomNay");
-                    return ("Xoá các sản phẩm thành công", true);
+                    await context.Client.UpdateTaskAsync("SanPham/" + productID, new { PhanTramGiam = 0 });
+
+                    return ("Xoá các sản phẩm giảm giá thành công", true);
                 }
             }
             catch (Exception ex)

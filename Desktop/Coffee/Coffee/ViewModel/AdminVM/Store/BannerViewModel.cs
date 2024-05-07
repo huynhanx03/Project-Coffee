@@ -87,6 +87,9 @@ namespace Coffee.ViewModel.AdminVM.Store
             }
         }
 
+        /// <summary>
+        /// Load danh sách banner
+        /// </summary>
         private async void loadBanner()
         {
             (string label, List<BannerModel> bannerList) = await BannerService.Ins.getListBanner();

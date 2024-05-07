@@ -50,9 +50,14 @@ namespace Coffee.Services
         ///     1. Thông báo
         ///     2. True/False
         /// </returns>
-        public async Task<(string, bool)> DeleteDiscountProductToday()
+        public async Task<(string, bool)> DeleteDiscountProductToday(List<ProductDTO> products)
         {
-            return await DiscountProductDAL.Ins.DeleteDiscountProductToday();
+            foreach (var product  in products)
+            {
+                await DiscountProductDAL.Ins.DeleteDiscountProductToday(product.MaSanPham);
+            }
+
+            return ("Xoá sản phẩm giảm giá thành công", true);
         }
     }
 }

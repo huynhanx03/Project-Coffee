@@ -91,12 +91,13 @@ namespace Coffee.ViewModel.AdminVM.Store
         // Xác nhận tạo các sản phẩm giảm giá
         private async void confirmCreateDiscountProduct()
         {
-            (string labelDelete, bool isDelete) = await DiscountProductService.Ins.DeleteDiscountProductToday();
 
             Random rnd = new Random();
 
             (string label, List<ProductDTO> products) = await ProductService.Ins.getListProduct();
-            
+
+            (string labelDelete, bool isDelete) = await DiscountProductService.Ins.DeleteDiscountProductToday(products);
+
             if (products != null)
             {
                 int sizeProduct = products.Count;

@@ -142,6 +142,7 @@ namespace Coffee.DALs
                                       DanhSachCongThuc = product.CongThuc.Values.ToList(),
                                       DanhSachChiTietKichThuocSanPham = product.ChiTietKichThuocSanPham.Values.ToList(),
                                       Mota = product.Mota,
+                                      PhanTramGiam = product.PhanTramGiam,
                                   }).ToList();
 
                     return ("Lấy danh sách sản phẩm thành công", result);

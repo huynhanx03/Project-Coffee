@@ -48,12 +48,12 @@ namespace Coffee.ViewModel.AdminVM.Store
                 uploadImage();
             });
 
-            createBannerIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            createBannerIC = new RelayCommand<object>((p) => { return !string.IsNullOrEmpty(Image); }, (p) =>
             {
                 createBanner();
             });
 
-            loadBannerIC = new RelayCommand<object>((p) => { return !string.IsNullOrEmpty(Image); }, (p) =>
+            loadBannerIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 loadBanner();
             });

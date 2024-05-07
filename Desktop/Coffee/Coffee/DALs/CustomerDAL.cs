@@ -358,5 +358,26 @@ namespace Coffee.DALs
                 return (ex.Message, false);
             }
         }
+
+        /// <summary>
+        /// Xoá địa chỉ khách hàng
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        public async Task<(string, bool)> deleteAddressCustomer(string customerID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    await context.Client.DeleteTaskAsync("Diachi/" + customerID);
+                    return ("Xoá địa chỉ khách hàng thành công", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, false);
+            }
+        }
     }
 }

@@ -251,6 +251,7 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 case 2:
                     product.MaSanPham = SelectedProduct.MaSanPham;
                     product.SoLuong = Quantity;
+                    product.PhanTramGiam = SelectedProduct.PhanTramGiam;
 
                     (string labelEdit, ProductDTO NewProductEdit) = await ProductService.Ins.updateProduct(product, new List<ProductSizeDetailDTO>(ListProductSizeDetail), new List<ProductRecipeDTO>(ProductRecipeList));
 
