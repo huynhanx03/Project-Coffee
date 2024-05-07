@@ -1,9 +1,9 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementQuantity, incrementQuantity, removeFromCart } from "../redux/slices/cartSlice";
+import { decrementQuantity, incrementQuantity, removeFromCart, setQuantityInput } from "../redux/slices/cartSlice";
 import { deleteItemCard } from "../controller/CartController";
 import * as Icons from "react-native-heroicons/outline";
 import { formatPrice } from "../utils";
@@ -42,14 +42,33 @@ const ItemCart = (props) => {
         dispatch(decrementQuantity(props.item))
     }
 
-    useEffect(() => {
-        
-    })
+    const changeQuantityInput = () => {
+        if (quantity > props.item.SoLuong) {
+            Toast.show({
+                type: 'error',
+                text1: 'Lỗi',
+                text2: 'Số lượng sản phẩm không hợp lệ!',
+                topOffset: 70,
+                text1Style: {fontSize: 18},
+                text2Style: {fontSize: 15},
+                visibilityTime: 2000,
+            })
+            setQuantity(props.item.SoLuongGioHang)
+            return;
+        }
+        if (quantity < 1) {
+            deleteItemCard(props.item);
+        }
+
+        dispatch(setQuantityInput({...props.item, quantityInput: +quantity}))
+
+    }
+
     return (
         <View className="mt-2">
             <View
                 className="flex-row space-x-3 bg-white p-2 rounded-xl shadow-sm items-center">
-                <Image source={{uri: props.item.HinhAnh}} style={{ width: wp(20), height: wp(22) }} className='rounded-lg'/>
+                <Image source={{uri: props.item.HinhAnh}} style={{ width: wp(20), height: wp(22) }} resizeMode="contain" className='rounded-lg'/>
                 <View>
                     <Text className="text-lg font-semibold">{props.item.TenSanPham}</Text>
                     <View className="flex-row">
@@ -63,16 +82,14 @@ const ItemCart = (props) => {
 
                         <View className="flex-row space-x-2">
                             <TouchableOpacity onPress={handleDecrese} className="p-2 rounded-lg items-center justify-center" style={{backgroundColor: colors.primary}}>
-                                {/* <Text className='text-white'>-</Text> */}
                                 <Icons.MinusIcon size={15} color='white' strokeWidth={4}/>
                             </TouchableOpacity>
 
-                            <TouchableOpacity className="p-2 px-3 rounded-md border border-gray-200">
-                                <Text className='font-semibold'>{props.item.SoLuongGioHang}</Text>
-                            </TouchableOpacity>
+                            <View className="rounded-md border border-gray-200">
+                                <TextInput onBlur={changeQuantityInput} className='p-2 px-3' keyboardType="number-pad" value={quantity.toString()} onChangeText={e => setQuantity(+e)} />
+                            </View>
 
                             <TouchableOpacity onPress={handleIncrease} className="p-2 rounded-lg items-center justify-center" style={{backgroundColor: colors.primary}}>
-                                {/* <Text className='text-white'>+</Text> */}
                                 <Icons.PlusIcon size={15} color='white' strokeWidth={4}/>
                             </TouchableOpacity>
                         </View>
