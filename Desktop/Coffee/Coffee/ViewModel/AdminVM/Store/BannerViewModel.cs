@@ -107,7 +107,7 @@ namespace Coffee.ViewModel.AdminVM.Store
 
             if (msDelete.ShowDialog() == true)
             {
-                (string label, bool isDelete) = await BannerService.Ins.DeleteBanner(banner.MaBanner);
+                (string label, bool isDelete) = await BannerService.Ins.DeleteBanner(banner);
 
                 if (isDelete)
                 {

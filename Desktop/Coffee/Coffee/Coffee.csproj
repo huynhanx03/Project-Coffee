@@ -269,6 +269,8 @@
     <Compile Include="Utils\Memory.cs" />
     <Compile Include="Utils\RecommendSystemService.cs" />
     <Compile Include="ViewModel\AdminVM\Chat\ChatViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Customer\CustomerViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Customer\OperationOfCustomer.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\OperationOfEmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Evaluate\EvaluateViewModel.cs" />
@@ -301,6 +303,12 @@
     <Compile Include="ViewModel\UserControlVM\ControlbarViewModel.cs" />
     <Compile Include="Views\Admin\ChatPage\MainChatPage.xaml.cs">
       <DependentUpon>MainChatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\CustomerPage\MainCustomerPage.xaml.cs">
+      <DependentUpon>MainCustomerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\CustomerPage\OperationCustomerWindow.xaml.cs">
+      <DependentUpon>OperationCustomerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\EmployeePage\MainEmployeePage.xaml.cs">
       <DependentUpon>MainEmployeePage.xaml</DependentUpon>
@@ -433,6 +441,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\ChatPage\MainChatPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\CustomerPage\MainCustomerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\CustomerPage\OperationCustomerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

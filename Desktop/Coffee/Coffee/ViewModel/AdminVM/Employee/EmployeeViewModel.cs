@@ -97,11 +97,10 @@ namespace Coffee.ViewModel.AdminVM.Employee
             #region operation
             confirmOperationEmployeeIC = new RelayCommand<object>((p) =>
             {
-                return !(string.IsNullOrEmpty(FullName) || string.IsNullOrEmpty(FullName)
+                return !(string.IsNullOrEmpty(FullName) || string.IsNullOrEmpty(Image)
                     || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(NumberPhone)
                     || string.IsNullOrEmpty(IDCard) || string.IsNullOrEmpty(Address)
-                    || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password)
-                    || string.IsNullOrEmpty(Image));
+                    || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password));
             }, 
             (p) =>
             {

@@ -1,5 +1,6 @@
 ﻿using Coffee.Properties;
 using Coffee.Views.Admin.ChatPage;
+using Coffee.Views.Admin.CustomerPage;
 using Coffee.Views.Admin.EmployeePage;
 using Coffee.Views.Admin.EvaluatePage;
 using Coffee.Views.Admin.IngredientPage;
@@ -42,6 +43,7 @@ namespace Coffee.ViewModel.AdminVM
         public ICommand loadVoucherPageIC { get; set; }
         public ICommand loadEvaluatePageIC { get; set; }
         public ICommand loadStorePageIC { get; set; }
+        public ICommand loadCustomerPageIC { get; set; }
         public ICommand changeLanguageIC { get; set; }
 
         private string _optionName { get; set; }
@@ -117,6 +119,11 @@ namespace Coffee.ViewModel.AdminVM
             loadStorePageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainStorePage();
+            });
+            
+            loadCustomerPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
+            {
+                p.Content = new MainCustomerPage();
             });
 
             changeLanguageIC = new RelayCommand<Button>((p) => { return true; }, (p) =>

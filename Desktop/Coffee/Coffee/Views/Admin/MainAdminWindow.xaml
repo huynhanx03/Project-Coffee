@@ -97,6 +97,9 @@
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="OrderBtn">
             <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
         </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="CustomerBtn">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
     </Window.Triggers>
 
     <i:Interaction.Triggers>
@@ -369,11 +372,11 @@
                             </RadioButton>
                         </Border>
 
-                        <!--  Button quản lý đơn hàng  -->
+                        <!--  Button quản lý khách hàng  -->
                         <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
                             <RadioButton
                                 Name="CustomerBtn"
-                                Command="{Binding loadStorePageIC}"
+                                Command="{Binding loadCustomerPageIC}"
                                 CommandParameter="{Binding ElementName=mainFrame}"
                                 GroupName="mainOptions"
                                 Style="{StaticResource MenuButtonMain}"

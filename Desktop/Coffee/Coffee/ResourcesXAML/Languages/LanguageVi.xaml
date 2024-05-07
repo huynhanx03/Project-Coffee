@@ -10,6 +10,7 @@
     <system:String x:Key="Employee">Nhân viên</system:String>
     <system:String x:Key="Setting">Cài đặt</system:String>
     <system:String x:Key="AddEmployee">Thêm nhân viên</system:String>
+    <system:String x:Key="EditEmployee">Chỉnh sửa nhân viên</system:String>
     <system:String x:Key="BasicInformation">Thông tin cơ bản</system:String>
     <system:String x:Key="FullName">Họ và tên</system:String>
     <system:String x:Key="IDCard">CCCD/CMND</system:String>
@@ -40,6 +41,7 @@
     <system:String x:Key="Unit">Đơn vị</system:String>
     <system:String x:Key="Price">Giá</system:String>
     <system:String x:Key="AddIngredien">Thêm nguyên liệu</system:String>
+    <system:String x:Key="EditIngredien">Chỉnh sửa nguyên liệu</system:String>
     <system:String x:Key="BillImport">Phiếu nhập kho</system:String>
     <system:String x:Key="InvoiceDate">Ngày lập hoá đơn</system:String>
     <system:String x:Key="InvoiceValue">Trị giá</system:String>
@@ -53,6 +55,7 @@
     <system:String x:Key="Booking">Đặt món</system:String>
     <system:String x:Key="Pay">Thanh toán</system:String>
     <system:String x:Key="AddTable">Thêm bàn</system:String>
+    <system:String x:Key="EditTable">Chỉnh sửa bàn</system:String>
     <system:String x:Key="TableName">Tên bàn</system:String>
     <system:String x:Key="TableType">Loại bàn</system:String>
     <system:String x:Key="Row">Hàng</system:String>
@@ -104,4 +107,8 @@
     <system:String x:Key="Customer">Khách hàng</system:String>
     <system:String x:Key="Banner">Banner</system:String>
     <system:String x:Key="AddBanner">Thêm Banner</system:String>
+    <system:String x:Key="AddCustomer">Thêm khách hàng</system:String>
+    <system:String x:Key="EditCustomer">Chỉnh sửa khách hàng</system:String>
+    <system:String x:Key="CreatedDay">Ngày tạo</system:String>
+    <system:String x:Key="Point">Điểm</system:String>
 </ResourceDictionary>

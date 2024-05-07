@@ -59,9 +59,11 @@ namespace Coffee.Services
         ///     1. Thông báo
         ///     2. True/False
         /// </returns>
-        public async Task<(string, bool)> DeleteBanner(string bannerID)
+        public async Task<(string, bool)> DeleteBanner(BannerModel banner)
         {
-            return await BannerDAL.Ins.DeleteBanner(bannerID);
+            string labelClound = await CloudService.Ins.DeleteImage(banner.HinhAnh);
+
+            return await BannerDAL.Ins.DeleteBanner(banner.MaBanner);
         }
     }
 }
