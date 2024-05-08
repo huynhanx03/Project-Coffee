@@ -35,6 +35,13 @@ namespace Coffee.ViewModel.AdminVM.Employee
 
         private List<EmployeeDTO> __employeeList;
 
+        public string _HeaderOperation { get; set; }
+        public string HeaderOperation
+        {
+            get { return _HeaderOperation; }
+            set { _HeaderOperation = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
@@ -82,6 +89,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
 
             openWindowAddEmployeeIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
+                HeaderOperation = (string)Application.Current.Resources["AddEmployee"];
+
                 MaskName.Visibility = Visibility.Visible;
                 resetEmployee();
                 loadPosition();
@@ -161,6 +170,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// </summary>
         public async Task openWindowEditEmployee()
         {
+            HeaderOperation = (string)Application.Current.Resources["EditEmployee"];
+
             MaskName.Visibility = Visibility.Visible;
             await loadPosition();
             OperationEmployeeWindow w = new OperationEmployeeWindow();

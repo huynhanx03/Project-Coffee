@@ -63,9 +63,9 @@
             Grid.Column="0"
             Margin="20"
             Background="{DynamicResource MainColorCF}"
-            CornerRadius="35">
+            CornerRadius="30">
             <Border
-                Margin="18"
+                Margin="10"
                 Background="{DynamicResource BackgroundCF}"
                 CornerRadius="20">
                 <Border

@@ -40,14 +40,15 @@
     <system:String x:Key="Quantity">Số lượng</system:String>
     <system:String x:Key="Unit">Đơn vị</system:String>
     <system:String x:Key="Price">Giá</system:String>
-    <system:String x:Key="AddIngredien">Thêm nguyên liệu</system:String>
-    <system:String x:Key="EditIngredien">Chỉnh sửa nguyên liệu</system:String>
+    <system:String x:Key="AddIngredient">Thêm nguyên liệu</system:String>
+    <system:String x:Key="EditIngredient">Chỉnh sửa nguyên liệu</system:String>
     <system:String x:Key="BillImport">Phiếu nhập kho</system:String>
     <system:String x:Key="InvoiceDate">Ngày lập hoá đơn</system:String>
     <system:String x:Key="InvoiceValue">Trị giá</system:String>
     <system:String x:Key="ProductName">Tên sản phẩm</system:String>
     <system:String x:Key="ProductType">Loại sản phẩm</system:String>
-    <system:String x:Key="AddProduct">Thêm sản phẩm</system:String>
+    <system:String x:Key="AddProduct">Thêm thực đơn</system:String>
+    <system:String x:Key="EditProduct">Chỉnh sửa thực đơn</system:String>
     <system:String x:Key="ProductRecipe">Công thức sản phẩm</system:String>
     <system:String x:Key="Size">Kích thước</system:String>
     <system:String x:Key="IntoMoney">Thành tiền</system:String>
@@ -113,4 +114,5 @@
     <system:String x:Key="Point">Điểm</system:String>
     <system:String x:Key="ExportExcel">Xuất excel</system:String>
     <system:String x:Key="Logout">Đăng xuất</system:String>
+    <system:String x:Key="Home">Trang chủ</system:String>
 </ResourceDictionary>

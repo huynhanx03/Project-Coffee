@@ -51,8 +51,13 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
             get { return _SelectedIngredient; }
             set { _SelectedIngredient = value; OnPropertyChanged(); }
         }
-        
-       
+
+        public string _HeaderOperation { get; set; }
+        public string HeaderOperation
+        {
+            get { return _HeaderOperation; }
+            set { _HeaderOperation = value; OnPropertyChanged(); }
+        }
         #endregion
 
         #region ICommand
@@ -87,6 +92,8 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
 
             openWindowAddIngredientIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
+                HeaderOperation = (string)Application.Current.Resources["AddIngredient"];
+
                 MaskName.Visibility = Visibility.Visible;
                 resetIngredient();
                 TypeOperation = 1;
@@ -208,6 +215,8 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
         /// </summary>
         public void openWindowEditIngredient()
         {
+            HeaderOperation = (string)Application.Current.Resources["EditIngredient"];
+
             MaskName.Visibility = Visibility.Visible;
             OperationIngredientWindow w = new OperationIngredientWindow();
             TypeOperation = 2;

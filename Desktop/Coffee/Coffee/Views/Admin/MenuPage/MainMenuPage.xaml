@@ -52,6 +52,11 @@
 
             <!--  Horizontal Taskbar  -->
             <Grid Grid.Row="0" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
                 <!--  Tìm kiếm, thêm  -->
                 <StackPanel
                     Width="auto"
@@ -118,9 +123,9 @@
                 <Border
                     Margin="30,0,30,30"
                     Background="{DynamicResource MainColorCF}"
-                    CornerRadius="35">
+                    CornerRadius="30">
                     <Border
-                        Margin="18"
+                        Margin="10"
                         Background="{DynamicResource BackgroundCF}"
                         CornerRadius="20">
                         <DataGrid
@@ -294,7 +299,6 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-
 
         </Grid>
 

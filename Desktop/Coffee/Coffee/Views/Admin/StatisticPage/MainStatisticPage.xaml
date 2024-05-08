@@ -129,7 +129,7 @@
                 </Button.Content>
             </Button>
 
-            <Grid Grid.Row="1" Background="{DynamicResource Background3CF}">
+            <Grid Grid.Row="1" Background="{DynamicResource BackgroundCF}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*" />
                     <ColumnDefinition Width="*" />
@@ -138,9 +138,9 @@
                     Grid.Column="0"
                     Margin="20"
                     Background="{DynamicResource MainColorCF}"
-                    CornerRadius="35">
+                    CornerRadius="30">
                     <Border
-                        Margin="18"
+                        Margin="10"
                         Background="{DynamicResource BackgroundCF}"
                         CornerRadius="20">
                         <Frame
@@ -161,9 +161,9 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Margin="0,0,0,20">
-                        <Border Background="{DynamicResource MainColorCF}" CornerRadius="25">
+                        <Border Background="{DynamicResource MainColorCF}" CornerRadius="30">
                             <Border
-                                Margin="18"
+                                Margin="10"
                                 Background="{DynamicResource Background2CF}"
                                 CornerRadius="20">
 
@@ -233,9 +233,9 @@
                     </Grid>
                     <Grid Grid.Row="1">
 
-                        <Border Background="{DynamicResource MainColorCF}" CornerRadius="25">
+                        <Border Background="{DynamicResource MainColorCF}" CornerRadius="30">
                             <Border
-                                Margin="18"
+                                Margin="10"
                                 Background="{DynamicResource BackgroundCF}"
                                 CornerRadius="20">
                                 <StackPanel>

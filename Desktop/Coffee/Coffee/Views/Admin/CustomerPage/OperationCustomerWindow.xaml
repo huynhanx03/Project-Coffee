@@ -39,7 +39,7 @@
             <TextBlock
                 Margin="30,20,0,0"
                 Style="{DynamicResource Header1}"
-                Text="{DynamicResource AddCustomer}" />
+                Text="{Binding HeaderOperation}" />
 
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>

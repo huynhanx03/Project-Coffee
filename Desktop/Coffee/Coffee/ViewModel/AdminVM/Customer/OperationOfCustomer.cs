@@ -92,6 +92,13 @@ namespace Coffee.ViewModel.AdminVM.Customer
             get { return _Password; }
             set { _Password = value; OnPropertyChanged(); }
         }
+        
+        public string _HeaderOperation { get; set; }
+        public string HeaderOperation
+        {
+            get { return _HeaderOperation; }
+            set { _HeaderOperation = value; OnPropertyChanged(); }
+        }
 
         public int TypeOperation { get; set; }
         public string OriginImage { get; set; }

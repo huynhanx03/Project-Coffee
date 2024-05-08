@@ -33,7 +33,6 @@ namespace Coffee.ViewModel.AdminVM
             set { _role = value; OnPropertyChanged(); } 
         }
 
-        public ICommand loadDashboardPageIC { get; set; }
         public ICommand loadTablesPageIC { get; set; }
         public ICommand loadMenuPageIC { get; set; }
         public ICommand loadIngredientsPageIC { get; set; }
@@ -63,70 +62,71 @@ namespace Coffee.ViewModel.AdminVM
                 role = 1;
             });
 
-            loadDashboardPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
-            {
-                //optionName = "Trang chủ";
-            });
-
             loadTablesPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainTablePage();
-                //optionName = "Bàn";
+                optionName = "Trang chủ";
             });
 
             loadMenuPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainMenuPage();
-                //optionName = "Thực đơn";
+                optionName = "Quản lý thực đơn";
             });
 
             loadIngredientsPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainIngredientPage();
-                //optionName = "Nguyên liệu";
+                optionName = "Quản lý nguyên liệu";
             });
 
             loadStatisticPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainStatisticPage();
-                //optionName = "Hoá đơn";
+                optionName = "Thống kê";
             });
 
             loadEmployeePageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainEmployeePage();
-                //optionName = "Nhân viên";
+                optionName = "Quản lý nhân viên";
             });
 
             loadSettingPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainSettingPage();
+                optionName = "Cài đặt";
                 //optionName = (string)Application.Current.Resources["Setting"];
             });
 
             loadChatPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainChatPage();
+                optionName = "Nhắn tin";
             });
 
             loadVoucherPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainVoucherPage();
+                optionName = "Quản lý phiếu giảm giá";
             });
 
             loadEvaluatePageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainEvaluatePage();
+                optionName = "Quản lý đánh giá";
             });
 
             loadStorePageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainStorePage();
+                optionName = "Quản lý thông tin quán";
             });
             
             loadCustomerPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new MainCustomerPage();
+                optionName = "Quản lý khách hàng";
             });
 
             loguoutIC = new RelayCommand<object>((p) => { return true; }, (p) =>

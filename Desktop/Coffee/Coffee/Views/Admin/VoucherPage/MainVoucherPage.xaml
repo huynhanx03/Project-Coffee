@@ -111,9 +111,9 @@
                 <Border
                     Margin="30,0,30,30"
                     Background="{DynamicResource MainColorCF}"
-                    CornerRadius="35">
+                    CornerRadius="30">
                     <Border
-                        Margin="18"
+                        Margin="10"
                         Background="{DynamicResource BackgroundCF}"
                         CornerRadius="20">
                         <DataGrid

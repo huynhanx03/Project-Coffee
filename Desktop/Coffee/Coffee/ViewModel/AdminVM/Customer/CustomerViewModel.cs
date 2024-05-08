@@ -37,6 +37,8 @@ namespace Coffee.ViewModel.AdminVM.Customer
 
         private List<CustomerDTO> __CustomerList;
 
+
+
         #endregion
 
         #region ICommand
@@ -143,6 +145,8 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// </summary>
         public async Task openWindowEditCustomer()
         {
+            HeaderOperation = (string)Application.Current.Resources["EditCustomer"];
+
             MaskName.Visibility = Visibility.Visible;
             OperationCustomerWindow w = new OperationCustomerWindow();
             TypeOperation = 2; // Edit Customer
@@ -224,6 +228,8 @@ namespace Coffee.ViewModel.AdminVM.Customer
 
         public void openWindowAddCustomer()
         {
+            HeaderOperation = (string)Application.Current.Resources["AddCustomer"];
+
             MaskName.Visibility = Visibility.Visible;
             resetCustomer();
             Birthday = DateTime.Now;

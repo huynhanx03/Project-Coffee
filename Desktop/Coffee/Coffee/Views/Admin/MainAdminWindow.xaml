@@ -117,20 +117,41 @@
             <uc:ControlbarUC />
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="{DynamicResource Background3CF}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="10*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Background="{DynamicResource Background3CF}">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="9*" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0">
+                    <Border
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,5"
+                        Background="{DynamicResource BackgroundCF}"
+                        BorderBrush="{DynamicResource BackgroundCF}"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="5"
+                                Direction="315"
+                                Opacity="0.3"
+                                ShadowDepth="5"
+                                Color="Gray" />
+                        </Border.Effect>
+                    </Border>
+
+
+                    <Grid
+                        Grid.Column="0"
+                        Margin="0,0,0,10"
+                        Background="{DynamicResource BackgroundCF}">
                         <!--  Logo  -->
                         <StackPanel
                             Grid.Row="0"
@@ -155,12 +176,15 @@
 
                     </Grid>
 
-                    <DockPanel Grid.Column="1">
+                    <DockPanel
+                        Grid.Column="1"
+                        Margin="0,0,0,10"
+                        Background="{DynamicResource BackgroundCF}">
                         <TextBlock
                             Margin="20,0,0,0"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="30"
-                            Foreground="{DynamicResource ForegroundCF}"
+                            Style="{StaticResource Header1}"
                             Text="{Binding optionName}" />
 
                         <StackPanel
@@ -192,7 +216,7 @@
                 </Grid>
 
                 <Grid Grid.Row="1" Background="{DynamicResource Background3CF}">
-                    <materialDesign:Card Margin="5,0,5,5" UniformCornerRadius="10">
+                    <materialDesign:Card Margin="5,10,5,5" UniformCornerRadius="10">
                         <Frame
                             x:Name="mainFrame"
                             Background="{DynamicResource Background2CF}"
@@ -223,6 +247,7 @@
                 <StackPanel
                     Grid.Row="0"
                     Width="200"
+                    Margin="0,0,0,10"
                     HorizontalAlignment="Left"
                     Background="{DynamicResource Background3CF}"
                     Orientation="Horizontal">
@@ -245,9 +270,8 @@
                 <!--  Các chức năng  -->
                 <ScrollViewer Grid.Row="1">
                     <StackPanel Grid.Row="1">
+
                         <!--  Button quản lý bàn  -->
-
-
                         <Border CornerRadius="5">
                             <RadioButton
                                 Name="TablesBtn"
@@ -257,8 +281,8 @@
                                 IsChecked="True"
                                 Style="{StaticResource MenuButtonMain}">
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="TableFurniture" Style="{StaticResource menuButtonIcon}" />
-                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Table}" />
+                                    <materialDesign:PackIcon Kind="Home" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Home}" />
                                 </StackPanel>
                             </RadioButton>
                         </Border>
