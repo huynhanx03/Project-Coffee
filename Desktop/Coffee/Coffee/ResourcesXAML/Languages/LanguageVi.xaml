@@ -69,7 +69,7 @@
     <system:String x:Key="IDemployee">Mã nhân viên</system:String>
     <system:String x:Key="DayCreate">Ngày tạo</system:String>
     <system:String x:Key="Allcost">Tổng tiền</system:String>
-    <system:String x:Key="StateBill">Mã hóa đơn</system:String>
+    <system:String x:Key="StateBill">Trạng thái hóa đơn</system:String>
     <system:String x:Key="IDwarehouse">Mã phiếu nhập kho</system:String>
     <system:String x:Key="CreateDayWareHouse">Ngày tạo phiếu</system:String>
     <system:String x:Key="ChangeTable">Chuyển bàn</system:String>
@@ -111,4 +111,6 @@
     <system:String x:Key="EditCustomer">Chỉnh sửa khách hàng</system:String>
     <system:String x:Key="CreatedDay">Ngày tạo</system:String>
     <system:String x:Key="Point">Điểm</system:String>
+    <system:String x:Key="ExportExcel">Xuất excel</system:String>
+    <system:String x:Key="Logout">Đăng xuất</system:String>
 </ResourceDictionary>

@@ -106,6 +106,29 @@
                 </RadioButton>
             </StackPanel>
 
+            <Button
+                Width="150"
+                Height="50"
+                Margin="0,10,290,0"
+                HorizontalAlignment="Right"
+                Background="{DynamicResource Green}"
+                Command="{Binding exportExcelIC}"
+                Style="{DynamicResource btnStyle}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Width="25"
+                            Height="23"
+                            Foreground="{DynamicResource BackgroundCF}"
+                            Kind="FileExcel" />
+                        <Label
+                            Content="{DynamicResource ExportExcel}"
+                            FontSize="15"
+                            Foreground="{DynamicResource BackgroundCF}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
             <Grid Grid.Row="1" Background="{DynamicResource Background3CF}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*" />

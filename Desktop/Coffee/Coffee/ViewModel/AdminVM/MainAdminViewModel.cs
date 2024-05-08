@@ -1,4 +1,5 @@
 ﻿using Coffee.Properties;
+using Coffee.Views.Admin;
 using Coffee.Views.Admin.ChatPage;
 using Coffee.Views.Admin.CustomerPage;
 using Coffee.Views.Admin.EmployeePage;
@@ -10,6 +11,7 @@ using Coffee.Views.Admin.StatisticPage;
 using Coffee.Views.Admin.StorePage;
 using Coffee.Views.Admin.TablePage;
 using Coffee.Views.Admin.VoucherPage;
+using Coffee.Views.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +47,7 @@ namespace Coffee.ViewModel.AdminVM
         public ICommand loadStorePageIC { get; set; }
         public ICommand loadCustomerPageIC { get; set; }
         public ICommand changeLanguageIC { get; set; }
+        public ICommand loguoutIC { get; set; }
 
         private string _optionName { get; set; }
         public string optionName
@@ -126,6 +129,11 @@ namespace Coffee.ViewModel.AdminVM
                 p.Content = new MainCustomerPage();
             });
 
+            loguoutIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                logout();
+            });
+
             changeLanguageIC = new RelayCommand<Button>((p) => { return true; }, (p) =>
             {
                 ResourceDictionary dic = new ResourceDictionary();
@@ -147,6 +155,19 @@ namespace Coffee.ViewModel.AdminVM
 
                 Application.Current.Resources.MergedDictionaries.Add(dic);
             });
+        }
+
+        private void logout()
+        {
+            MainAdminWindow wAdmin = Application.Current.Windows.OfType<MainAdminWindow>().FirstOrDefault();
+            wAdmin.Visibility = Visibility.Collapsed;
+
+            // Hiện lại cửa sở login
+            LoginWindow wLogin = new LoginWindow();
+            wLogin.Show();
+
+            // Đóng của sổ hiện tại
+            wAdmin.Close();
         }
     }
 }

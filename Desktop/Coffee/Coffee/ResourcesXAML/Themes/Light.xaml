@@ -4,6 +4,7 @@
     x:Name="themeLight">
     <SolidColorBrush x:Key="MainColorCF" Color="#704232" />
     <SolidColorBrush x:Key="HoverColorCF" Color="#B8A199" />
+    <SolidColorBrush x:Key="Green" Color="#547226" />
     <SolidColorBrush x:Key="BorderBrushCF" Color="#ECEDEE" />
     <SolidColorBrush x:Key="BackgroundCF" Color="White" />
     <SolidColorBrush x:Key="WhiteSmoke" Color="WhiteSmoke" />

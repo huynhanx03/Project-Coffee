@@ -107,6 +107,28 @@
                     </Button>
                 </StackPanel>
 
+                <Button
+                    Width="150"
+                    Height="50"
+                    Margin="50,0,0,0"
+                    HorizontalAlignment="Left"
+                    Background="{DynamicResource Green}"
+                    Command="{Binding exportExcelIC}"
+                    Style="{DynamicResource btnStyle}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="25"
+                                Height="23"
+                                Foreground="{DynamicResource BackgroundCF}"
+                                Kind="FileExcel" />
+                            <Label
+                                Content="{DynamicResource ExportExcel}"
+                                FontSize="15"
+                                Foreground="{DynamicResource BackgroundCF}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </Grid>
 
             <!--  Staff Table  -->

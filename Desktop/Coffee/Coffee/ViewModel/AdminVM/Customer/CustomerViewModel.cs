@@ -5,10 +5,12 @@ using Coffee.Views.Admin.CustomerPage;
 using Coffee.Views.MessageBox;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -43,6 +45,7 @@ namespace Coffee.ViewModel.AdminVM.Customer
         public ICommand loadCustomerListIC { get; set; }
         public ICommand searchCustomerIC { get; set; }
         public ICommand openWindowEditCustomerIC { get; set; }
+        public ICommand exportExcelIC { get; set; }
         public ICommand deleteCustomerIC { get; set; }
         #endregion
 
@@ -67,6 +70,11 @@ namespace Coffee.ViewModel.AdminVM.Customer
             openWindowEditCustomerIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 openWindowEditCustomer();
+            });
+
+            exportExcelIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                exportExcel();
             });
 
             deleteCustomerIC = new RelayCommand<CustomerDTO>((p) => { return true; }, (p) =>
@@ -242,6 +250,69 @@ namespace Coffee.ViewModel.AdminVM.Customer
                     MessageBoxCF ms = new MessageBoxCF("Tải ảnh lên thất bại", MessageType.Error, MessageButtons.OK);
                     ms.ShowDialog();
                 }
+            }
+        }
+
+
+        /// <summary>
+        /// In dữ liệu ra excel
+        /// </summary>
+        private void exportExcel()
+        {
+            System.Windows.Forms.SaveFileDialog sf = new System.Windows.Forms.SaveFileDialog
+            {
+                FileName = "DanhSachKhachHang",
+                Filter = "Excel |*.xlsx",
+                ValidateNames = true
+            };
+
+            if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                // Tạo một đối tượng ExcelPackage
+                ExcelPackage package = new ExcelPackage();
+
+                // Tạo một đối tượng ExcelWorksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sf.FileName);
+
+                // Tiêu đề cột
+                worksheet.Cells[1, 1].Value = "Mã khách hàng";
+                worksheet.Cells[1, 2].Value = "Tên khách hàng";
+                worksheet.Cells[1, 3].Value = "CCCD/CMND";
+                worksheet.Cells[1, 4].Value = "Số điện thoại";
+                worksheet.Cells[1, 5].Value = "Email";
+                worksheet.Cells[1, 6].Value = "Giới tính";
+                worksheet.Cells[1, 7].Value = "Ngày sinh";
+                worksheet.Cells[1, 8].Value = "Ngày tạo";
+                worksheet.Cells[1, 9].Value = "Điểm tích luỹ";
+
+                // Dữ liệu
+                int count = 2;
+                foreach (var item in CustomerList)
+                {
+                    worksheet.Cells[count, 1].Value = item.MaKhachHang;
+                    worksheet.Cells[count, 2].Value = item.HoTen;
+                    worksheet.Cells[count, 3].Value = item.CCCD_CMND;
+                    worksheet.Cells[count, 4].Value = item.SoDienThoai;
+                    worksheet.Cells[count, 5].Value = item.Email;
+                    worksheet.Cells[count, 6].Value = item.GioiTinh;
+                    worksheet.Cells[count, 7].Value = item.NgaySinh;
+                    worksheet.Cells[count, 8].Value = item.NgayTao;
+                    worksheet.Cells[count, 9].Value = item.DiemTichLuy;
+
+                    count++;
+                }
+
+                // Lưu file Excel
+                FileInfo fileInfo = new FileInfo(sf.FileName);
+                package.SaveAs(fileInfo);
+
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
+                mb.ShowDialog();
             }
         }
         #endregion

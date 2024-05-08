@@ -173,7 +173,7 @@
                                 Foreground="{DynamicResource ForegroundCF}"
                                 PlacementMode="BottomAndAlignRightEdges">
                                 <StackPanel Orientation="Vertical">
-                                    <Button
+                                    <!--<Button
                                         Name="btnVi"
                                         Command="{Binding changeLanguageIC}"
                                         CommandParameter="{Binding ElementName=btnVi}"
@@ -182,7 +182,9 @@
                                         Name="btnEn"
                                         Command="{Binding changeLanguageIC}"
                                         CommandParameter="{Binding ElementName=btnEn}"
-                                        Content="En" />
+                                        Content="En" />-->
+                                    <Button Command="{Binding loguoutIC}" Content="{DynamicResource Logout}" />
+
                                 </StackPanel>
                             </materialDesign:PopupBox>
                         </StackPanel>
