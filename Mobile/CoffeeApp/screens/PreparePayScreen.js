@@ -37,6 +37,10 @@ const PreparePayScreen = () => {
     const [total, setTotal] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
     const [coord, setCoord] = useState({latitude: 0, longtitude: 0});
+    const [timeDelivery, setTimeDelivery] = useState({
+        minutes: 0,
+        seconds: 0,
+    });
     const cart = useSelector((state) => state.cart.cart);
     const voucher = useSelector((state) => state.voucher.voucher)
 
@@ -82,6 +86,13 @@ const PreparePayScreen = () => {
             { latitude: coord.latitude, longitude: coord.longtitude },
             1
         );
+
+        let time = distance / 40000
+        time = time * 3600 + 10 * 60
+        setTimeDelivery({
+            minutes: Math.floor((time % 3600) / 60),
+            seconds: Math.floor(time % 60),
+        })
 
         return distance;
     }
@@ -252,7 +263,7 @@ const PreparePayScreen = () => {
                             <View className='space-y-1'>
                                 <Text className='font-bold text-base'>Vận chuyển nhanh</Text>
                                 <Text className='font-semibold text-base'>Giao hàng nhanh</Text>
-                                <Text className='text-gray-500'>Nhận hàng sau 30 phút</Text>
+                                <Text className='text-gray-500'>Nhận hàng sau {timeDelivery.minutes} phút {timeDelivery.seconds} giây</Text>
                             </View>
                             <View>
                                 <Text className='text-base'>{formatPrice(transFee)}</Text>
