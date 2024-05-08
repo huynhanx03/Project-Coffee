@@ -294,5 +294,15 @@ namespace Coffee.Services
                 return (labelRank, false);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        public async Task<(string, List<AddressModel>)> getListAddressCustomer(string customerID)
+        {
+            return await CustomerDAL.Ins.getListAddressCustomer(customerID);
+        }
     }
 }

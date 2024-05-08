@@ -1,5 +1,6 @@
 ﻿using Coffee.DALs;
 using Coffee.DTOs;
+using Coffee.Models;
 using Coffee.Services;
 using Coffee.Views.Admin.CustomerPage;
 using Coffee.Views.MessageBox;
@@ -13,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -37,7 +39,13 @@ namespace Coffee.ViewModel.AdminVM.Customer
 
         private List<CustomerDTO> __CustomerList;
 
+        private ObservableCollection<AddressModel> _AddressList;
 
+        public ObservableCollection<AddressModel> AddressList
+        {
+            get { return _AddressList; }
+            set { _AddressList = value; OnPropertyChanged(); }
+        }
 
         #endregion
 
@@ -49,6 +57,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
         public ICommand openWindowEditCustomerIC { get; set; }
         public ICommand exportExcelIC { get; set; }
         public ICommand deleteCustomerIC { get; set; }
+        public ICommand closeViewAddressCustomerWindowIC { get; set; }
+        public ICommand viewAddressCustomerIC { get; set; }
+
         #endregion
 
         public CustomerViewModel()
@@ -98,6 +109,16 @@ namespace Coffee.ViewModel.AdminVM.Customer
                 }
             });
 
+            viewAddressCustomerIC = new RelayCommand<CustomerDTO>((p) => { return true; }, (p) =>
+            {
+                viewAddressCustomer(p);
+            });
+
+            closeViewAddressCustomerWindowIC = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                p.Close();
+            });
+
             #region operation
             confirmOperationCustomerIC = new RelayCommand<object>((p) =>
             {
@@ -120,9 +141,11 @@ namespace Coffee.ViewModel.AdminVM.Customer
             {
                 uploadImage();
             });
-            #endregion
 
             
+            #endregion
+
+
         }
 
         #region function
@@ -319,6 +342,30 @@ namespace Coffee.ViewModel.AdminVM.Customer
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
                 MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
                 mb.ShowDialog();
+            }
+        }
+
+        private async void viewAddressCustomer(CustomerDTO customer)
+        {
+            // Load các vị trí
+            (string label, List<AddressModel> addressList) = await CustomerService.Ins.getListAddressCustomer(customer.MaKhachHang);
+
+            if (addressList != null)
+            {
+                AddressList = new ObservableCollection<AddressModel>(addressList);
+
+                // Hiển thị view
+                MaskName.Visibility = Visibility.Visible;
+
+                ViewAddressWindow w = new ViewAddressWindow();
+                w.ShowDialog();
+
+                MaskName.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
+                ms.ShowDialog();
             }
         }
         #endregion

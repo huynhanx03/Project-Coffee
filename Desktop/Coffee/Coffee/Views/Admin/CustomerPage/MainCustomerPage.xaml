@@ -131,7 +131,7 @@
                 </Button>
             </Grid>
 
-            <!--  Staff Table  -->
+            <!--  Customer Table  -->
             <Border
                 Grid.Row="1"
                 Margin="30,0,30,30"
@@ -280,10 +280,24 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button
-                                                Margin="35,0,0,0"
+                                                Margin="20,0,0,0"
+                                                Background="Green"
+                                                BorderBrush="Green"
+                                                Command="{Binding DataContext.viewAddressCustomerIC, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{DynamicResource btnInDtg}">
+                                                <materialDesign:PackIcon
+                                                    Width="15"
+                                                    Height="15"
+                                                    Kind="HomeAccount" />
+                                            </Button>
+
+                                            <Button
+                                                Margin="15,0,0,0"
                                                 Background="#8295B9"
                                                 BorderBrush="#41AAE2"
                                                 Command="{Binding DataContext.openWindowEditCustomerIC, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
                                                 Style="{DynamicResource btnInDtg}">
                                                 <materialDesign:PackIcon
                                                     Width="15"
@@ -292,7 +306,7 @@
                                             </Button>
 
                                             <Button
-                                                Margin="25,0,0,0"
+                                                Margin="15,0,0,0"
                                                 Background="#AD7270"
                                                 BorderBrush="#A20F27"
                                                 Command="{Binding DataContext.deleteCustomerIC, RelativeSource={RelativeSource AncestorType=DataGrid}}"

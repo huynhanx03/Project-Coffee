@@ -379,5 +379,28 @@ namespace Coffee.DALs
                 return (ex.Message, false);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        public async Task<(string, List<AddressModel>)> getListAddressCustomer(string customerID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    FirebaseResponse AddressCustomersResponse = await context.Client.GetTaskAsync("DiaChi/" + customerID);
+                    Dictionary<string, AddressModel> AdressCustomersData = AddressCustomersResponse.ResultAs<Dictionary<string, AddressModel>>();
+
+                    return ("Lấy danh sách địa chỉ khách hàng thành công", AdressCustomersData.Values.ToList());
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
     }
 }

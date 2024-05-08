@@ -115,4 +115,5 @@
     <system:String x:Key="ExportExcel">Xuất excel</system:String>
     <system:String x:Key="Logout">Đăng xuất</system:String>
     <system:String x:Key="Home">Trang chủ</system:String>
+    <system:String x:Key="Close">Đóng</system:String>
 </ResourceDictionary>

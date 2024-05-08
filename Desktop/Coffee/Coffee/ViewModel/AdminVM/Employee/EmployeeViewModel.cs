@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using OfficeOpenXml;
+using Coffee.Views.Admin.CustomerPage;
 
 namespace Coffee.ViewModel.AdminVM.Employee
 {
@@ -52,6 +53,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
         public ICommand openWindowEditEmployeeIC { get; set; }
         public ICommand deleteEmployeeIC { get; set; }
         public ICommand exportExcelIC { get; set; }
+
         #endregion
 
         public EmployeeViewModel()
@@ -86,6 +88,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
             {
                 exportExcel();
             });
+
+            
 
             openWindowAddEmployeeIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
@@ -148,6 +152,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
                     }
                 }
             });
+
+            
             #endregion
         }
 
@@ -319,5 +325,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 mb.ShowDialog();
             }
         }
+
+        
     }
 }

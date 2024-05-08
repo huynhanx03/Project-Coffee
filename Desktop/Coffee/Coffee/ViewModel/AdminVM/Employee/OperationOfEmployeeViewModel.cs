@@ -147,6 +147,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
         public ICommand confirmOperationEmployeeIC { get; set; }
         public ICommand closeOperationEmployeeWindowIC { get; set; }
         public ICommand uploadImageIC { get; set; }
+        
 
         #endregion
 

@@ -246,6 +246,7 @@
     <Compile Include="DTOs\UserContactDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="DTOs\VoucherDTO.cs" />
+    <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\BannerModel.cs" />
     <Compile Include="Models\BillModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
@@ -335,6 +336,9 @@
     </Compile>
     <Compile Include="Views\Admin\CustomerPage\OperationCustomerWindow.xaml.cs">
       <DependentUpon>OperationCustomerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\CustomerPage\ViewAddressWindow.xaml.cs">
+      <DependentUpon>ViewAddressWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\EmployeePage\MainEmployeePage.xaml.cs">
       <DependentUpon>MainEmployeePage.xaml</DependentUpon>
@@ -475,6 +479,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\CustomerPage\OperationCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\CustomerPage\ViewAddressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
