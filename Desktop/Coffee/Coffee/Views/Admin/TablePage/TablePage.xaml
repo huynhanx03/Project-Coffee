@@ -104,7 +104,7 @@
             <ListView
                 d:ItemsSource="{d:SampleData ItemCount=1}"
                 ItemsSource="{Binding TableList, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding SelectedTable, UpdateSourceTrigger=PropertyChanged}">
+                SelectedItem="{Binding SelectedTable}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>

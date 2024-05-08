@@ -43,10 +43,14 @@ namespace Coffee.Services
             if (tableFind != null)
                 return ("Tên bàn đã tồn tại", null);
 
+            (string labelFindPosition, TableDTO tableFindPosition) = await TableDAL.Ins.findTableByPosition(table);
+
+            if (tableFindPosition != null)
+                return ("Vị trí này đã có bàn", null);
+
             string maxMaBan = await this.getMaxMaBan();
             string newMaBan = Helper.nextID(maxMaBan, "BA");
             table.MaBan = newMaBan;
-            table.TrangThai = Constants.StatusTable.FREE;
 
             return await TableDAL.Ins.createTable(table);
         }
@@ -66,6 +70,11 @@ namespace Coffee.Services
 
             if (tableFind != null)
                 return ("Tên bàn đã tồn tại", null);
+
+            (string labelFindPosition, TableDTO tableFindPosition) = await TableDAL.Ins.findTableByPosition(table);
+
+            if (tableFindPosition != null)
+                return ("Vị trí này đã có bàn", null);
 
             return await TableDAL.Ins.updateTable(table);
         }

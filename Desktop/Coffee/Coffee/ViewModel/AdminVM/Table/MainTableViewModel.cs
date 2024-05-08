@@ -2,6 +2,7 @@
 using Coffee.Utils;
 using Coffee.Views.Admin.MenuPage;
 using Coffee.Views.Admin.TablePage;
+using Coffee.Views.MessageBox;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -134,9 +135,9 @@ namespace Coffee.ViewModel.AdminVM.Table
                 confirmOperationTable(p);
             });
 
-            openEditTableIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            openEditTableIC = new RelayCommand<TableDTO>((p) => { return true; }, (p) =>
             {
-
+                openWindowEditTable(p);
             });
 
             openDeleteTableIC = new RelayCommand<TableDTO>((p) => { return true; }, async (p) =>
@@ -251,6 +252,36 @@ namespace Coffee.ViewModel.AdminVM.Table
             TypeOperation = 1; // Add table
             w.ShowDialog();
             MaskName.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Mở cửa sổ chỉnh sửa bàn
+        /// </summary>
+        public void openWindowEditTable(TableDTO table)
+        {
+            if (table.TrangThai == Constants.StatusTable.BOOKED)
+            {
+                MessageBoxCF msTable = new MessageBoxCF("Bàn này đang có khách không thể chỉnh sửa", MessageType.Error, MessageButtons.OK);
+                msTable.ShowDialog();
+                return;
+            }
+
+            MaskName.Visibility = Visibility.Visible;
+            loadTableType();
+            loadTable(table);
+            OperationOfTableWindow w = new OperationOfTableWindow();
+            TypeOperation = 2; // Edit table
+            w.ShowDialog();
+            MaskName.Visibility = Visibility.Collapsed;
+        }
+
+        private void loadTable(TableDTO table)
+        {
+            tableID = table.MaBan;
+            TableName = table.TenBan;
+            Row = table.Hang;
+            Coloumn = table.Cot;
+            SelectedTableTypeName = table.TenLoaiBan;
         }
     }
 }
