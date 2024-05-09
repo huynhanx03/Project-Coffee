@@ -73,4 +73,23 @@ const getProductDetail = async () => {
     }
 };
 
-export { getCategories, getProducts, getProductsSale, getProductDetail }
+/**
+ * @notice Get the detail of a product by id
+ * @param productId The id of product
+ * @returns 
+ */
+const getProductDetailById = async (productId) => {
+    const dbRef = ref(getDatabase());
+    
+    try {
+        const productSnapshot = await get(child(dbRef, `SanPham/${productId}`));
+        const product = productSnapshot.val();
+
+        return product
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export { getCategories, getProducts, getProductsSale, getProductDetail, getProductDetailById }
