@@ -11,6 +11,7 @@ import {getUserData} from "../controller/StorageController";
 import { useDispatch } from "react-redux";
 import { getCart } from "../controller/CartController";
 import { addToCartFromDatabase } from "../redux/slices/cartSlice";
+import ShowToast from "../components/toast";
 
 const { width, height } = Dimensions.get("window");
 
@@ -48,14 +49,7 @@ export default function LogInScreen() {
         }
         else {
             setIsLoading(false);
-            Toast.show({
-                type: 'error',
-                text1: 'Đăng nhập thất bại',
-                text2: 'Tài khoản hoặc mật khẩu không đúng!',
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-            })
+            ShowToast("error", "Đăng nhập thất bại", "Tài khoản hoặc mật khẩu không đúng!")
         }
     };
 

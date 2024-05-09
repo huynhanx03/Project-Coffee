@@ -27,6 +27,7 @@ import { removeItemCart } from "../controller/CartController";
 import Toast from "react-native-toast-message";
 import { saveOrder } from "../controller/OrderController";
 import { removeVoucher } from "../redux/slices/voucherSlice";
+import ShowToast from "../components/toast";
 
 const PreparePayScreen = () => {
     const navigation = useNavigation();
@@ -120,15 +121,7 @@ const PreparePayScreen = () => {
 
     const handleCheckOut = async () => {
         if (!addressData) {
-            Toast.show({
-                type: "error",
-                text1: "Lỗi",
-                text2: "Vui lòng chọn địa chỉ nhận hàng",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-                visibilityTime: 2000,
-            })
+            ShowToast("error", "Lỗi", "Vui lòng chọn địa chỉ nhận hàng");
             return
         }
         const isDistance = handleCheckDistance();

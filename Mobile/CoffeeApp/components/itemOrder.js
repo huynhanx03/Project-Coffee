@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import Animated, { FadeInUp, FadeOut } from "react-native-reanimated";
 import { setStatusOrder } from "../controller/OrderController";
 import Toast from "react-native-toast-message";
+import ShowToast from "./toast";
 
 const ItemOrder = (props) => {
     const navigation = useNavigation();
@@ -34,15 +35,7 @@ const ItemOrder = (props) => {
         setStatusOrder(MaDonHang);
         setIsReceive(true);
         setIsReview(false);
-        Toast.show({
-            type: 'success',
-            text1: 'Đã nhận đơn hàng',
-            text2: 'Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi',
-            topOffset: 70,
-            text1Style: {fontSize: 18},
-            text2Style: {fontSize: 15},
-            visibilityTime: 2000,
-        })
+        ShowToast('success', 'Đã nhận đơn hàng', 'Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi')
     };
 
     const handleReceive = () => {

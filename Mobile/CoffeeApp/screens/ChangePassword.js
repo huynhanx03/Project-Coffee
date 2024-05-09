@@ -17,6 +17,7 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import ShowToast from "../components/toast";
 
 const width = Dimensions.get("window").width;
 
@@ -33,28 +34,11 @@ const EditScreen = () => {
 
     const handleChangePassword = async () => {
         if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
-            Toast.show({
-                type: "error",
-                text1: "Thông báo",
-                text2: "Vui lòng nhập đầy đủ thông tin",
-                topOffset: 70,
-                text1Style: { fontSize: 18 },
-                text2Style: { fontSize: 15 },
-                visibilityTime: 2000
-            });
+            ShowToast("error", "Thông báo", "Vui lòng nhập đầy đủ thông tin");
             return;
         }
         const rs = await changePassword(oldPassword, newPassword, confirmPassword);
-        Toast.show({
-            type: rs[0] ? "success" : "error",
-            text1: 'Thông báo',
-            text2: rs[1],
-            topOffset: 70,
-            duration: 2000,
-            text1Style: { fontSize: 18 },
-            text2Style: { fontSize: 15 },
-            visibilityTime: 2000
-        })
+        ShowToast(rs[0] ? "success" : "error", "Thông báo", rs[1])
 
         if (rs[0]) {
             setTimeout(() => {

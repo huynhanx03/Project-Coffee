@@ -8,6 +8,7 @@ import { deleteItemCard } from "../controller/CartController";
 import * as Icons from "react-native-heroicons/outline";
 import { formatPrice } from "../utils";
 import Toast from "react-native-toast-message";
+import ShowToast from "./toast";
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
@@ -25,15 +26,7 @@ const ItemCart = (props) => {
             setQuantity((quantity) => quantity + 1);
             dispatch(incrementQuantity(props.item))
         } else {
-            Toast.show({
-                type: 'error',
-                text1: 'Lỗi',
-                text2: 'Số lượng sản phẩm không đủ!',
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-                visibilityTime: 2000,
-            })
+            ShowToast('error', 'Lỗi', 'Số lượng sản phẩm không đủ!')
         }
     }
 
@@ -44,15 +37,7 @@ const ItemCart = (props) => {
 
     const changeQuantityInput = () => {
         if (quantity > props.item.SoLuong) {
-            Toast.show({
-                type: 'error',
-                text1: 'Lỗi',
-                text2: 'Số lượng sản phẩm không hợp lệ!',
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-                visibilityTime: 2000,
-            })
+            ShowToast('error', 'Lỗi', 'Số lượng sản phẩm không đủ!')
             setQuantity(props.item.SoLuongGioHang)
             return;
         }
