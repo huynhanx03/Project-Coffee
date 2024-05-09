@@ -10,6 +10,7 @@ import * as Icons from "react-native-heroicons/mini";
 import { colors } from "../theme";
 import { MaterialIcons } from '@expo/vector-icons';
 import ChatScreen from "../screens/ChatScreen";
+import MenuScreen from "../screens/MenuScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +35,7 @@ const BottomTab = () => {
 
             <Tab.Screen
                 name="Menu"
-                component={HomeScreen}
+                component={MenuScreen}
                 options={{
                     headerShown: false,
                     tabBarLabel: "Đồ ăn và nước uống",

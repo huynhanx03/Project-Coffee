@@ -21,6 +21,7 @@ import OrderSuccessScreen from '../screens/OrderSuccessScreen';
 import OrderInfoScreen from '../screens/OrderInfoScreen';
 import ReviewScreen from '../screens/ReviewScreen';
 import VoucherScreen from '../screens/VoucherScreen';
+import MenuScreen from '../screens/MenuScreen';
 
 const Stack = createNativeStackNavigator();
 
