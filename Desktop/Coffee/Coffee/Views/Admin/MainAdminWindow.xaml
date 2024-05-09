@@ -91,6 +91,15 @@
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="EvaluateBtn">
             <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
         </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="StoreBtn">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="OrderBtn">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="CustomerBtn">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
     </Window.Triggers>
 
     <i:Interaction.Triggers>
@@ -108,20 +117,41 @@
             <uc:ControlbarUC />
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="{DynamicResource Background3CF}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="10*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Background="{DynamicResource Background3CF}">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="9*" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0">
+                    <Border
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,5"
+                        Background="{DynamicResource BackgroundCF}"
+                        BorderBrush="{DynamicResource BackgroundCF}"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="5"
+                                Direction="315"
+                                Opacity="0.3"
+                                ShadowDepth="5"
+                                Color="Gray" />
+                        </Border.Effect>
+                    </Border>
+
+
+                    <Grid
+                        Grid.Column="0"
+                        Margin="0,0,0,10"
+                        Background="{DynamicResource BackgroundCF}">
                         <!--  Logo  -->
                         <StackPanel
                             Grid.Row="0"
@@ -146,12 +176,15 @@
 
                     </Grid>
 
-                    <DockPanel Grid.Column="1">
+                    <DockPanel
+                        Grid.Column="1"
+                        Margin="0,0,0,10"
+                        Background="{DynamicResource BackgroundCF}">
                         <TextBlock
                             Margin="20,0,0,0"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="30"
-                            Foreground="{DynamicResource ForegroundCF}"
+                            Style="{StaticResource Header1}"
                             Text="{Binding optionName}" />
 
                         <StackPanel
@@ -164,7 +197,7 @@
                                 Foreground="{DynamicResource ForegroundCF}"
                                 PlacementMode="BottomAndAlignRightEdges">
                                 <StackPanel Orientation="Vertical">
-                                    <Button
+                                    <!--<Button
                                         Name="btnVi"
                                         Command="{Binding changeLanguageIC}"
                                         CommandParameter="{Binding ElementName=btnVi}"
@@ -173,7 +206,9 @@
                                         Name="btnEn"
                                         Command="{Binding changeLanguageIC}"
                                         CommandParameter="{Binding ElementName=btnEn}"
-                                        Content="En" />
+                                        Content="En" />-->
+                                    <Button Command="{Binding loguoutIC}" Content="{DynamicResource Logout}" />
+
                                 </StackPanel>
                             </materialDesign:PopupBox>
                         </StackPanel>
@@ -181,7 +216,7 @@
                 </Grid>
 
                 <Grid Grid.Row="1" Background="{DynamicResource Background3CF}">
-                    <materialDesign:Card Margin="5,0,5,5" UniformCornerRadius="10">
+                    <materialDesign:Card Margin="5,10,5,5" UniformCornerRadius="10">
                         <Frame
                             x:Name="mainFrame"
                             Background="{DynamicResource Background2CF}"
@@ -212,6 +247,7 @@
                 <StackPanel
                     Grid.Row="0"
                     Width="200"
+                    Margin="0,0,0,10"
                     HorizontalAlignment="Left"
                     Background="{DynamicResource Background3CF}"
                     Orientation="Horizontal">
@@ -232,150 +268,200 @@
                 </StackPanel>
 
                 <!--  Các chức năng  -->
-                <StackPanel Grid.Row="1">
-                    <!--  Button quản lý bàn  -->
-                    <Border CornerRadius="5">
-                        <RadioButton
-                            Name="TablesBtn"
-                            Command="{Binding loadTablesPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            IsChecked="True"
-                            Style="{StaticResource MenuButtonMain}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="TableFurniture" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Table}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel Grid.Row="1">
 
-                    <!--  Button quản lý thực đơn  -->
-                    <Border CornerRadius="5">
-                        <RadioButton
-                            Name="ItemsBtn"
-                            Command="{Binding loadMenuPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}"
-                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ListBox" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Item}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button quản lý bàn  -->
+                        <Border CornerRadius="5">
+                            <RadioButton
+                                Name="TablesBtn"
+                                Command="{Binding loadTablesPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                IsChecked="True"
+                                Style="{StaticResource MenuButtonMain}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Home" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Home}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button quản lý nguyên liệu  -->
-                    <Border CornerRadius="5">
-                        <RadioButton
-                            Name="IngredientsBtn"
-                            Command="{Binding loadIngredientsPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}"
-                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Food" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Ingredient}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button quản lý thực đơn  -->
+                        <Border CornerRadius="5">
+                            <RadioButton
+                                Name="ItemsBtn"
+                                Command="{Binding loadMenuPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ListBox" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Item}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button thống kê  -->
-                    <Border CornerRadius="5">
-                        <RadioButton
-                            Name="BillsBtn"
-                            Command="{Binding loadStatisticPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Finance" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Statistic}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button quản lý nguyên liệu  -->
+                        <Border CornerRadius="5">
+                            <RadioButton
+                                Name="IngredientsBtn"
+                                Command="{Binding loadIngredientsPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Food" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Ingredient}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button quản lý nhân viên  -->
-                    <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
-                        <RadioButton
-                            Name="EmployeeBtn"
-                            Command="{Binding loadEmployeePageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}"
-                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountGroup" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Employee}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button thống kê  -->
+                        <Border CornerRadius="5">
+                            <RadioButton
+                                Name="BillsBtn"
+                                Command="{Binding loadStatisticPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Finance" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Statistic}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button quản lý tin nhắn  -->
-                    <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
-                        <RadioButton
-                            Name="ChatBtn"
-                            Command="{Binding loadChatPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}"
-                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Chat" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Chat}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button quản lý nhân viên  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="EmployeeBtn"
+                                Command="{Binding loadEmployeePageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountGroup" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Employee}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button quản lý phiếu giảm giá  -->
-                    <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
-                        <RadioButton
-                            Name="VoucherBtn"
-                            Command="{Binding loadVoucherPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}"
-                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="TicketPercent" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Voucher}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button quản lý tin nhắn  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="ChatBtn"
+                                Command="{Binding loadChatPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Chat" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Chat}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button quản lý đánh giá sản phẩm  -->
-                    <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
-                        <RadioButton
-                            Name="EvaluateBtn"
-                            Command="{Binding loadEvaluatePageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}"
-                            Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountStar" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Evaluate}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
+                        <!--  Button quản lý phiếu giảm giá  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="VoucherBtn"
+                                Command="{Binding loadVoucherPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TicketPercent" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Voucher}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
+                        <!--  Button quản lý đánh giá sản phẩm  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="EvaluateBtn"
+                                Command="{Binding loadEvaluatePageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountStar" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Evaluate}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
 
-                    <!--  Button cài đặt  -->
-                    <Border CornerRadius="5">
-                        <RadioButton
-                            Name="SettingBtn"
-                            Command="{Binding loadSettingPageIC}"
-                            CommandParameter="{Binding ElementName=mainFrame}"
-                            GroupName="mainOptions"
-                            Style="{StaticResource MenuButtonMain}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Settings" Style="{StaticResource menuButtonIcon}" />
-                                <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Setting}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </Border>
-                </StackPanel>
+                        <!--  Button quản lý khách hàng  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="CustomerBtn"
+                                Command="{Binding loadCustomerPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Account" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Customer}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
+
+                        <!--  Button quản lý đơn hàng  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="OrderBtn"
+                                Command="{Binding loadStorePageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FoodTakeoutBox" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Order}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
+
+                        <!--  Button quản lý quán  -->
+                        <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
+                            <RadioButton
+                                Name="StoreBtn"
+                                Command="{Binding loadStorePageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Storefront" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Store}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
+
+                        <!--  Button cài đặt  -->
+                        <Border CornerRadius="5">
+                            <RadioButton
+                                Name="SettingBtn"
+                                Command="{Binding loadSettingPageIC}"
+                                CommandParameter="{Binding ElementName=mainFrame}"
+                                GroupName="mainOptions"
+                                Style="{StaticResource MenuButtonMain}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Settings" Style="{StaticResource menuButtonIcon}" />
+                                    <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Setting}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
 
             <!--  Overlay  -->

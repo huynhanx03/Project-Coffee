@@ -1,5 +1,6 @@
 ﻿using Coffee.DTOs;
 using Coffee.Services;
+using Coffee.Utils;
 using Coffee.Views.MessageBox;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                 MaLoaiBan = tableType.MaLoaiBan,
                 Cot = Coloumn,
                 Hang = Row,
+                TrangThai = Constants.StatusTable.FREE
             };
 
             switch (TypeOperation)
@@ -117,7 +119,24 @@ namespace Coffee.ViewModel.AdminVM.Table
                     break;
 
                 case 2:
+                    table.MaBan = tableID;
+
                     // Edit
+                    (string lableEdit, TableDTO tableEdit) = await TableService.Ins.updateTable(table);
+
+                    // Thành công
+                    if (tableEdit != null)
+                    {
+                        MessageBoxCF msCreate = new MessageBoxCF(lableEdit, MessageType.Accept, MessageButtons.OK);
+                        msCreate.ShowDialog();
+                        loadTableList();
+                        w.Close();
+                    }
+                    else // Thất bại
+                    {
+                        MessageBoxCF msCreate = new MessageBoxCF(lableEdit, MessageType.Error, MessageButtons.OK);
+                        msCreate.ShowDialog();
+                    }
                     break;
             }
         }

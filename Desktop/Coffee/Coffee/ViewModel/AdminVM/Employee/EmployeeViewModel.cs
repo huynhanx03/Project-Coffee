@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,6 +16,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using OfficeOpenXml;
+using Coffee.Views.Admin.CustomerPage;
 
 namespace Coffee.ViewModel.AdminVM.Employee
 {
@@ -33,6 +36,13 @@ namespace Coffee.ViewModel.AdminVM.Employee
 
         private List<EmployeeDTO> __employeeList;
 
+        public string _HeaderOperation { get; set; }
+        public string HeaderOperation
+        {
+            get { return _HeaderOperation; }
+            set { _HeaderOperation = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
@@ -42,6 +52,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
         public ICommand searchEmployeeIC { get; set; }
         public ICommand openWindowEditEmployeeIC { get; set; }
         public ICommand deleteEmployeeIC { get; set; }
+        public ICommand exportExcelIC { get; set; }
+
         #endregion
 
         public EmployeeViewModel()
@@ -72,8 +84,17 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 deleteEmployee();
             });
 
+            exportExcelIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                exportExcel();
+            });
+
+            
+
             openWindowAddEmployeeIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
+                HeaderOperation = (string)Application.Current.Resources["AddEmployee"];
+
                 MaskName.Visibility = Visibility.Visible;
                 resetEmployee();
                 loadPosition();
@@ -97,11 +118,10 @@ namespace Coffee.ViewModel.AdminVM.Employee
             #region operation
             confirmOperationEmployeeIC = new RelayCommand<object>((p) =>
             {
-                return !(string.IsNullOrEmpty(FullName) || string.IsNullOrEmpty(FullName)
+                return !(string.IsNullOrEmpty(FullName) || string.IsNullOrEmpty(Image)
                     || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(NumberPhone)
                     || string.IsNullOrEmpty(IDCard) || string.IsNullOrEmpty(Address)
-                    || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password)
-                    || string.IsNullOrEmpty(Image));
+                    || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password));
             }, 
             (p) =>
             {
@@ -132,6 +152,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
                     }
                 }
             });
+
+            
             #endregion
         }
 
@@ -154,6 +176,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// </summary>
         public async Task openWindowEditEmployee()
         {
+            HeaderOperation = (string)Application.Current.Resources["EditEmployee"];
+
             MaskName.Visibility = Visibility.Visible;
             await loadPosition();
             OperationEmployeeWindow w = new OperationEmployeeWindow();
@@ -237,5 +261,71 @@ namespace Coffee.ViewModel.AdminVM.Employee
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        /// <summary>
+        /// In dữ liệu ra excel
+        /// </summary>
+        private void exportExcel()
+        {
+            System.Windows.Forms.SaveFileDialog sf = new System.Windows.Forms.SaveFileDialog
+            {
+                FileName = "DanhSachNhanVien",
+                Filter = "Excel |*.xlsx",
+                ValidateNames = true
+            };
+
+            if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                // Tạo một đối tượng ExcelPackage
+                ExcelPackage package = new ExcelPackage();
+
+                // Tạo một đối tượng ExcelWorksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sf.FileName);
+
+                // Tiêu đề cột
+                worksheet.Cells[1, 1].Value = "Mã nhân viên";
+                worksheet.Cells[1, 2].Value = "Tên nhân viên";
+                worksheet.Cells[1, 3].Value = "CCCD/CMND";
+                worksheet.Cells[1, 4].Value = "Số điện thoại";
+                worksheet.Cells[1, 5].Value = "Email";
+                worksheet.Cells[1, 6].Value = "Giới tính";
+                worksheet.Cells[1, 7].Value = "Ngày sinh";
+                worksheet.Cells[1, 8].Value = "Ngày làm";
+                worksheet.Cells[1, 9].Value = "Tên chức vụ";
+                worksheet.Cells[1, 10].Value = "Lương";
+                        
+                // Dữ liệu
+                int count = 2;
+                foreach (var item in EmployeeList)
+                {
+                    worksheet.Cells[count, 1].Value = item.MaNhanVien;
+                    worksheet.Cells[count, 2].Value = item.HoTen;
+                    worksheet.Cells[count, 3].Value = item.CCCD_CMND;
+                    worksheet.Cells[count, 4].Value = item.SoDienThoai;
+                    worksheet.Cells[count, 5].Value = item.Email;
+                    worksheet.Cells[count, 6].Value = item.GioiTinh;
+                    worksheet.Cells[count, 7].Value = item.NgaySinh;
+                    worksheet.Cells[count, 8].Value = item.NgayLam;
+                    worksheet.Cells[count, 9].Value = item.TenChucVu;
+                    worksheet.Cells[count, 10].Value = item.Luong;
+
+                    count++;
+                }
+
+                // Lưu file Excel
+                FileInfo fileInfo = new FileInfo(sf.FileName);
+                package.SaveAs(fileInfo);
+
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
+                mb.ShowDialog();
+            }
+        }
+
+        
     }
 }

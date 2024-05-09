@@ -1,22 +1,19 @@
 ﻿using Coffee.DTOs;
 using Coffee.Services;
-using Coffee.Utils;
 using Coffee.Utils.Helper;
+using Coffee.Utils;
 using Coffee.Views.MessageBox;
-using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
-namespace Coffee.ViewModel.AdminVM.Employee
+namespace Coffee.ViewModel.AdminVM.Customer
 {
-    public partial class EmployeeViewModel: BaseViewModel
+    public partial class CustomerViewModel
     {
         #region variable
         public string _FullName { get; set; }
@@ -61,41 +58,6 @@ namespace Coffee.ViewModel.AdminVM.Employee
             set { _Birthday = value; OnPropertyChanged(); }
         }
 
-        public DateTime _WorkingDay { get; set; }
-        public DateTime WorkingDay
-        {
-            get { return _WorkingDay; }
-            set { _WorkingDay = value; OnPropertyChanged(); }
-        }
-
-        public string _Position { get; set; }
-        public string Position
-        {
-            get { return _Position; }
-            set { _Position = value; OnPropertyChanged(); }
-        }
-
-        public decimal _Wage { get; set; }
-        public decimal Wage
-        {
-            get { return _Wage; }
-            set { _Wage = value; OnPropertyChanged(); }
-        }
-
-        public ObservableCollection<PositionDTO> _ListPosition { get; set; }
-        public ObservableCollection<PositionDTO> ListPosition
-        {
-            get { return _ListPosition; }
-            set { _ListPosition = value; OnPropertyChanged(); }
-        }
-
-        public string _SelectedPositionName { get; set; }
-        public string SelectedPositionName
-        {
-            get { return _SelectedPositionName; }
-            set { _SelectedPositionName = value; OnPropertyChanged(); }
-        }
-
         public ObservableCollection<string> _ListGender { get; set; }
         public ObservableCollection<string> ListGender
         {
@@ -109,7 +71,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
             get { return _SelectedGender; }
             set { _SelectedGender = value; OnPropertyChanged(); }
         }
-        
+
         public string _Image { get; set; }
         public string Image
         {
@@ -130,45 +92,38 @@ namespace Coffee.ViewModel.AdminVM.Employee
             get { return _Password; }
             set { _Password = value; OnPropertyChanged(); }
         }
+        
+        public string _HeaderOperation { get; set; }
+        public string HeaderOperation
+        {
+            get { return _HeaderOperation; }
+            set { _HeaderOperation = value; OnPropertyChanged(); }
+        }
 
         public int TypeOperation { get; set; }
         public string OriginImage { get; set; }
 
-        public EmployeeDTO _SelectedEmployee { get; set; }
-        public EmployeeDTO SelectedEmployee
+        public CustomerDTO _SelectedCustomer { get; set; }
+        public CustomerDTO SelectedCustomer
         {
-            get { return _SelectedEmployee; }
-            set { _SelectedEmployee = value; OnPropertyChanged(); }
+            get { return _SelectedCustomer; }
+            set { _SelectedCustomer = value; OnPropertyChanged(); }
         }
 
         #endregion
 
         #region ICommand
-        public ICommand confirmOperationEmployeeIC { get; set; }
-        public ICommand closeOperationEmployeeWindowIC { get; set; }
+        public ICommand confirmOperationCustomerIC { get; set; }
+        public ICommand closeOperationCustomerWindowIC { get; set; }
         public ICommand uploadImageIC { get; set; }
-        
 
         #endregion
 
         #region function
         /// <summary>
-        /// Lấy danh sách chức vị
+        /// Xác nhận thao tác khách hàng
         /// </summary>
-        public async Task loadPosition()
-        {
-            (string label, List<PositionDTO> listPosition) = await PositionService.Ins.getAllPosition();
-
-            if (listPosition != null)
-            {
-                ListPosition = new ObservableCollection<PositionDTO>(listPosition);
-            }
-        }
-
-        /// <summary>
-        /// Xác nhận thao tác nhân viên
-        /// </summary>
-        public async void confirmOperationEmployee()
+        public async void confirmOperationCustomer()
         {
             if (!Helper.checkCardID(IDCard))
             {
@@ -191,14 +146,12 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 return;
             }
 
-            PositionDTO positionDTO = (ListPosition.First(p => p.TenChucVu == SelectedPositionName) as PositionDTO);
-
             string newImage = Image;
 
             if (OriginImage != Image)
                 newImage = await CloudService.Ins.UploadImage(Image);
 
-            EmployeeDTO employee = new EmployeeDTO
+            CustomerDTO Customer = new CustomerDTO
             {
                 HoTen = FullName.Trim(),
                 CCCD_CMND = IDCard.Trim(),
@@ -206,28 +159,25 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 SoDienThoai = NumberPhone.Trim(),
                 DiaChi = Address.Trim(),
                 GioiTinh = SelectedGender,
-                MaChucVu = positionDTO.MaChucVu,
-                Luong = Wage,
-                NgayLam = WorkingDay.ToString("dd/MM/yyyy"),
                 NgaySinh = Birthday.ToString("dd/MM/yyyy"),
                 HinhAnh = newImage,
                 TaiKhoan = Username.Trim(),
                 MatKhau = Password.Trim(),
-                TenChucVu = SelectedPositionName
+                NgayTao = DateTime.Now.ToString("dd/MM/yyyy")
             };
 
             switch (TypeOperation)
             {
                 case 1:
-                    (string label, EmployeeDTO NewEmployee) = await EmployeeService.Ins.createEmpoloyee(employee);
+                    (string label, CustomerDTO NewCustomer) = await CustomerService.Ins.createCustomer(Customer);
 
-                    if (NewEmployee != null)
+                    if (NewCustomer != null)
                     {
                         MessageBoxCF ms = new MessageBoxCF(label, MessageType.Accept, MessageButtons.OK);
                         ms.ShowDialog();
-                        resetEmployee();
+                        resetCustomer();
 
-                        EmployeeList.Add(NewEmployee);
+                        CustomerList.Add(NewCustomer);
                     }
                     else
                     {
@@ -237,35 +187,36 @@ namespace Coffee.ViewModel.AdminVM.Employee
                         // Xoá user
 
 
-                        // Xoá employee
+                        // Xoá Customer
 
                         MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
                         ms.ShowDialog();
                     }
                     break;
                 case 2:
-                    employee.MaNhanVien = SelectedEmployee.MaNhanVien;
+                    Customer.MaKhachHang = SelectedCustomer.MaKhachHang;
+                    Customer.NgayTao = SelectedCustomer.NgayTao;
 
-                    (string labelEdit, EmployeeDTO NewEmployeeEdit) = await EmployeeService.Ins.updateEmpoloyee(employee);
+                    (string labelEdit, CustomerDTO NewCustomerEdit) = await CustomerService.Ins.updateCustomer(Customer);
 
-                    if (NewEmployeeEdit != null)
+                    if (NewCustomerEdit != null)
                     {
                         await CloudService.Ins.DeleteImage(OriginImage);
 
                         MessageBoxCF ms = new MessageBoxCF(labelEdit, MessageType.Accept, MessageButtons.OK);
                         ms.ShowDialog();
-                        loadEmployeeList();
+                        loadCustomerList();
                     }
                     else
                     {
                         // Xoá ảnh
-                        if (OriginImage != Image) 
+                        if (OriginImage != Image)
                             await CloudService.Ins.DeleteImage(newImage);
 
                         // Xoá user
 
 
-                        // Xoá employee
+                        // Xoá Customer
 
                         MessageBoxCF ms = new MessageBoxCF(labelEdit, MessageType.Error, MessageButtons.OK);
                         ms.ShowDialog();
@@ -275,8 +226,10 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 default:
                     break;
             }
-                
+
         }
+
+
         #endregion
     }
 }

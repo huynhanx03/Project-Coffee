@@ -62,8 +62,19 @@
 
                 <DataGridTemplateColumn
                     Width="auto"
-                    Header="{DynamicResource Employee}"
+                    Header="{DynamicResource IDemployee}"
                     SortMemberPath="MaNhanVien">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding MaNhanVien}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                    Width="auto"
+                    Header="{DynamicResource Employee}"
+                    SortMemberPath="TenNhanVien">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding TenNhanVien}" />

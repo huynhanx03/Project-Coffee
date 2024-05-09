@@ -4,6 +4,7 @@ using FireSharp.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,7 +59,7 @@ namespace Coffee.DALs
         ///     1: Thông báo
         ///     2: Bàn
         /// </returns>
-        public async Task<(string, TableDTO)> updateTable (TableDTO table)
+        public async Task<(string, TableDTO)> updateTable(TableDTO table)
         {
             try
             {
@@ -120,7 +121,7 @@ namespace Coffee.DALs
                     {
                         Dictionary<string, TableDTO> data = response.ResultAs<Dictionary<string, TableDTO>>();
 
-                        string MaxMaBan= data.Values.Select(p => p.MaBan).Max();
+                        string MaxMaBan = data.Values.Select(p => p.MaBan).Max();
 
                         return MaxMaBan;
                     }
@@ -218,6 +219,28 @@ namespace Coffee.DALs
                     FirebaseResponse tableResponse = await context.Client.GetTaskAsync("Ban");
                     Dictionary<string, TableDTO> tableData = tableResponse.ResultAs<Dictionary<string, TableDTO>>();
                     TableDTO table = tableData.Values.FirstOrDefault(x => x.TenBan == tableName && x.MaBan != tableID);
+
+                    if (table != null)
+                        return ("Tìm thành công", table);
+                    else
+                        return ("Không tồn tại", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, null);
+            }
+        }
+
+        public async Task<(string, TableDTO)> findTableByPosition(TableDTO table)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    FirebaseResponse tableResponse = await context.Client.GetTaskAsync("Ban");
+                    Dictionary<string, TableDTO> tableData = tableResponse.ResultAs<Dictionary<string, TableDTO>>();
+                    TableDTO tableFind = tableData.Values.FirstOrDefault(x => x.Cot == table.Cot && x.Hang == table.Hang && x.MaBan != table.MaBan);
 
                     if (table != null)
                         return ("Tìm thành công", table);

@@ -22,6 +22,9 @@ using System.Net;
 using ChartKit.SkiaSharpView.WPF;
 using Coffee.Services;
 using Coffee.Models;
+using Coffee.Views.MessageBox;
+using OfficeOpenXml;
+using System.IO;
 
 namespace Coffee.ViewModel.AdminVM.Statistic
 {
@@ -61,6 +64,8 @@ namespace Coffee.ViewModel.AdminVM.Statistic
                 OnPropertyChanged();
             }
         }
+
+        private int typeExport { get; set; }
         #endregion
 
         #region Icommand
@@ -70,6 +75,7 @@ namespace Coffee.ViewModel.AdminVM.Statistic
         public ICommand loadStatisticIC { get; set; }
         public ICommand loadTopMenuIC { get; set; }
         public ICommand loadDataIC { get; set; }
+        public ICommand exportExcelIC { get; set; }
         #endregion
 
         public StatisticViewModel()
@@ -86,15 +92,23 @@ namespace Coffee.ViewModel.AdminVM.Statistic
             loadSaleHistoryIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new SaleHistoryPage();
+                typeExport = 1;
             });
             loadImportHistoryIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new ImportHistoryPage();
+                typeExport = 2;
             });
 
             loadStatisticIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 p.Content = new StatisticPage();
+                typeExport = 3;
+            });
+
+            exportExcelIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                exportExcel();
             });
 
             loadBillListTimeIC = new RelayCommand<object>(p => true, p => LoadBillList(FromDate,ToDate));
@@ -123,6 +137,7 @@ namespace Coffee.ViewModel.AdminVM.Statistic
             });
             #endregion
         }
+
         #region operation
         //mở cửa sổ chi tiết hóa đơn
         public async void openWindowBill()
@@ -178,6 +193,112 @@ namespace Coffee.ViewModel.AdminVM.Statistic
             await LoadBillList(FromDate, ToDate);
             await loadBillImportList(FromDate, ToDate);
             await loadCartesianChar();
+        }
+
+        /// <summary>
+        /// In dữ liệu ra excel
+        /// </summary>
+        private void exportExcel()
+        {
+            System.Windows.Forms.SaveFileDialog sf = new System.Windows.Forms.SaveFileDialog
+            {
+                FileName = "LichSu",
+                Filter = "Excel |*.xlsx",
+                ValidateNames = true
+            };
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Tạo một đối tượng ExcelPackage
+            ExcelPackage package = new ExcelPackage();
+
+            // Tạo một đối tượng ExcelWorksheet
+            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("one");
+
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
+            switch (typeExport)
+            {
+                case 1:
+                    if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        // Tiêu đề cột
+                        worksheet.Cells[1, 1].Value = "Mã hoá đơn";
+                        worksheet.Cells[1, 2].Value = "Mã nhân viên";
+                        worksheet.Cells[1, 3].Value = "Tên nhân viên";
+                        worksheet.Cells[1, 4].Value = "Mã khách hàng";
+                        worksheet.Cells[1, 5].Value = "Tên khách hàng";
+                        worksheet.Cells[1, 6].Value = "Tên bàn";
+                        worksheet.Cells[1, 7].Value = "Ngày tạo";
+                        worksheet.Cells[1, 8].Value = "Tổng tiền";
+                        worksheet.Cells[1, 9].Value = "Trạng thái hoá đơn";
+
+                        // Dữ liệu
+                        int count = 2;
+                        foreach (var item in BillList)
+                        {
+                            worksheet.Cells[count, 1].Value = item.MaHoaDon;
+                            worksheet.Cells[count, 2].Value = item.MaNhanVien;
+                            worksheet.Cells[count, 3].Value = item.TenNhanVien;
+                            worksheet.Cells[count, 4].Value = item.MaKhachHang;
+                            worksheet.Cells[count, 5].Value = item.TenKhachHang;
+                            worksheet.Cells[count, 6].Value = item.TenBan;
+                            worksheet.Cells[count, 7].Value = item.NgayTao;
+                            worksheet.Cells[count, 8].Value = item.TongTien;
+                            worksheet.Cells[count, 9].Value = item.TrangThai;
+
+                            count++;
+                        }
+
+                        // Lưu file Excel
+                        FileInfo fileInfo = new FileInfo(sf.FileName);
+                        package.SaveAs(fileInfo);
+
+                        MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
+                        mb.ShowDialog();
+                    }
+                    break;
+
+                case 2:
+                    if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        // Tiêu đề cột
+                        worksheet.Cells[1, 1].Value = "Mã phiếu nhập kho";
+                        worksheet.Cells[1, 2].Value = "Mã nhân viên";
+                        worksheet.Cells[1, 3].Value = "Tên nhân viên";
+                        worksheet.Cells[1, 4].Value = "Ngày tạo";
+                        worksheet.Cells[1, 5].Value = "Tổng tiền";
+
+                        // Dữ liệu
+                        int count = 2;
+                        foreach (var item in BillImportList)
+                        {
+                            worksheet.Cells[count, 1].Value = item.MaPhieuNhapKho;
+                            worksheet.Cells[count, 2].Value = item.MaNhanVien;
+                            worksheet.Cells[count, 3].Value = item.TenNhanVien;
+                            worksheet.Cells[count, 4].Value = item.NgayTaoPhieu;
+                            worksheet.Cells[count, 5].Value = item.TongTien;
+
+                            count++;
+                        }
+
+                        // Lưu file Excel
+                        FileInfo fileInfo = new FileInfo(sf.FileName);
+                        package.SaveAs(fileInfo);
+
+                        MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
+                        mb.ShowDialog();
+                    }
+                    break;
+
+                case 3:
+                    Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                    MessageBoxCF ms = new MessageBoxCF("Không có gì để xuất hết", MessageType.Error, MessageButtons.OK);
+                    ms.ShowDialog();
+                    break;
+            }
+
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
     }
 }

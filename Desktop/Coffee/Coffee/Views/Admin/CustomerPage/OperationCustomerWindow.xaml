@@ -1,21 +1,19 @@
 ﻿<Window
-    x:Class="Coffee.Views.Admin.EmployeePage.OperationEmployeeWindow"
+    x:Class="Coffee.Views.Admin.CustomerPage.OperationCustomerWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cv="clr-namespace:Coffee.Utils.ConverterValue"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:Coffee.Views.Admin.EmployeePage"
+    xmlns:local="clr-namespace:Coffee.Views.Admin.CustomerPage"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uc="clr-namespace:Coffee.UserControls"
-    x:Name="OperationEmployeeWindowCF"
-    Title="OperationEmployeeWindow"
+    Name="OperationCustomerWindowCF"
+    Title="OperationCustomerWindow"
     Width="800"
-    Height="700"
+    Height="570"
     AllowsTransparency="True"
     Background="Transparent"
-    DataContext="{StaticResource EmployeeVM}"
+    DataContext="{StaticResource CustomerVM}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
@@ -25,7 +23,6 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="none"
     mc:Ignorable="d">
-
     <Border
         Background="{DynamicResource BackgroundCF}"
         BorderBrush="{DynamicResource Background2CF}"
@@ -92,15 +89,7 @@
                             </i:Interaction.Triggers>
                         </TextBox>
 
-                        <TextBox
-                            Margin="0,10,0,0"
-                            BorderBrush="{DynamicResource MainColorCF}"
-                            Style="{DynamicResource txbStyle}"
-                            Text="{Binding Email}">
-                            <materialDesign:HintAssist.Hint>
-                                <TextBlock Foreground="{DynamicResource MainColorCF}" Text="{DynamicResource Email}" />
-                            </materialDesign:HintAssist.Hint>
-                        </TextBox>
+
 
                         <TextBox
                             Margin="0,10,0,0"
@@ -117,20 +106,6 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-
-                        <ComboBox
-                            Margin="0,10,0,0"
-                            BorderBrush="{DynamicResource MainColorCF}"
-                            DisplayMemberPath="TenChucVu"
-                            ItemsSource="{Binding ListPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedIndex="0"
-                            SelectedValue="TenChucVu"
-                            Style="{DynamicResource cbStyle}"
-                            Text="{Binding SelectedPositionName, Mode=TwoWay}">
-                            <materialDesign:HintAssist.Hint>
-                                <TextBlock Foreground="{DynamicResource MainColorCF}" Text="{DynamicResource Position}" />
-                            </materialDesign:HintAssist.Hint>
-                        </ComboBox>
                     </StackPanel>
 
                     <StackPanel
@@ -148,16 +123,6 @@
                             </materialDesign:HintAssist.Hint>
                         </ComboBox>
 
-                        <TextBox
-                            Margin="0,10,0,0"
-                            BorderBrush="{DynamicResource MainColorCF}"
-                            Style="{DynamicResource txbStyle}"
-                            Text="{Binding Address}">
-                            <materialDesign:HintAssist.Hint>
-                                <TextBlock Foreground="{DynamicResource MainColorCF}" Text="{DynamicResource Address}" />
-                            </materialDesign:HintAssist.Hint>
-                        </TextBox>
-
                         <DatePicker
                             Margin="0,10,0,0"
                             BorderBrush="{DynamicResource MainColorCF}"
@@ -168,30 +133,14 @@
                             </materialDesign:HintAssist.Hint>
                         </DatePicker>
 
-                        <DatePicker
-                            Margin="0,10,0,0"
-                            BorderBrush="{DynamicResource MainColorCF}"
-                            SelectedDate="{Binding WorkingDay, Mode=TwoWay}"
-                            Style="{DynamicResource dpStyle}">
-                            <materialDesign:HintAssist.Hint>
-                                <TextBlock Foreground="{DynamicResource MainColorCF}" Text="{DynamicResource WorkingDay}" />
-                            </materialDesign:HintAssist.Hint>
-                        </DatePicker>
-
                         <TextBox
                             Margin="0,10,0,0"
                             BorderBrush="{DynamicResource MainColorCF}"
                             Style="{DynamicResource txbStyle}"
-                            Text="{Binding Wage}">
+                            Text="{Binding Email}">
                             <materialDesign:HintAssist.Hint>
-                                <TextBlock Foreground="{DynamicResource MainColorCF}" Text="{DynamicResource Wage}" />
+                                <TextBlock Foreground="{DynamicResource MainColorCF}" Text="{DynamicResource Email}" />
                             </materialDesign:HintAssist.Hint>
-
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewTextInput">
-                                    <i:CallMethodAction MethodName="NumberValidationTextBox" TargetObject="{Binding}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
                         </TextBox>
                     </StackPanel>
                 </Grid>
@@ -273,14 +222,14 @@
                     Orientation="Horizontal">
                     <Button
                         Margin="0,0,20,0"
-                        Command="{Binding confirmOperationEmployeeIC}"
+                        Command="{Binding confirmOperationCustomerIC}"
                         Content="{DynamicResource Confirm}"
                         Style="{DynamicResource btnStyle}" />
 
                     <Button
                         Margin="0,0,50,0"
-                        Command="{Binding closeOperationEmployeeWindowIC}"
-                        CommandParameter="{Binding ElementName=OperationEmployeeWindowCF}"
+                        Command="{Binding closeOperationCustomerWindowIC}"
+                        CommandParameter="{Binding ElementName=OperationCustomerWindowCF}"
                         Content="{DynamicResource Cancel}"
                         Style="{DynamicResource btnStyle}" />
                 </StackPanel>
@@ -288,4 +237,5 @@
         </Grid>
     </Border>
 </Window>
+
 

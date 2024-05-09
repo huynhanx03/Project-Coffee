@@ -49,6 +49,15 @@
     <Reference Include="CloudinaryDotNet, Version=1.26.0.0, Culture=neutral, PublicKeyToken=c8234dc617ae7841, processorArchitecture=MSIL">
       <HintPath>..\packages\CloudinaryDotNet.1.26.0\lib\net452\CloudinaryDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=7.1.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.7.1.2\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.1.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="FireSharp, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FireSharp.1.1.0\lib\net45\FireSharp.dll</HintPath>
     </Reference>
@@ -69,6 +78,9 @@
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=4.9.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.4.9.0\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -95,7 +107,12 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -105,6 +122,14 @@
       <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -131,6 +156,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
@@ -174,10 +200,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DALs\BannerDAL.cs" />
     <Compile Include="DALs\BillDAL.cs" />
     <Compile Include="DALs\BillImportDAL.cs" />
     <Compile Include="DALs\ChatDAL.cs" />
     <Compile Include="DALs\CustomerDAL.cs" />
+    <Compile Include="DALs\DiscountProductDAL.cs" />
     <Compile Include="DALs\EvaluateDAL.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DALs\EmployeeDAL.cs" />
@@ -200,6 +228,7 @@
     <Compile Include="DTOs\DetailBillDTO.cs" />
     <Compile Include="DTOs\DetailImportDTO.cs" />
     <Compile Include="DTOs\DetailProductSizeDTO.cs" />
+    <Compile Include="DTOs\DiscountProductDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\EvaluateDTO.cs" />
     <Compile Include="DTOs\ImportDTO.cs" />
@@ -217,6 +246,8 @@
     <Compile Include="DTOs\UserContactDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="DTOs\VoucherDTO.cs" />
+    <Compile Include="Models\AddressModel.cs" />
+    <Compile Include="Models\BannerModel.cs" />
     <Compile Include="Models\BillModel.cs" />
     <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\DetailBillModel.cs" />
@@ -224,10 +255,12 @@
     <Compile Include="Models\DetailVoucherModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RankModel.cs" />
+    <Compile Include="Services\BannerService.cs" />
     <Compile Include="Services\BillImportService.cs" />
     <Compile Include="Services\BillService.cs" />
     <Compile Include="Services\ChatService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DiscountProductService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EvaluateService.cs" />
     <Compile Include="Services\IngredientService.cs" />
@@ -263,6 +296,8 @@
     <Compile Include="Utils\Memory.cs" />
     <Compile Include="Utils\RecommendSystemService.cs" />
     <Compile Include="ViewModel\AdminVM\Chat\ChatViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Customer\CustomerViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Customer\OperationOfCustomer.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Employee\OperationOfEmployeeViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Evaluate\EvaluateViewModel.cs" />
@@ -279,6 +314,9 @@
     <Compile Include="ViewModel\AdminVM\Statistic\SaleHistoryViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Statistic\StatisticPageViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Statistic\StatisticViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Store\BannerViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Store\DiscountTodayViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Store\StoreViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\MainTableViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\MenuViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\OperationOfTableViewModel.cs" />
@@ -292,6 +330,15 @@
     <Compile Include="ViewModel\UserControlVM\ControlbarViewModel.cs" />
     <Compile Include="Views\Admin\ChatPage\MainChatPage.xaml.cs">
       <DependentUpon>MainChatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\CustomerPage\MainCustomerPage.xaml.cs">
+      <DependentUpon>MainCustomerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\CustomerPage\OperationCustomerWindow.xaml.cs">
+      <DependentUpon>OperationCustomerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\CustomerPage\ViewAddressWindow.xaml.cs">
+      <DependentUpon>ViewAddressWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\EmployeePage\MainEmployeePage.xaml.cs">
       <DependentUpon>MainEmployeePage.xaml</DependentUpon>
@@ -343,6 +390,9 @@
     </Compile>
     <Compile Include="Views\Admin\StatisticPage\StatisticPage.xaml.cs">
       <DependentUpon>StatisticPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\StorePage\MainStorePage.xaml.cs">
+      <DependentUpon>MainStorePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\TablePage\ChangeTableWindow.xaml.cs">
       <DependentUpon>ChangeTableWindow.xaml</DependentUpon>
@@ -424,6 +474,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Admin\CustomerPage\MainCustomerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\CustomerPage\OperationCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\CustomerPage\ViewAddressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Admin\EmployeePage\MainEmployeePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -489,6 +551,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\StatisticPage\StatisticPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\StorePage\MainStorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -60,6 +60,8 @@ namespace Coffee.ViewModel.AdminVM.Table
             set { _TableNumber2Selected = value; OnPropertyChanged(); }
         }
 
+        private string tableID { get; set; }
+
         #endregion
 
         #region ICommend

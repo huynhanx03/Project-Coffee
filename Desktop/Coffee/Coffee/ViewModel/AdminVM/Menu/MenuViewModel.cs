@@ -60,6 +60,12 @@ namespace Coffee.ViewModel.AdminVM.Menu
             }
         }
 
+        public string _HeaderOperation { get; set; }
+        public string HeaderOperation
+        {
+            get { return _HeaderOperation; }
+            set { _HeaderOperation = value; OnPropertyChanged(); }
+        }
 
         #endregion
 
@@ -245,6 +251,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         public void openWindowAddProduct()
         {
+            HeaderOperation = (string)Application.Current.Resources["AddProduct"];
+
             MaskName.Visibility = Visibility.Visible;
             resetProduct();
             loadProductType();
@@ -262,6 +270,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         public void openWindowEditProduct()
         {
+            HeaderOperation = (string)Application.Current.Resources["EditProduct"];
+
             MaskName.Visibility = Visibility.Visible;
             loadProduct(SelectedProduct);
             loadProductType();
