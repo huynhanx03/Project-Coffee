@@ -27,7 +27,7 @@ const getNewId = async () => {
 /**
  * @notice Save order to database
  */
-const saveOrder = async (products, total) => {
+const saveOrder = async (products, total, transFee) => {
     const currentDate = new Date();
     const options = { 
         day: '2-digit', 
@@ -43,7 +43,7 @@ const saveOrder = async (products, total) => {
     const userData = await getUserData();
     const db = getDatabase();
 
-    set(ref(db, `DonHang/${userData.MaNguoiDung}/${newId}`), {
+    set(ref(db, `DonHang/${newId}/`), {
         MaDonHang: newId,
         MaNguoiDung: userData.MaNguoiDung,
         TrangThai: "Chờ xác nhận",
@@ -51,6 +51,7 @@ const saveOrder = async (products, total) => {
             ...products
         },
         ThanhTien: total,
+        PhiVanChuyen: transFee,
         NgayTaoDon: formattedDate,
     });
 };
@@ -61,10 +62,9 @@ const saveOrder = async (products, total) => {
  */
 const getOrder = async () => {
     const dbRef = ref(getDatabase())
-    const userData = await getUserData()
 
     try {
-        const ordersSnapshot = await get(child(dbRef, `DonHang/${userData.MaNguoiDung}`))
+        const ordersSnapshot = await get(child(dbRef, `DonHang/`))
         const orders = ordersSnapshot.val()
 
         return orders
@@ -80,10 +80,9 @@ const getOrder = async () => {
  */
 const setStatusOrder = async (orderId) => {
     const db = getDatabase()
-    const userData = await getUserData()
 
     try {
-        update(ref(db, `DonHang/${userData.MaNguoiDung}/${orderId}`), {
+        update(ref(db, `DonHang/${orderId}`), {
             TrangThai: "Đã nhận hàng"
         })
     } catch (error) {
