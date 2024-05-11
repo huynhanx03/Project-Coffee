@@ -44,7 +44,7 @@ const itemPresent = async (item) => {
         if (cart) {
             for (const [key, value] of Object.entries(cart)) {
                 if (key === item.MaSanPham) {
-                    return [true, value.SoLuongGioHang];
+                    return [true, value.SoLuong];
                 }
             }
         }
@@ -74,8 +74,7 @@ const setCart = async (item) => {
                 HinhAnh: item.HinhAnh,
                 KichThuoc: item.KichThuoc,
                 MaSanPham: item.MaSanPham,
-                SoLuongGioHang: present[1] + item.SoLuongGioHang,
-                SoLuong: item.SoLuong,
+                SoLuong: present[1] + item.SoLuong,
                 PhanTramGiam: item.PhanTramGiam,
                 GiaGoc: item.GiaGoc
             })
@@ -88,7 +87,6 @@ const setCart = async (item) => {
             HinhAnh: item.HinhAnh,
             KichThuoc: item.KichThuoc,
             MaSanPham: item.MaSanPham,
-            SoLuongGioHang: item.SoLuongGioHang,
             SoLuong: item.SoLuong,
             PhanTramGiam: item.PhanTramGiam,
             GiaGoc: item.GiaGoc

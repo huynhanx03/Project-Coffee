@@ -39,7 +39,7 @@ const ItemPay = (props) => {
                             {formatPrice(props.item.Gia)}
                         </Text>
                         <Text className="text-base text-gray-700">
-                            x{props.item.SoLuongGioHang}
+                            x{props.item.SoLuong}
                         </Text>
                     </View>
                 </View>

@@ -2,27 +2,38 @@ import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { decrementQuantity, incrementQuantity, removeFromCart, setQuantityInput } from "../redux/slices/cartSlice";
 import { deleteItemCard } from "../controller/CartController";
 import * as Icons from "react-native-heroicons/outline";
 import { formatPrice } from "../utils";
-import Toast from "react-native-toast-message";
 import ShowToast from "./toast";
+import { getProductDetailById } from "../controller/ProductController";
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart.cart)
-    const [total, setTotal] = useState(0);
-    const [quantity, setQuantity] = useState(props.item.SoLuongGioHang);
+    const [quantity, setQuantity] = useState(props.item.SoLuong);
+    const [available, setAvailable] = useState(0);
 
     const handleDeleteProduct = () => {
         dispatch(removeFromCart(props.item))
         deleteItemCard(props.item);
     }
 
+    const getQuantityAvailable = async () => {
+        try {
+            const product = await getProductDetailById(props.item.MaSanPham);
+            setAvailable(product.SoLuong);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getQuantityAvailable();
+    }, [])
     const handleIncrease = () => {
-        if (quantity < props.item.SoLuong) {
+        if (quantity < available) {
             setQuantity((quantity) => quantity + 1);
             dispatch(incrementQuantity(props.item))
         } else {
@@ -36,9 +47,9 @@ const ItemCart = (props) => {
     }
 
     const changeQuantityInput = () => {
-        if (quantity > props.item.SoLuong) {
+        if (quantity > available) {
             ShowToast('error', 'Lỗi', 'Số lượng sản phẩm không đủ!')
-            setQuantity(props.item.SoLuongGioHang)
+            setQuantity(available)
             return;
         }
         if (quantity < 1) {
@@ -82,8 +93,8 @@ const ItemCart = (props) => {
                 </View>
 
                 <View className="absolute top-1 right-1">
-                    <TouchableOpacity onPress={handleDeleteProduct} className='px-2 bg-gray-200 rounded-full'>
-                        <Text className='text-base font-semibold'>x</Text>
+                    <TouchableOpacity onPress={handleDeleteProduct} className='p-1 bg-gray-200 rounded-full'>
+                        <Icons.XMarkIcon size={20} color='black' strokeWidth={2}/>
                     </TouchableOpacity>
                 </View>
             </View>

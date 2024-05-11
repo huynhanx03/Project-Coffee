@@ -1,12 +1,11 @@
-import { child, get, getDatabase, ref, set, update } from "firebase/database";
+import { child, get, getDatabase, orderByChild, query, ref, set, update, equalTo } from "firebase/database";
 import { getUserData } from "./StorageController";
 
 const getNewId = async () => {
     const dbRef = ref(getDatabase());
-    const userData = await getUserData();
 
     try {
-        const ordesrSnapshot = await get(child(dbRef, `DonHang/${userData.MaNguoiDung}/`));
+        const ordesrSnapshot = await get(child(dbRef, `DonHang/`));
         const orders = ordesrSnapshot.val();
 
         if (orders) {
@@ -27,7 +26,7 @@ const getNewId = async () => {
 /**
  * @notice Save order to database
  */
-const saveOrder = async (products, total, transFee) => {
+const saveOrder = async (products, total, transFee, addressData) => {
     const currentDate = new Date();
     const options = { 
         day: '2-digit', 
@@ -43,16 +42,23 @@ const saveOrder = async (products, total, transFee) => {
     const userData = await getUserData();
     const db = getDatabase();
 
+    let productObj = {};
+    for (const product of products) {
+        productObj = {...productObj, [product.MaSanPham]: product }
+    }
+
+
     set(ref(db, `DonHang/${newId}/`), {
         MaDonHang: newId,
         MaNguoiDung: userData.MaNguoiDung,
         TrangThai: "Chờ xác nhận",
         SanPham: {
-            ...products
+            ...productObj
         },
         ThanhTien: total,
         PhiVanChuyen: transFee,
         NgayTaoDon: formattedDate,
+        DiaChiGiaoHang: addressData
     });
 };
 
@@ -61,10 +67,13 @@ const saveOrder = async (products, total, transFee) => {
  * @returns The order of the user
  */
 const getOrder = async () => {
-    const dbRef = ref(getDatabase())
-
+    const db = getDatabase()
+    const userData = await getUserData();
     try {
-        const ordersSnapshot = await get(child(dbRef, `DonHang/`))
+        const orderRef = ref (db, 'DonHang')
+
+        const filteredQuery = query(orderRef, orderByChild('MaNguoiDung'), equalTo(userData.MaNguoiDung))
+        const ordersSnapshot = await get(filteredQuery)
         const orders = ordersSnapshot.val()
 
         return orders

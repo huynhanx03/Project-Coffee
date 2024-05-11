@@ -21,10 +21,14 @@ const ItemOrder = (props) => {
     const [isReview, setIsReview] = useState(true);
     const [isReceive, setIsReceive] = useState(false);
     const [status, setStatus] = useState('');
+    const orderItemsList = []
+    for (const key in props.order.SanPham) {
+        orderItemsList.push(props.order.SanPham[key]);
+    }
     const calQuantity = useMemo(() => {
         let total = 0;
-        props.order.SanPham.forEach((item) => {
-            total += item.SoLuongGioHang;
+        orderItemsList.forEach((item) => {
+            total += item.SoLuong;
         });
 
         setQuantity(total);
@@ -97,7 +101,7 @@ const ItemOrder = (props) => {
                     }}
                 ></Text>
             </View>
-            {props.order.SanPham.map((item) => {
+            {orderItemsList.map((item) => {
                 return (
                     <Animated.View
                         entering={FadeInUp}
@@ -152,7 +156,7 @@ const ItemOrder = (props) => {
                                                 {formatPrice(item.Gia)}
                                             </Text>
                                             <Text className="text-base">
-                                                x{item.SoLuongGioHang}
+                                                x{item.SoLuong}
                                             </Text>
                                         </View>
                                     </View>
@@ -169,7 +173,7 @@ const ItemOrder = (props) => {
                                         color={"gray"}
                                     />
                                     <Text className="mx-2 text-base text-gray-500 font-semibold">
-                                        {item.SoLuongGioHang} sản phẩm
+                                        {item.SoLuong} sản phẩm
                                     </Text>
                                 </View>
                                 <View className="flex-row justify-end mx-2">
