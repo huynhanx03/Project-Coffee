@@ -10,15 +10,16 @@ export const CartSlice = createSlice({
             const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
             if (itemPresent) {
-                itemPresent.SoLuongGioHang += action.payload.SoLuongGioHang;
+                itemPresent.SoLuong += action.payload.SoLuong;
             } else {
                 state.cart.push({ ...action.payload })
             }
         },
         addToCartFromDatabase: (state, action) => {
-            if (state.cart.length === 0) {
-                state.cart.push({...action.payload})
-            }
+            // console.log(action.payload)
+            // if (state.cart.length === 0) {
+            // }
+            state.cart.push({...action.payload})
         },
         removeFromCart: (state, action) => {
             state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
@@ -27,16 +28,28 @@ export const CartSlice = createSlice({
             const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
             if (itemPresent) {
-                itemPresent.SoLuongGioHang++;
+                itemPresent.SoLuong++;
             }
         },
         decrementQuantity: (state, action) => {
             const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
 
-            if (itemPresent && itemPresent.SoLuongGioHang > 1) {
-                itemPresent.SoLuongGioHang--;
+            if (itemPresent && itemPresent.SoLuong > 1) {
+                itemPresent.SoLuong--;
             } else {
                 state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
+            }
+        },
+        setQuantityInput: (state, action) => {
+            if (action.payload.quantityInput < 1) {
+                state.cart = state.cart.filter(item => item.MaSanPham !== action.payload.MaSanPham)
+                return
+            }
+
+            const itemPresent = state.cart.find(item => item.MaSanPham === action.payload.MaSanPham)
+
+            if (itemPresent) {
+                itemPresent.SoLuong = action.payload.quantityInput;
             }
         },
         clearCart: (state) => {
@@ -45,5 +58,5 @@ export const CartSlice = createSlice({
     }
 })
 
-export const { addToCart, addToCartFromDatabase, removeFromCart, incrementQuantity, decrementQuantity, clearCart } = CartSlice.actions
+export const { addToCart, addToCartFromDatabase, removeFromCart, incrementQuantity, decrementQuantity, setQuantityInput, clearCart } = CartSlice.actions
 export default CartSlice.reducer
