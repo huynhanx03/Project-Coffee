@@ -207,6 +207,7 @@
     <Compile Include="DALs\CustomerDAL.cs" />
     <Compile Include="DALs\DiscountProductDAL.cs" />
     <Compile Include="DALs\EvaluateDAL.cs" />
+    <Compile Include="DALs\OrderDAL.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DALs\EmployeeDAL.cs" />
     <Compile Include="DALs\IngredientDAL.cs" />
@@ -233,8 +234,10 @@
     <Compile Include="DTOs\EvaluateDTO.cs" />
     <Compile Include="DTOs\ImportDTO.cs" />
     <Compile Include="DTOs\IngredientDTO.cs" />
+    <Compile Include="DTOs\OrderDTO.cs" />
     <Compile Include="DTOs\PositionDTO.cs" />
     <Compile Include="DTOs\ProductDTO.cs" />
+    <Compile Include="DTOs\ProductOrderDTO.cs" />
     <Compile Include="DTOs\ProductRecipeDTO.cs" />
     <Compile Include="DTOs\ProductRecommendDTO.cs" />
     <Compile Include="DTOs\ProductSizeDetailDTO.cs" />
@@ -264,6 +267,7 @@
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EvaluateService.cs" />
     <Compile Include="Services\IngredientService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Services\ProductRecipeService.cs" />
     <Compile Include="Services\ProductService.cs" />
@@ -307,6 +311,7 @@
     <Compile Include="ViewModel\AdminVM\MainAdminViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Menu\MenuViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Menu\OperationOfMenuViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Order\OrderViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Setting\SettingViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Statistic\BillimportViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Statistic\BillViewModel.cs" />
@@ -369,6 +374,12 @@
     </Compile>
     <Compile Include="Views\Admin\MenuPage\OperationProductWindow.xaml.cs">
       <DependentUpon>OperationProductWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\OrderPage\DetailOrderWindow.xaml.cs">
+      <DependentUpon>DetailOrderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\OrderPage\MainOrderPage.xaml.cs">
+      <DependentUpon>MainOrderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\SettingPage\MainSettingPage.xaml.cs">
       <DependentUpon>MainSettingPage.xaml</DependentUpon>
@@ -523,6 +534,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\MenuPage\OperationProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\OrderPage\DetailOrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\OrderPage\MainOrderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

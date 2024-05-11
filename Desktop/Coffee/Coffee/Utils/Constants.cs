@@ -19,5 +19,12 @@ namespace Coffee.Utils
             public static readonly string UNPAID = "Chưa thanh toán";
             public static readonly string PAID = "Đã thanh toán";
         }
+
+        public class StatusOrder
+        {
+            public static readonly string CANCEL = "Đã huỷ";
+            public static readonly string WAITTING = "Chờ xác nhận";
+            public static readonly string CONFIRMED = "Đã xác nhận";
+        }
     }
 }

@@ -116,4 +116,8 @@
     <system:String x:Key="Logout">Đăng xuất</system:String>
     <system:String x:Key="Home">Trang chủ</system:String>
     <system:String x:Key="Close">Đóng</system:String>
+    <system:String x:Key="CustomerID">Mã khách hàng</system:String>
+    <system:String x:Key="Status">Trạng thái</system:String>
+    <system:String x:Key="TransportFee">Phí vận chuyển</system:String>
+    <system:String x:Key="DetailOrder">Chi tiết đơn hàng</system:String>
 </ResourceDictionary>

@@ -418,7 +418,7 @@
                         <Border CornerRadius="5" IsEnabled="{Binding Role, Converter={StaticResource RoleConverter}}">
                             <RadioButton
                                 Name="OrderBtn"
-                                Command="{Binding loadStorePageIC}"
+                                Command="{Binding loadOrderPageIC}"
                                 CommandParameter="{Binding ElementName=mainFrame}"
                                 GroupName="mainOptions"
                                 Style="{StaticResource MenuButtonMain}"
