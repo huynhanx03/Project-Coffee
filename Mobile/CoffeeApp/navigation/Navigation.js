@@ -22,6 +22,7 @@ import OrderInfoScreen from '../screens/OrderInfoScreen';
 import ReviewScreen from '../screens/ReviewScreen';
 import VoucherScreen from '../screens/VoucherScreen';
 import MenuScreen from '../screens/MenuScreen';
+import ChangeInfoScreen from '../screens/ChangeInfoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,7 @@ export default function Navigation() {
         <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
         <Stack.Screen name="OrderInfo" component={OrderInfoScreen} />
         <Stack.Screen name="Voucher" component={VoucherScreen} />
+        <Stack.Screen name="ChangeInfo" component={ChangeInfoScreen} />
         <Stack.Screen name="Review" component={ReviewScreen} options={{presentation: 'modal'}}/>
         <Stack.Screen name="MapView" component={MapScreen} options={{presentation: 'modal'}}/>
       </Stack.Navigator>
