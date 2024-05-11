@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Image,
     KeyboardAvoidingView,
@@ -12,8 +12,6 @@ import {
 } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 import { Divider } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../controller/CartController";
 import { addToCart } from "../redux/slices/cartSlice";
@@ -30,7 +28,6 @@ import ShowToast from "../components/toast";
 const ios = Platform.OS === "ios";
 
 const DetailItemScreen = ({ route }) => {
-    //#region Define variables
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const product = route.params;
@@ -47,7 +44,6 @@ const DetailItemScreen = ({ route }) => {
     const [reviewList, setReviewList] = useState([])
     const [ratingPoint, setRatingPoint] = useState(0)
     const scrollRef = useRef(null);
-    //#endregion
 
     const handleSizeAndPrice = (sizeProp) => {
         const string = sizeProp === "S" ? "Nho" : sizeProp === "M" ? "Thuong" : "Lon";
@@ -116,14 +112,27 @@ const DetailItemScreen = ({ route }) => {
             HinhAnh: item.HinhAnh,
             KichThuoc: size,
             MaSanPham: item.MaSanPham,
-            SoLuongGioHang: item.quantity,
-            SoLuong: item.SoLuong,
+            SoLuong: item.quantity,
             PhanTramGiam: item.PhanTramGiam,
         };
         dispatch(addToCart(itemCart));
         setCart(itemCart);
         ShowToast("success", "Thông báo", "Thêm vào giỏ hàng thành công");
     };
+
+    const handleBuyNow = (item) => {
+        const itemCart = {
+            TenSanPham: item.TenSanPham,
+            Gia: price,
+            GiaGoc: priceOrigin,
+            HinhAnh: item.HinhAnh,
+            KichThuoc: size,
+            MaSanPham: item.MaSanPham,
+            SoLuong: item.quantity,
+            PhanTramGiam: item.PhanTramGiam,
+        };
+        navigation.navigate('Prepare', {...itemCart})
+    }
 
     const handleGetReview = async () => {
         const reviews = await getReview(product.MaSanPham);
@@ -387,12 +396,15 @@ const DetailItemScreen = ({ route }) => {
                                 {formatPrice(total)}
                             </Text>
                         </View>
-                        <View>
+                        <View className='flex-row space-x-2'>
+                            <TouchableOpacity onPress={() => handleBuyNow({...product, quantity})} className="flex-row bg-red-500 rounded-lg p-3 px-6 items-center justify-center">
+                                <Text className='text-lg font-semibold'>Mua ngay</Text>
+                            </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() =>
                                     handleAddCart({ ...product, quantity })
                                 }
-                                className="flex-row bg-amber-400 rounded-lg p-3 px-10 items-center justify-center"
+                                className="flex-row rounded-lg p-3 px-5 items-center justify-center" style={{backgroundColor: colors.active}}
                             >
                                 <Icons.ShoppingCartIcon
                                     size={30}
