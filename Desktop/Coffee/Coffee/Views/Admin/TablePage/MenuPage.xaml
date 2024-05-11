@@ -73,7 +73,6 @@
                     FontFamily="Inter"
                     FontSize="15"
                     ItemsSource="{Binding ProductTypeList, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedIndex="0"
                     SelectedItem="{Binding SelectedProductType, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">

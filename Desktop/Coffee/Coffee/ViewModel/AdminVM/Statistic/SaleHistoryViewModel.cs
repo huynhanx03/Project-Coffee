@@ -48,6 +48,10 @@ namespace Coffee.ViewModel.AdminVM.Statistic
             {
                 BillList = new ObservableCollection<BillDTO>(billList);
             }
+            else
+            {
+                BillList = new ObservableCollection<BillDTO>();
+            }
         }
 
         //public async Task loadBillListtime(DateTime totime, DateTime fromtime)
@@ -80,7 +84,7 @@ namespace Coffee.ViewModel.AdminVM.Statistic
         /// </summary>
         public async void deleteBill()
         {
-            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá hóa đơn?", MessageType.Error, MessageButtons.YesNo);
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá hóa đơn?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {

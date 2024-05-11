@@ -35,6 +35,27 @@ namespace Coffee.ViewModel.AdminVM.Employee
         }
 
         private List<EmployeeDTO> __employeeList;
+        private List<EmployeeDTO> employeeSearch;
+        private List<EmployeeDTO> employeePosition;
+
+        private ObservableCollection<PositionDTO> _EmployeePositionList;
+
+        public ObservableCollection<PositionDTO> EmployeePositionList
+        {
+            get { return _EmployeePositionList; }
+            set { _EmployeePositionList = value; OnPropertyChanged(); }
+        }
+
+        private PositionDTO _selectedPosition;
+        public PositionDTO selectedPosition
+        {
+            get { return _selectedPosition; }
+            set
+            {
+                _selectedPosition = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string _HeaderOperation { get; set; }
         public string HeaderOperation
@@ -53,6 +74,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
         public ICommand openWindowEditEmployeeIC { get; set; }
         public ICommand deleteEmployeeIC { get; set; }
         public ICommand exportExcelIC { get; set; }
+        public ICommand selectedEmployeePositionIC { get; set; }
+        public ICommand loadEmployeePositionListIC { get; set; }
 
         #endregion
 
@@ -74,6 +97,11 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 loadEmployeeList();
             });
 
+            loadEmployeePositionListIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                loadEmployeePositionList();
+            });
+
             openWindowEditEmployeeIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 openWindowEditEmployee();
@@ -89,7 +117,10 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 exportExcel();
             });
 
-            
+            selectedEmployeePositionIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                selectedEmployeePosition(selectedPosition);
+            });
 
             openWindowAddEmployeeIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
@@ -108,11 +139,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
 
             searchEmployeeIC = new RelayCommand<TextBox>(null, (p) =>
             {
-                if (p.Text != null)
-                {
-                    if (__employeeList != null)
-                        EmployeeList = new ObservableCollection<EmployeeDTO>(__employeeList.FindAll(x => x.HoTen.ToLower().Contains(p.Text.ToLower())));
-                }
+                searchEmployee(p.Text);
             });
 
             #region operation
@@ -168,6 +195,15 @@ namespace Coffee.ViewModel.AdminVM.Employee
             {
                 EmployeeList = new ObservableCollection<EmployeeDTO>(employees);
                 __employeeList = new List<EmployeeDTO>(employees);
+                employeePosition = new List<EmployeeDTO>(employees);
+                employeeSearch = new List<EmployeeDTO>(employees);
+            }
+            else
+            {
+                EmployeeList = new ObservableCollection<EmployeeDTO>();
+                __employeeList = new List<EmployeeDTO>();
+                employeePosition = new List<EmployeeDTO>();
+                employeeSearch = new List<EmployeeDTO>();
             }
         }
 
@@ -231,7 +267,7 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// </summary>
         public async void deleteEmployee()
         {
-            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá nhân viên?", MessageType.Error, MessageButtons.YesNo);
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá nhân viên?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {
@@ -326,6 +362,46 @@ namespace Coffee.ViewModel.AdminVM.Employee
             }
         }
 
-        
+        private async void loadEmployeePositionList()
+        {
+            (string label, List<PositionDTO> listPosition) = await PositionService.Ins.getAllPosition();
+
+            if (listPosition != null)
+            {
+                EmployeePositionList = new ObservableCollection<PositionDTO>(listPosition);
+            }
+            else
+                EmployeePositionList = new ObservableCollection<PositionDTO>();
+
+            EmployeePositionList.Insert(0, new PositionDTO
+            {
+                MaChucVu = "CD0000",
+                TenChucVu = "Toàn bộ",
+            });
+        }
+
+        private void searchEmployee(string text)
+        {
+            if (text != null)
+            {
+                if (__employeeList != null)
+                    employeeSearch = new List<EmployeeDTO>(__employeeList.FindAll(x => x.HoTen.ToLower().Contains(text.ToLower())));
+            }
+
+            EmployeeList = new ObservableCollection<EmployeeDTO>(employeeSearch.Intersect(employeePosition));
+        }
+
+        private void selectedEmployeePosition(PositionDTO position)
+        {
+            if (position != null)
+            {
+                if (position.MaChucVu == "CD0000")
+                    employeePosition = new List<EmployeeDTO>(__employeeList);
+                else
+                    employeePosition = new List<EmployeeDTO>(__employeeList.FindAll(p => p.MaChucVu == position.MaChucVu));
+            }
+
+            EmployeeList = new ObservableCollection<EmployeeDTO>(employeeSearch.Intersect(employeePosition));
+        }
     }
 }

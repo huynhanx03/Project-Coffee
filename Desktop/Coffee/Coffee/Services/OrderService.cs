@@ -46,5 +46,10 @@ namespace Coffee.Services
         {
             return await OrderDAL.Ins.updateStatusOrder(orderId, status);
         }
+
+        public async Task<(string, bool)> updateBillIDOrder(string orderId, string billID)
+        {
+            return await OrderDAL.Ins.updateBillIDOrder(orderId, billID);
+        }
     }
 }

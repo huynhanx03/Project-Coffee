@@ -293,6 +293,7 @@
     </Compile>
     <Compile Include="Utils\CloudService.cs" />
     <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Utils\ConverterValue\OrderConverter.cs" />
     <Compile Include="Utils\ConverterValue\RoleConverter.cs" />
     <Compile Include="Utils\ConverterValue\TableCoverter.cs" />
     <Compile Include="Utils\Firebase.cs" />

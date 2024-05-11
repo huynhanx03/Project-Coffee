@@ -142,6 +142,8 @@ namespace Coffee.ViewModel.AdminVM.Store
             {
                 DiscountProductList = new ObservableCollection<DiscountProductDTO>(discountProducts);
             }
+            else
+                DiscountProductList = new ObservableCollection<DiscountProductDTO>();
         }
         #endregion
     }

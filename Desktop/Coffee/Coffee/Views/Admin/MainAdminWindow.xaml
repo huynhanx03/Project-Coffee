@@ -421,8 +421,7 @@
                                 Command="{Binding loadOrderPageIC}"
                                 CommandParameter="{Binding ElementName=mainFrame}"
                                 GroupName="mainOptions"
-                                Style="{StaticResource MenuButtonMain}"
-                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                Style="{StaticResource MenuButtonMain}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FoodTakeoutBox" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Order}" />

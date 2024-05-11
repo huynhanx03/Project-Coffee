@@ -10,7 +10,7 @@ namespace Coffee.DTOs
     {
         public string MaSanPham {  get; set; }
         public decimal Gia {  get; set; }
-
+        public string MaKichThuoc { get; set; }
         private string _KichThuoc;
         public string KichThuoc
         {
@@ -24,21 +24,24 @@ namespace Coffee.DTOs
                 {
                     case "S":
                         value = "Nhỏ";
+                        MaKichThuoc = "KT0001";
                         break;
 
                     case "M":
                         value = "Vừa";
+                        MaKichThuoc = "KT0002";
                         break;
 
                     case "L":
                         value = "Lớn";
+                        MaKichThuoc = "KT0003";
                         break;
                 }
 
                 _KichThuoc = value;
             }
         }
-        public string SoLuong {  get; set; }
+        public int SoLuong {  get; set; }
         public string TenSanPham {  get; set; }
     }
 }

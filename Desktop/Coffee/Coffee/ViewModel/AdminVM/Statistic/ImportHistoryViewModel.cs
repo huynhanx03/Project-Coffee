@@ -43,13 +43,17 @@ namespace Coffee.ViewModel.AdminVM.Statistic
             {
                 BillImportList = new ObservableCollection<ImportDTO>(billimportlist);
             }
+            else
+            {
+                BillImportList = new ObservableCollection<ImportDTO>();
+            }
         }
         /// <summary>
         /// xóa hóa đơn nhập kho
         /// </summary>
         public async void deleteBillImport()
         {
-            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá hóa đơn nhập kho?", MessageType.Error, MessageButtons.YesNo);
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá hóa đơn nhập kho?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {

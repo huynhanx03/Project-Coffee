@@ -40,6 +40,7 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding loadShadowMaskIC}" CommandParameter="{Binding ElementName=ShadowMask}" />
             <i:InvokeCommandAction Command="{Binding loadEvaluateListIC}" />
+            <i:InvokeCommandAction Command="{Binding loadRankListIC}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -58,6 +59,42 @@
                     Margin="0,0,40,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
+                    <Border
+                        Width="190"
+                        Height="45"
+                        Margin="5,0,0,0"
+                        BorderBrush="{DynamicResource MainColorCF}"
+                        BorderThickness="1.5"
+                        CornerRadius="16">
+                        <ComboBox
+                            Width="180"
+                            Height="35"
+                            Margin="0,0,8,0"
+                            Padding="12,2.4"
+                            HorizontalAlignment="Right"
+                            VerticalContentAlignment="Center"
+                            materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                            materialDesign:TextFieldAssist.TextFieldCornerRadius="24"
+                            BorderThickness="0"
+                            DisplayMemberPath="TenMucDoThanThiet"
+                            FontFamily="Inter"
+                            FontSize="15"
+                            ItemsSource="{Binding RankList, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding selectedRank, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding selectedEvaluateRankIC}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                    </Border>
+
+                    <Border
+                        Height="40"
+                        Margin="10,0,7,0"
+                        BorderBrush="Black"
+                        BorderThickness="1,0,0,0" />
+
                     <!--  Search Box  -->
                     <Border
                         Height="45"

@@ -110,5 +110,22 @@ namespace Coffee.DALs
                 return (ex.Message, null);
             }
         }
+
+        public async Task<(string, bool)> updateBillIDOrder(string orderId, string billID)
+        {
+            try
+            {
+                using (var context = new Firebase())
+                {
+                    await context.Client.UpdateTaskAsync("DonHang/" + orderId, new { MaHoaDon = billID });
+
+                    return ("Cập nhật đơn hàng thành công", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (ex.Message, false);
+            }
+        }
     }
 }
