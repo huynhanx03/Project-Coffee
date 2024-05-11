@@ -25,6 +25,7 @@ import {
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 const MenuScreen = () => {
     const navigation = useNavigation();
@@ -35,7 +36,6 @@ const MenuScreen = () => {
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [searchPage, setSearchPage] = useState(false);
-    const [productFilter, setProductFilter] = useState([])
 
 
     const cart = useSelector((state) => state.cart.cart);
@@ -221,16 +221,18 @@ const MenuScreen = () => {
                                       .filter((item) => item.SoLuong > 0)
                                       .map((product) => {
                                           return (
-                                              <Item
-                                                  product={product}
-                                                  key={product.MaSanPham}
-                                                  isSale={
-                                                      product.PhanTramGiam > 0
-                                                  }
-                                                  isBestSeller={proBestSeller.includes(
-                                                      product.MaSanPham
-                                                  )}
-                                              />
+                                            <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
+
+                                                <Item
+                                                    product={product}
+                                                    isSale={
+                                                        product.PhanTramGiam > 0
+                                                    }
+                                                    isBestSeller={proBestSeller.includes(
+                                                        product.MaSanPham
+                                                    )}
+                                                />
+                                            </Animated.View>
                                           );
                                       })
                                 : products &&

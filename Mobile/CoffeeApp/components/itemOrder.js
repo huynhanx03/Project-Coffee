@@ -10,9 +10,8 @@ import { colors } from "../theme";
 import * as Icons from "react-native-heroicons/outline";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { FadeInUp, FadeOut } from "react-native-reanimated";
+import Animated, { FadeOut, FlipInXUp } from "react-native-reanimated";
 import { setStatusOrder } from "../controller/OrderController";
-import Toast from "react-native-toast-message";
 import ShowToast from "./toast";
 
 const ItemOrder = (props) => {
@@ -104,7 +103,7 @@ const ItemOrder = (props) => {
             {orderItemsList.map((item) => {
                 return (
                     <Animated.View
-                        entering={FadeInUp}
+                        entering={FlipInXUp}
                         exiting={FadeOut}
                         key={item.MaSanPham}
                         className="flex-1 mt-4"

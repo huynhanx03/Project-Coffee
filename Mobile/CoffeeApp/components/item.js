@@ -1,10 +1,8 @@
 import {
     View,
     Text,
-    Image,
     TouchableOpacity,
     Pressable,
-    Touchable,
 } from "react-native";
 import {
     widthPercentageToDP as wp,
@@ -16,6 +14,7 @@ import * as IconsSolid from "react-native-heroicons/solid";
 import { colors } from "../theme";
 import { formatPrice } from "../utils";
 import { getReview } from "../controller/ReviewController";
+import Animated from "react-native-reanimated";
 
 const Item = ({ product, isSale, isBestSeller }) => {
     const [initialPrice, setInitialPrice] = useState(isSale ? product.Size.Thuong.Gia * (1 - product.PhanTramGiam / 100) : product.Size.Thuong.Gia);
@@ -123,7 +122,8 @@ const Item = ({ product, isSale, isBestSeller }) => {
                     className="p-1 justify-center items-center mt-1"
                     style={{ width: wp(40), height: wp(40) }}
                 >
-                    <Image
+                    <Animated.Image
+                        sharedTransitionTag={product.HinhAnh}
                         source={{ uri: product.HinhAnh }}
                         resizeMode="contain"
                         style={{ width: wp(40), height: wp(40) }}

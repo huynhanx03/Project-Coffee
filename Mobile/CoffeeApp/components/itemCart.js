@@ -9,6 +9,7 @@ import * as Icons from "react-native-heroicons/outline";
 import { formatPrice } from "../utils";
 import ShowToast from "./toast";
 import { getProductDetailById } from "../controller/ProductController";
+import Animated, { ZoomIn } from "react-native-reanimated";
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const ItemCart = (props) => {
     }
 
     return (
-        <View className="mt-2">
+        <Animated.View entering={ZoomIn.duration(600)} className="mt-2">
             <View
                 className="flex-row space-x-3 bg-white p-2 rounded-xl shadow-sm items-center">
                 <Image source={{uri: props.item.HinhAnh}} style={{ width: wp(20), height: wp(22) }} resizeMode="contain" className='rounded-lg'/>
@@ -98,7 +99,7 @@ const ItemCart = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </Animated.View>
     );
 };
 

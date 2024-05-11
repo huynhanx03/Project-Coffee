@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import {
     Image,
+    Pressable,
     ScrollView,
     Text,
     TextInput,
@@ -20,11 +21,10 @@ import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
 import {getProductDetailById, getProducts, getProductsBestSeller} from "../controller/ProductController";
-import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "../controller/CartController";
-import { addToCartFromDatabase } from "../redux/slices/cartSlice";
+import { useSelector } from "react-redux";
 import { getUserData } from "../controller/StorageController";
 import { getBanner } from "../controller/BannerController";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -149,16 +149,18 @@ const HomeScreen = () => {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Image
-                                source={{
-                                    uri: user?.HinhAnh
-                                        ? user?.HinhAnh
-                                        : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
-                                }}
-                                resizeMode="cover"
-                                style={{ width: hp(8), height: hp(8) }}
-                                className="rounded-full"
-                            />
+                            <Pressable onPress={() => navigation.navigate('Profile')}>
+                                <Image
+                                    source={{
+                                        uri: user?.HinhAnh
+                                            ? user?.HinhAnh
+                                            : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
+                                    }}
+                                    resizeMode="cover"
+                                    style={{ width: hp(8), height: hp(8) }}
+                                    className="rounded-full"
+                                />
+                            </Pressable>
                         </View>
                     </View>
                 </View>
@@ -226,12 +228,13 @@ const HomeScreen = () => {
                             .filter((item) => item.SoLuong > 0 && item.PhanTramGiam > 0)
                             .map((product) => {
                                 return (
-                                    <Item
-                                        product={product}
-                                        key={product.MaSanPham}
-                                        isSale={true}
-                                        isBestSeller={proBestSeller.includes(product.MaSanPham)}
-                                    />
+                                    <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
+                                        <Item
+                                            product={product}
+                                            isSale={true}
+                                            isBestSeller={proBestSeller.includes(product.MaSanPham)}
+                                        />
+                                    </Animated.View>
                                 );
                             })}
                 </View>
@@ -272,12 +275,13 @@ const HomeScreen = () => {
                             .filter((item) => item.SoLuong > 0)
                             .map((product) => {
                                 return (
-                                    <Item
-                                        product={product}
-                                        key={product.MaSanPham}
-                                        isSale={product.PhanTramGiam > 0}
-                                        isBestSeller={true}
-                                    />
+                                    <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
+                                        <Item
+                                            product={product}
+                                            isSale={product.PhanTramGiam > 0}
+                                            isBestSeller={true}
+                                        />
+                                    </Animated.View>
                                 );
                             })}
                 </View>
@@ -318,10 +322,11 @@ const HomeScreen = () => {
                             .filter((item) => item.SoLuong > 0)
                             .map((product) => {
                                 return (
-                                    <Item
-                                        product={product}
-                                        key={product.MaSanPham}
-                                    />
+                                    <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
+                                        <Item
+                                            product={product}
+                                        />
+                                    </Animated.View>
                                 );
                             })}
                 </View>
