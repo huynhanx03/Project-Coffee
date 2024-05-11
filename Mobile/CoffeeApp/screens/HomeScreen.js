@@ -19,38 +19,33 @@ import Categories from "../components/categories";
 import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
-import { getCategories, getProducts } from "../controller/ProductController";
+import {getProductDetailById, getProducts, getProductsBestSeller} from "../controller/ProductController";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "../controller/CartController";
 import { addToCartFromDatabase } from "../redux/slices/cartSlice";
 import { getUserData } from "../controller/StorageController";
+import { getBanner } from "../controller/BannerController";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
-    const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
-    const [categories, setCategories] = useState(null);
+    const [bestSeller, setBestSeller] = useState(null);
     const [user, setUser] = useState(null);
+    const [banners, setBanners] = useState(null);
+    const [proBestSeller, setProBestSeller] = useState([]);
 
     const addressData = getDefaultAddress();
 
     const cart = useSelector((state) => state.cart.cart);
 
-    const handleGetCategories = async () => {
-        const listCategories = await getCategories();
-        if (listCategories) {
-            let allCategories = [];
-            for (const key in listCategories) {
-                allCategories.push(listCategories[key].LoaiSanPham);
-            }
-            setCategories(["Tất cả", ...allCategories]);
-        }
+    const handleGetProducts = async () => {
+        const listProducts = await getProducts();
+        const allProducts = handleSetProduct(listProducts)
+        setProducts([...allProducts])
     };
 
-    const handleGetProducts = async () => {
+    const handleSetProduct = (listProducts) => {
         let allProducts = [];
-        const listProducts = await getProducts();
         if (listProducts) {
             for (const key in listProducts) {
                 const productData = {
@@ -59,6 +54,7 @@ const HomeScreen = () => {
                     HinhAnh: listProducts[key].HinhAnh,
                     SoLuong: listProducts[key].SoLuong,
                     LoaiSanPham: listProducts[key].LoaiSanPham,
+                    PhanTramGiam: listProducts[key].PhanTramGiam,
                     Mota: listProducts[key].Mota,
                     Size: {
                         Nho: {
@@ -88,21 +84,23 @@ const HomeScreen = () => {
             }
         }
 
-        setProducts([...allProducts]);
-    };
+        // setProducts([...allProducts]);
+        return allProducts;
+    }
 
-    const handleGetCart = async () => {
-        const userData = await getUserData();
-        // get cart from database and set to redux
-        const items = await getCart();
-        if (items) {
-            for (const key in items[userData.MaNguoiDung]) {
-                dispatch(
-                    addToCartFromDatabase(items[userData.MaNguoiDung][key])
-                );
-            }
+    const handleGetBestSeller = async () => {
+        const bestSeller = await getProductsBestSeller();
+        setProBestSeller(bestSeller)
+        const length = bestSeller.length > 4 ? 4 : bestSeller.length;
+        let listProducts = {}
+        for (let i = 0; i < length; i++) {
+            const product = await getProductDetailById(bestSeller[i]);
+            listProducts = {...listProducts, [product.MaSanPham]: product}
         }
-    };
+
+        const allProducts = handleSetProduct(listProducts)
+        setBestSeller([...allProducts])
+    }
 
     const getUser = async () => {
         try {
@@ -113,29 +111,34 @@ const HomeScreen = () => {
         }
     };
 
+    const handleGetBanners = async () => {
+        const banners = await getBanner();
+        setBanners(banners);
+    };
+
     useEffect(() => {
         handleGetProducts();
-        handleGetCategories();
         getUser();
-        // handleGetCart();
+        handleGetBanners();
+        handleGetBestSeller();
     }, []);
 
     return (
         <View className="flex-1">
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View
-                    style={{ height: hp(35) }}
+                    style={{ height: hp(30) }}
                     className="bg-yellow-950 space-y-5"
                 >
                     {/* Header */}
                     <View
-                        style={{ width: wp(90) }}
-                        className="flex-row justify-between mx-auto mt-20 items-center"
+                        style={{ width: wp(90), marginTop: hp(8) }}
+                        className="flex-row justify-between mx-auto items-center"
                     >
                         <View>
                             <Text className="text-white">Giao đến</Text>
                             <TouchableOpacity
-                                onPress={() => navigation.navigate("MapView")}
+                                onPress={() => navigation.navigate("Address")}
                             >
                                 <Text
                                     className="text-white text-base font-semibold"
@@ -158,101 +161,169 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
-
-                    {/* Search bar */}
-                    <View className="mx-5 py-2 px-3 bg-white rounded-lg">
-                        <View className="flex-row justify-between">
-                            <TextInput
-                                placeholder="tìm món..."
-                                className="text-lg"
-                            />
-
-                            <TouchableOpacity className="p-1 bg-yellow-950 rounded-lg">
-                                <Icons.MagnifyingGlassIcon
-                                    size={24}
-                                    color="#ffffff"
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
                 </View>
 
-                <View className="-mt-20">
+                <View style={{ marginTop: hp(-10) }}>
                     {/* carousel */}
-                    <Carousel
-                        loop
-                        width={wp(100)}
-                        height={hp(22)}
-                        autoPlay={true}
-                        data={[
-                            {
-                                id: 1,
-                                image: require("../assets/images/Frame 17.png"),
-                            },
-                            {
-                                id: 2,
-                                image: require("../assets/images/Frame 17.png"),
-                            },
-                            {
-                                id: 3,
-                                image: require("../assets/images/Frame 17.png"),
-                            },
-                            {
-                                id: 4,
-                                image: require("../assets/images/Frame 17.png"),
-                            },
-                        ]}
-                        scrollAnimationDuration={1000}
-                        renderItem={({ item }) => (
-                            <View className="justify-center items-center">
-                                <Image
-                                    source={item.image}
-                                    resizeMode="contain"
-                                    style={{ width: wp(90), height: hp(20) }}
-                                />
-                            </View>
-                        )}
-                    />
-                </View>
-
-                {/* categories */}
-                <View className="mx-2">
-                    {categories && (
-                        <Categories
-                            categories={categories}
-                            setIsActive={setIsActive}
+                    {banners && (
+                        <Carousel
+                            loop
+                            width={wp(100)}
+                            height={hp(22)}
+                            autoPlay={true}
+                            data={banners}
+                            scrollAnimationDuration={1000}
+                            renderItem={({ item }) => (
+                                <View className="justify-center items-center">
+                                    <Image
+                                        source={{ uri: item?.HinhAnh }}
+                                        resizeMode="cover"
+                                        style={{
+                                            width: wp(90),
+                                            height: hp(20),
+                                        }}
+                                        className="rounded-lg"
+                                    />
+                                </View>
+                            )}
                         />
                     )}
                 </View>
 
+                {/* Flash sale */}
+                <View className="mx-5">
+                    <View>
+                        <View
+                            className="p-1 rounded-md mt-2 ml-2"
+                            style={{
+                                backgroundColor: colors.active,
+                                width: wp(61),
+                                height: wp(9),
+                            }}
+                        ></View>
+                        <View
+                            className="flex-row bg-white rounded-md p-1 absolute space-x-2"
+                            style={{ width: wp(60), height: wp(9) }}
+                        >
+                            <Text
+                                className="text-xl font-semibold"
+                                style={{ color: colors.text(1) }}
+                            >
+                                Giảm giá hôm nay
+                            </Text>
+                            <Image
+                                source={require("../assets/images/flashSale.png")}
+                                style={{ width: wp(7), height: wp(7) }}
+                            />
+                        </View>
+                    </View>
+                </View>
+
                 {/* card item */}
-                <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
-                    {products && isActive === "Tất cả"
-                        ? products
-                              .filter((item) => item.SoLuong > 0)
-                              .map((product) => {
-                                  return (
-                                      <Item
-                                          product={product}
-                                          key={product.MaSanPham}
-                                      />
-                                  );
-                              })
-                        : products &&
-                          products
-                              .filter(
-                                  (item) =>
-                                      item.SoLuong > 0 &&
-                                      item.LoaiSanPham == isActive
-                              )
-                              .map((product, index) => {
-                                  return (
-                                      <Item
-                                          product={product}
-                                          key={product.MaSanPham}
-                                      />
-                                  );
-                              })}
+                <View className="mx-5 flex-row flex-wrap justify-between">
+                    {products &&
+                        products
+                            .filter((item) => item.SoLuong > 0 && item.PhanTramGiam > 0)
+                            .map((product) => {
+                                return (
+                                    <Item
+                                        product={product}
+                                        key={product.MaSanPham}
+                                        isSale={true}
+                                        isBestSeller={proBestSeller.includes(product.MaSanPham)}
+                                    />
+                                );
+                            })}
+                </View>
+
+                {/* Best seller */}
+                <View className="mx-5 mt-5">
+                    <View>
+                        <View
+                            className="p-1 rounded-md mt-2 ml-2"
+                            style={{
+                                backgroundColor: colors.active,
+                                width: wp(61),
+                                height: wp(9),
+                            }}
+                        ></View>
+                        <View
+                            className="flex-row bg-white rounded-md p-1 absolute space-x-2"
+                            style={{ width: wp(60), height: wp(9) }}
+                        >
+                            <Text
+                                className="text-xl font-semibold"
+                                style={{ color: colors.text(1) }}
+                            >
+                                Sản phẩm bán chạy
+                            </Text>
+                            <Image
+                                source={require("../assets/images/bestSeller.png")}
+                                style={{ width: wp(7), height: wp(7) }}
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                {/* card item */}
+                <View className="mx-5 flex-row flex-wrap justify-between">
+                    {bestSeller &&
+                        bestSeller
+                            .filter((item) => item.SoLuong > 0)
+                            .map((product) => {
+                                return (
+                                    <Item
+                                        product={product}
+                                        key={product.MaSanPham}
+                                        isSale={product.PhanTramGiam > 0}
+                                        isBestSeller={true}
+                                    />
+                                );
+                            })}
+                </View>
+
+                {/* Suit product */}
+                <View className="mx-5 mt-5">
+                    <View>
+                        <View
+                            className="p-1 rounded-md mt-2 ml-2"
+                            style={{
+                                backgroundColor: colors.active,
+                                width: wp(61),
+                                height: wp(9),
+                            }}
+                        ></View>
+                        <View
+                            className="flex-row bg-white rounded-md p-1 absolute items-center"
+                            style={{ width: wp(60), height: wp(9) }}
+                        >
+                            <Text
+                                className="text-xl font-semibold"
+                                style={{ color: colors.text(1) }}
+                            >
+                                Sản phẩm cho bạn
+                            </Text>
+                            <Image
+                                source={require("../assets/images/bestChoice.png")}
+                                style={{ width: wp(9), height: wp(9) }}
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                {/* card item */}
+                <View className="mx-5 flex-row flex-wrap justify-between">
+                    {products &&
+                        products
+                            .filter((item) => item.SoLuong > 0)
+                            .map((product) => {
+                                return (
+                                    <Item
+                                        product={product}
+                                        key={product.MaSanPham}
+                                    />
+                                );
+                            })}
                 </View>
 
                 {/* out of stock */}

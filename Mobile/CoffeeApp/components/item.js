@@ -17,7 +17,7 @@ import { colors } from "../theme";
 import { formatPrice } from "../utils";
 import { getReview } from "../controller/ReviewController";
 
-const Item = ({ product, isSale }) => {
+const Item = ({ product, isSale, isBestSeller }) => {
     const [initialPrice, setInitialPrice] = useState(isSale ? product.Size.Thuong.Gia * (1 - product.PhanTramGiam / 100) : product.Size.Thuong.Gia);
     const [initialSize, setInitialSize] = useState("M");
     const navigation = useNavigation();
@@ -106,6 +106,18 @@ const Item = ({ product, isSale }) => {
                 </View>
             ) : null}
 
+            {
+                isBestSeller ? (
+                    <View className='z-10'>
+                        <View className='absolute p-2 rounded-full bg-red-500 top-0 right-0'>
+                            <Text className='text-white font-semibold'>Bán chạy</Text>
+                        </View>
+                    </View>
+                ) : (
+                    null
+                )
+            }
+
             <View className="px-1">
                 <View
                     className="p-1 justify-center items-center mt-1"
@@ -138,7 +150,7 @@ const Item = ({ product, isSale }) => {
                 <Text
                     className="text-lg font-bold"
                     numberOfLines={1}
-                    style={{ color: colors.text(1) }}
+                    style={{ color: colors.text(1), width: wp(36) }}
                 >
                     {product?.TenSanPham}
                 </Text>
