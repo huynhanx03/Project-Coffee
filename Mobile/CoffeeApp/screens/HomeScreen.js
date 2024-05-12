@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { getUserData } from "../controller/StorageController";
 import { getBanner } from "../controller/BannerController";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import axios from "axios";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -33,6 +34,7 @@ const HomeScreen = () => {
     const [user, setUser] = useState(null);
     const [banners, setBanners] = useState(null);
     const [proBestSeller, setProBestSeller] = useState([]);
+    const [recommendProduct, setRecommendProduct] = useState([])
 
     const addressData = getDefaultAddress();
 
@@ -91,15 +93,34 @@ const HomeScreen = () => {
     const handleGetBestSeller = async () => {
         const bestSeller = await getProductsBestSeller();
         setProBestSeller(bestSeller)
-        const length = bestSeller.length > 4 ? 4 : bestSeller.length;
-        let listProducts = {}
-        for (let i = 0; i < length; i++) {
-            const product = await getProductDetailById(bestSeller[i]);
-            listProducts = {...listProducts, [product.MaSanPham]: product}
-        }
+        // const length = bestSeller.length > 4 ? 4 : bestSeller.length;
+        // let listProducts = {}
+        // for (let i = 0; i < length; i++) {
+        //     const product = await getProductDetailById(bestSeller[i]);
+        //     listProducts = {...listProducts, [product.MaSanPham]: product}
+        // }
 
-        const allProducts = handleSetProduct(listProducts)
-        setBestSeller([...allProducts])
+        // const allProducts = handleSetProduct(listProducts)
+        // setBestSeller([...allProducts])
+    }
+
+    const handleGetRecommend = async () => {
+        if (user) {
+            const recommend = await axios.post(`https://huynhnhan2003.pythonanywhere.com/recommend`, {
+                MaSanPham: 'SP0001',
+                MaKhachHang: user?.MaNguoiDung
+            })
+
+            const length = recommend.data.length
+
+            let listProducts = []
+            for (let i = 0; i < length; ++i) {
+                const masp = recommend.data[i].MaSanPham
+                listProducts.push(masp)
+            }
+
+            setRecommendProduct(listProducts)
+        }
     }
 
     const getUser = async () => {
@@ -122,6 +143,10 @@ const HomeScreen = () => {
         handleGetBanners();
         handleGetBestSeller();
     }, []);
+    
+    useEffect(() => {
+        handleGetRecommend();
+    }, [user])
 
     return (
         <View className="flex-1">
@@ -270,9 +295,10 @@ const HomeScreen = () => {
 
                 {/* card item */}
                 <View className="mx-5 flex-row flex-wrap justify-between">
-                    {bestSeller &&
-                        bestSeller
+                    {products &&
+                        products
                             .filter((item) => item.SoLuong > 0)
+                            .filter((item) => proBestSeller.includes(item.MaSanPham))
                             .map((product) => {
                                 return (
                                     <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
@@ -286,7 +312,7 @@ const HomeScreen = () => {
                             })}
                 </View>
 
-                {/* Suit product */}
+                {/* Recommend product */}
                 <View className="mx-5 mt-5">
                     <View>
                         <View
@@ -320,6 +346,7 @@ const HomeScreen = () => {
                     {products &&
                         products
                             .filter((item) => item.SoLuong > 0)
+                            .filter((item) => recommendProduct.includes(item.MaSanPham))
                             .map((product) => {
                                 return (
                                     <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
