@@ -152,6 +152,11 @@ namespace Coffee.ViewModel.AdminVM.Voucher
                 VoucherList = new ObservableCollection<VoucherDTO>(vouchers);
                 __VoucherList = new List<VoucherDTO>(vouchers);
             }
+            else
+            {
+                VoucherList = new ObservableCollection<VoucherDTO>();
+                __VoucherList = new List<VoucherDTO>();
+            }
         }
 
         /// <summary>

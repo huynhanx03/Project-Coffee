@@ -161,6 +161,11 @@ namespace Coffee.ViewModel.AdminVM.Customer
                 CustomerList = new ObservableCollection<CustomerDTO>(Customers);
                 __CustomerList = new List<CustomerDTO>(Customers);
             }
+            else
+            {
+                CustomerList = new ObservableCollection<CustomerDTO>();
+                __CustomerList = new List<CustomerDTO>();
+            }
         }
 
         /// <summary>
@@ -218,7 +223,7 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// </summary>
         public async void deleteCustomer(CustomerDTO customer)
         {
-            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá khách hàng?", MessageType.Error, MessageButtons.YesNo);
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá khách hàng?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {

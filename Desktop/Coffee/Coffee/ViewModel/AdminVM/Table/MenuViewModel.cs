@@ -72,6 +72,12 @@ namespace Coffee.ViewModel.AdminVM.Table
                 __ProductList = new List<ProductDTO>(listProduct);
                 ProductList = new ObservableCollection<ProductDTO>(listProduct);
             }
+            else
+            {
+                __ProductSearchList = new List<ProductDTO>();
+                __ProductList = new List<ProductDTO>();
+                ProductList = new ObservableCollection<ProductDTO>();
+            }
         }
 
         /// <summary>
@@ -125,7 +131,7 @@ namespace Coffee.ViewModel.AdminVM.Table
             // Đã hết số lượng
             if (totalQuantity == SelectedProduct.SoLuong)
             {
-                MessageBoxCF ms = new MessageBoxCF("Sản phẩm đã hết hàng\nGợi ý sản phẩm?", MessageType.Error, MessageButtons.YesNo);
+                MessageBoxCF ms = new MessageBoxCF("Sản phẩm đã hết hàng\nGợi ý sản phẩm?", MessageType.Waitting, MessageButtons.YesNo);
                 
                 MaskName.Visibility = Visibility.Visible;
 

@@ -259,6 +259,4 @@ class HybridRecommender:
                         recommendations.append(product)
                         num_more -= 1
 
-        print(recommendations)
-
         return recommendations

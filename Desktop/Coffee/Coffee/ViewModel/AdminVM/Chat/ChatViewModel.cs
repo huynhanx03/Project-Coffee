@@ -96,6 +96,10 @@ namespace Coffee.ViewModel.AdminVM.Chat
             {
                 UserContactList = new ObservableCollection<UserContactDTO>(userContactList);
             }
+            else
+            {
+                UserContactList = new ObservableCollection<UserContactDTO>();
+            }
         }
 
         /// <summary>

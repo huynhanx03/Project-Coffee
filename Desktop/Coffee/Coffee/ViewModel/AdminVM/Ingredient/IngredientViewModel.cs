@@ -173,6 +173,11 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
                 IngredientList = new ObservableCollection<IngredientDTO>(ingredients);
                 __IngredientList = new List<IngredientDTO>(ingredients);
             }
+            else
+            {
+                IngredientList = new ObservableCollection<IngredientDTO>();
+                __IngredientList = new List<IngredientDTO>();
+            }
         }
 
         /// <summary>
@@ -190,7 +195,7 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
         /// </summary>
         public async void deleteIngredient()
         {
-            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá nguyên liệu?", MessageType.Error, MessageButtons.YesNo);
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá nguyên liệu?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {

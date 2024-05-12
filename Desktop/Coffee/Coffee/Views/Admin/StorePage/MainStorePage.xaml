@@ -222,11 +222,7 @@
                                 SortMemberPath="PhanTramGiam">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock
-                                            HorizontalAlignment="Left"
-                                            Style="{DynamicResource txblInDtg}"
-                                            Text="{Binding PhanTramGiam}"
-                                            TextWrapping="Wrap" />
+                                        <TextBlock Style="{DynamicResource txblInDtg}" Text="{Binding PhanTramGiam}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

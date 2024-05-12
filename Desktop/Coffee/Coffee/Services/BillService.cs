@@ -67,9 +67,6 @@ namespace Coffee.Services
 
                 if (isCreateDetailBillImprot)
                 {
-                    // Trừ số lượng vào món ăn
-
-
                     return (labelCreateBill, isCreateBill);
                 }
                 else
@@ -83,6 +80,48 @@ namespace Coffee.Services
             }
             else
                 return (labelCreateBill, isCreateBill);
+        }
+
+        /// <summary>
+        /// Tạo hoá đơn mới
+        /// </summary>
+        /// <param name="bill">hoá đơn</param>
+        /// <returns>
+        ///     1. Thông báo
+        ///     2. True khi tạo thành công
+        /// </returns>
+        public async Task<(string, BillModel)> createBill(BillModel bill, List<DetailBillModel> detailBillList)
+        {
+            // Tìm mã hoá đơn
+            string MaHoaDonMax = await this.getMaxMaHoaDon();
+            bill.MaHoaDon = Helper.nextID(MaHoaDonMax, "HD");
+
+            (string labelCreateBill, bool isCreateBill) = await BillDAL.Ins.createBill(bill);
+
+            if (isCreateBill)
+            {
+                foreach (DetailBillModel detail in detailBillList)
+                {
+                    detail.MaHoaDon = bill.MaHoaDon;
+                }
+
+                (string labelCreateDetailBillImprot, bool isCreateDetailBillImprot) = await this.createDetailBill(bill.MaHoaDon, detailBillList);
+
+                if (isCreateDetailBillImprot)
+                {
+                    return (labelCreateBill, bill);
+                }
+                else
+                {
+                    // Tạo các chi tiết thất bại
+                    // Xoá hoá đơn
+                    await this.DeleteBill(bill.MaHoaDon);
+
+                    return (labelCreateDetailBillImprot, bill);
+                }
+            }
+            else
+                return (labelCreateBill, bill);
         }
 
         /// <summary>

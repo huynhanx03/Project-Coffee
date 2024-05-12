@@ -109,7 +109,7 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 deleteProduct();
             });
 
-            deleteProductIC = new RelayCommand<ProductDTO>((p) => { return true; }, (p) =>
+            editProductIC = new RelayCommand<ProductDTO>((p) => { return true; }, (p) =>
             {
                 editProduct();
             });
@@ -189,6 +189,11 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 ProductList = new ObservableCollection<ProductDTO>(pr);
                 __ProductList = new List<ProductDTO>(pr);
             }
+            else
+            {
+                ProductList = new ObservableCollection<ProductDTO>();
+                __ProductList = new List<ProductDTO>();
+            }
         }
 
 
@@ -226,7 +231,7 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         public async void deleteProduct()
         {
-            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá sản phẩm?", MessageType.Error, MessageButtons.YesNo);
+            MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá sản phẩm?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {

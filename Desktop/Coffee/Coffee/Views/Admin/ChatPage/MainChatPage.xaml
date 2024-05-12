@@ -303,9 +303,9 @@
                 Grid.Row="1"
                 Margin="30"
                 Background="{DynamicResource MainColorCF}"
-                CornerRadius="35">
+                CornerRadius="30">
                 <Border
-                    Margin="18"
+                    Margin="10"
                     Background="{DynamicResource BackgroundCF}"
                     CornerRadius="20">
                     <Grid>
@@ -337,7 +337,8 @@
 
                         </Grid>
 
-                        <Grid Grid.Column="1" Background="{DynamicResource BackgroundCF}">
+                        <Grid Grid.Column="1" Background="{DynamicResource BackgroundCF}"
+                              Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="7*" />
                                 <RowDefinition Height="*" />

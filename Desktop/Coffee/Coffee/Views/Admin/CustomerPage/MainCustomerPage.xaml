@@ -58,6 +58,7 @@
                     Margin="0,0,40,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
+
                     <!--  Search Box  -->
                     <Border
                         Height="45"
