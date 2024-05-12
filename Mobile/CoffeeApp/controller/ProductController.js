@@ -108,7 +108,9 @@ const getProductsBestSeller = async () => {
         const orders = ordersSnapshot.val();
 
         for (const key in orders) {
-            productsList.push(...Object.values(orders[key].SanPham));
+            if (orders[key].TrangThai === 'Đã nhận hàng') {
+                productsList.push(...Object.values(orders[key].SanPham));
+            }
         }
 
         const totalSold = {};
