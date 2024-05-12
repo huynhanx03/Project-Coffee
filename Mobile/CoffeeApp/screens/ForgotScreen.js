@@ -9,6 +9,7 @@ import { ForgotPassword } from "../controller/ForgotController";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import { setOTP } from "../redux/slices/otpSlice";
+import ShowToast from "../components/toast";
 
 const { width, height } = Dimensions.get("window");
 
@@ -18,13 +19,7 @@ const ForgotScreen = () => {
     const [email, setEmail] = useState("");
     const handleVerifyEmail = async () => {
         const result = await ForgotPassword(email);
-        Toast.show({
-            type: "success",
-            text1: result[1],
-            topOffset: 70,
-            text1Style: { fontSize: 18 },
-            visibilityTime: 2000
-        });
+        ShowToast("success", "Thông báo", result[1])
 
         if (result[0]) {
             dispatch(setOTP(result[2]))

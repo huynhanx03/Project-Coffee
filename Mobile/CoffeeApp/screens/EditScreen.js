@@ -20,6 +20,7 @@ import MenuItemProfile from "../components/menuItemProfile";
 import { getUserData } from "../controller/StorageController";
 import { uploadImage } from "../controller/UploadAvatarController";
 import Toast from "react-native-toast-message";
+import ShowToast from "../components/toast";
 
 const width = Dimensions.get("window").width;
 
@@ -57,17 +58,7 @@ const EditScreen = () => {
             .then((res) => res.json())
             .then(async (data) => {
                 const rs = await uploadImage(data.url);
-                Toast.show({
-                    type: rs[0] ? "success" : "error",
-                    text1: rs[1],
-                    text2: rs[0]
-                        ? "Vui lòng đăng nhập lại"
-                        : "Vui lòng thử lại",
-                    topOffset: 70,
-                    text1Style: { fontSize: 18 },
-                    text2Style: { fontSize: 15 },
-                    visibilityTime: 2000,
-                });
+                ShowToast(rs[0] ? "success" : "error", rs[1], rs[0] ? "Vui lòng đăng nhập lại" : "Vui lòng thử lại");
             });
     };
 
@@ -154,21 +145,24 @@ const EditScreen = () => {
                     </Text>
                 </View>
                 <View className="mx-5 mt-1">
-                    <InputCustom lable={"Họ và tên"} content={user?.HoTen} />
-                    <InputCustom lable={"Giới tính"} content={user?.GioiTinh} />
-                    <InputCustom lable={"Ngày sinh"} content={user?.NgaySinh} />
+                    <InputCustom label={"Họ và tên"} content={user?.HoTen} isEdit={true} />
+                    <InputCustom label={"Giới tính"} content={user?.GioiTinh} isEdit={true} />
+                    <InputCustom label={"Ngày sinh"} content={user?.NgaySinh} isEdit={true} />
                     <InputCustom
-                        lable={"Tên đăng nhập"}
+                        label={"Tên đăng nhập"}
                         content={user?.TaiKhoan}
+                        isEdit={false}
                     />
-                    <InputCustom lable={"Email"} content={user?.Email} />
+                    <InputCustom label={"Email"} content={user?.Email} isEdit={false}/>
                     <InputCustom
-                        lable={"Số điện thoại"}
+                        label={"Số điện thoại"}
                         content={user?.SoDienThoai}
+                        isEdit={false}
                     />
                     <InputCustom
-                        lable={"Ngày tham gia"}
+                        label={"Ngày tham gia"}
                         content={user?.NgayTao}
+                        isEdit={false}
                     />
 
                     <MenuItemProfile

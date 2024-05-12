@@ -1,5 +1,6 @@
 import { getDatabase, ref, remove, set, child, get, } from "firebase/database"
 import {getUserData} from "./StorageController"
+import { getProductDetailById } from "./ProductController"
 
 /**
  * @notice Get new id for new item in cart
@@ -43,7 +44,7 @@ const itemPresent = async (item) => {
         if (cart) {
             for (const [key, value] of Object.entries(cart)) {
                 if (key === item.MaSanPham) {
-                    return [true, value.SoLuongGioHang];
+                    return [true, value.SoLuong];
                 }
             }
         }
@@ -73,8 +74,9 @@ const setCart = async (item) => {
                 HinhAnh: item.HinhAnh,
                 KichThuoc: item.KichThuoc,
                 MaSanPham: item.MaSanPham,
-                SoLuongGioHang: present[1] + item.SoLuongGioHang,
-                SoLuong: item.SoLuong
+                SoLuong: present[1] + item.SoLuong,
+                PhanTramGiam: item.PhanTramGiam,
+                GiaGoc: item.GiaGoc
             })
             return
         }
@@ -85,8 +87,9 @@ const setCart = async (item) => {
             HinhAnh: item.HinhAnh,
             KichThuoc: item.KichThuoc,
             MaSanPham: item.MaSanPham,
-            SoLuongGioHang: item.SoLuongGioHang,
-            SoLuong: item.SoLuong
+            SoLuong: item.SoLuong,
+            PhanTramGiam: item.PhanTramGiam,
+            GiaGoc: item.GiaGoc
         })
     } catch (error) {
         console.log(error)
@@ -147,4 +150,31 @@ const getCart = async () => {
     }
 }
 
-export { setCart, getCart, deleteItemCard, removeItemCart }
+/**
+ * @notice Update the cart with the latest price
+ * @returns The cart that is updated the latest price
+ */
+const updateCartWithLastPrice = async () => {
+    const dbRef = ref(getDatabase())
+    const userData = await getUserData()
+    const carts = await getCart()
+    try {
+        if (carts) {
+            for (const key in carts[userData.MaNguoiDung]) {
+                const product = carts[userData.MaNguoiDung][key]
+                const detailProduct = await getProductDetailById(product.MaSanPham)
+                if (detailProduct.PhanTramGiam !== product.PhanTramGiam) {
+                    product.Gia = product.GiaGoc * (1 - detailProduct.PhanTramGiam / 100)
+                    product.PhanTramGiam = detailProduct.PhanTramGiam
+                }
+            }
+        } 
+
+        return carts
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export { setCart, getCart, deleteItemCard, removeItemCart, updateCartWithLastPrice }

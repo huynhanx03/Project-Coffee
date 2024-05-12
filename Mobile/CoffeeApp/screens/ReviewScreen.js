@@ -9,6 +9,7 @@ import { setReview } from "../controller/ReviewController";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { Rating, AirbnbRating } from "react-native-ratings";
+import ShowToast from "../components/toast";
 
 const ReviewScreen = ({route}) => {
     const navigation = useNavigation()
@@ -26,25 +27,9 @@ const ReviewScreen = ({route}) => {
         const tx = await setReview(route.params.MaSanPham, rating, reviewContent)
         navigation.goBack()
         if (tx) {
-            Toast.show({
-                type: "success",
-                text1: "Gửi nhận xét thành công",
-                text2: "Cảm ơn bạn đã góp ý cho chúng tôi!",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-                visibilityTime: 2000,
-            })
+            ShowToast("success", "Gửi nhận xét thành công", "Cảm ơn bạn đã góp ý cho chúng tôi!")
         } else {
-            Toast.show({
-                type: "error",
-                text1: "Gửi nhận xét thất bại",
-                text2: "Vui lòng thử lại sau!",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-                visibilityTime: 2000,
-            })
+            ShowToast("error", "Gửi nhận xét thất bại", "Vui lòng thử lại sau!")
         }
     }
     return (

@@ -54,6 +54,10 @@ const getProductsSale = async () => {
     }
 }
 
+/**
+ * @notice Get the detail of the product by id
+ * @returns The detail of the product by id
+ */
 const getProductDetail = async () => {
     const dbRef = ref(getDatabase());
     const productsSale = await getProductsSale();
@@ -73,4 +77,65 @@ const getProductDetail = async () => {
     }
 };
 
-export { getCategories, getProducts, getProductsSale, getProductDetail }
+/**
+ * @notice Get the detail of a product by id
+ * @param productId The id of product
+ * @returns 
+ */
+const getProductDetailById = async (productId) => {
+    const dbRef = ref(getDatabase());
+    
+    try {
+        const productSnapshot = await get(child(dbRef, `SanPham/${productId}`));
+        const product = productSnapshot.val();
+
+        return product
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+/**
+ * @notice Get the list of product Id that have been sold the most
+ * @returns The list of product Id that have been sold the most
+ */
+const getProductsBestSeller = async () => {
+    const db = getDatabase();
+    let productsList = [];
+    try {
+        const ordersSnapshot = await get(child(ref(db), "DonHang/"));
+        const orders = ordersSnapshot.val();
+
+        for (const key in orders) {
+            productsList.push(...Object.values(orders[key].SanPham));
+        }
+
+        const totalSold = {};
+
+        productsList.map((product) => {
+            if (totalSold[product.MaSanPham]) {
+                totalSold[product.MaSanPham] += product.SoLuong;
+            } else {
+                totalSold[product.MaSanPham] = product.SoLuong;
+            }
+        });
+        const sortedValues = Object.values(totalSold).sort().reverse();
+        
+        for (const key in totalSold) {
+            for (let i = 0; i < sortedValues.length; i++) {
+                if (totalSold[key] === sortedValues[i]) {
+                    sortedValues[i] = key;
+                    break;
+                }
+            }
+        }
+        
+        return sortedValues;
+    } catch(err) {
+        console.log(err);
+        return err
+    }
+}
+
+export { getCategories, getProducts, getProductsSale, getProductDetail, getProductDetailById, getProductsBestSeller }

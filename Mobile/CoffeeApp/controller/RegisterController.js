@@ -98,6 +98,16 @@ const Register = async (username, email, password) => {
         MaKhachHang: newId,
     });
 
+    set(ref(db, 'ChiTietMucDoThanThiet/' + newId), {
+        MaKhachHang: newId,
+        ChiTiet: {
+            TT0001: {
+                MaMucDoThanThiet: 'TT0001',
+                NgayDatDuoc: dateCreated
+            }
+        }
+    })
+
     return [true, 'Đăng ký thành công!'];
 }
 

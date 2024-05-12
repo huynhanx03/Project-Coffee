@@ -1,6 +1,5 @@
-import { child, equalTo, get, getDatabase, orderByChild, query, ref } from "firebase/database";
+import { child, equalTo, get, getDatabase, orderByChild, query, ref, update } from "firebase/database";
 import { getUserData } from "./StorageController";
-import { orderBy } from "firebase/firestore";
 
 
 /**
@@ -37,4 +36,22 @@ const getVoucher = async () => {
     }
 };
 
-export { getVoucher };
+/**
+ * @notice Update the voucher status
+ * @param voucherId The id of the voucher
+ */
+const updateVoucherUsed = async (voucherId) => {
+    const db = getDatabase();
+    const userData = await getUserData();
+
+    try {
+        update(ref(db, `PhieuGiamGia/${voucherId}/ChiTiet/${userData.MaNguoiDung}/`), {
+            TrangThai: 'Đã sử dụng'
+        })
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+export { getVoucher, updateVoucherUsed };

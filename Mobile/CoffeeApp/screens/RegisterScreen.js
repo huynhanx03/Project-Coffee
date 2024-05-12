@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import { Register } from "../controller/RegisterController";
 import Toast from "react-native-toast-message";
+import ShowToast from "../components/toast";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,25 +25,11 @@ const RegisterScreen = () => {
 
     const handleRegister = async () => {
         if (!username || !email || !password || !rePassword) {
-            Toast.show({
-                type: "error",
-                text1: "Đăng ký thất bại",
-                text2: "Vui lòng điền đầy đủ thông tin!",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-            })
+            ShowToast("error", "Đăng ký thất bại", "Vui lòng điền đầy đủ thông tin!")
             return;
         }
         if (password !== rePassword) {
-            Toast.show({
-                type: "error",
-                text1: "Đăng ký thất bại",
-                text2: "Mật khẩu không khớp!",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-            })
+            ShowToast("error", "Đăng ký thất bại", "Mật khẩu không khớp!")
             return;
         }
         const rs = await Register(username, email, password);

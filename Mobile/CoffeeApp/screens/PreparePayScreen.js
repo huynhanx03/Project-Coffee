@@ -24,12 +24,15 @@ import { useDispatch, useSelector } from "react-redux";
 import * as geolib from 'geolib';
 import { clearCart } from "../redux/slices/cartSlice";
 import { removeItemCart } from "../controller/CartController";
-import Toast from "react-native-toast-message";
 import { saveOrder } from "../controller/OrderController";
 import { removeVoucher } from "../redux/slices/voucherSlice";
+import ShowToast from "../components/toast";
+import ItemPay from "../components/itemPay";
+import { updateVoucherUsed } from "../controller/VoucherController";
 
-const PreparePayScreen = () => {
+const PreparePayScreen = ({route}) => {
     const navigation = useNavigation();
+    const product = route.params;
     const dispatch = useDispatch();
     const addressData = getDefaultAddress();
     const [totalProduct, setTotalProduct] = useState(0);
@@ -63,9 +66,13 @@ const PreparePayScreen = () => {
 
     const handleTotal = () => {
         let totalProduct = 0;
-        cart.forEach((item) => {
-            totalProduct += item.SoLuongGioHang * item.Gia;
-        });
+        if (product) {
+            totalProduct = product.Gia * product.SoLuong;
+        } else {
+            cart.forEach((item) => {
+                totalProduct += item.SoLuong * item.Gia;
+            });
+        }
 
         if (voucher.PhanTramGiam) {
             setTotal((totalProduct * (1 - voucher.PhanTramGiam / 100) + transFee));
@@ -120,15 +127,7 @@ const PreparePayScreen = () => {
 
     const handleCheckOut = async () => {
         if (!addressData) {
-            Toast.show({
-                type: "error",
-                text1: "Lỗi",
-                text2: "Vui lòng chọn địa chỉ nhận hàng",
-                topOffset: 70,
-                text1Style: {fontSize: 18},
-                text2Style: {fontSize: 15},
-                visibilityTime: 2000,
-            })
+            ShowToast("error", "Lỗi", "Vui lòng chọn địa chỉ nhận hàng");
             return
         }
         const isDistance = handleCheckDistance();
@@ -144,9 +143,18 @@ const PreparePayScreen = () => {
 
             return;
         }
-        saveOrder(cart, total);
-        dispatch(clearCart());
-        await removeItemCart();
+        if (product) {
+            const productList = [product];
+            saveOrder(productList, total, transFee, addressData);
+        } else {
+            saveOrder(cart, total, transFee, addressData);
+            dispatch(clearCart());
+            await removeItemCart();
+        }
+        if (voucher) {
+            await updateVoucherUsed(voucher.MaPhieuGiamGia)
+            dispatch(removeVoucher())
+        }
         navigation.navigate("OrderSuccess");
     }
 
@@ -215,7 +223,13 @@ const PreparePayScreen = () => {
                 <Divider className='p-1 bg-white'/>
 
                 <View>
-                    <ItemPayList />
+                    {
+                        product ? (
+                            <ItemPay item={product} />
+                        ) : (
+                            <ItemPayList />
+                        )
+                    }
                 </View>
 
                 <Divider className='p-1 bg-white'/>

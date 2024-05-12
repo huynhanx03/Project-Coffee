@@ -6,6 +6,7 @@ import {
 import React from "react";
 import { colors } from "../theme";
 import { formatPrice } from "../utils";
+import { Divider } from "react-native-paper";
 
 const ItemPay = (props) => {
     return (
@@ -16,7 +17,8 @@ const ItemPay = (props) => {
                     style={{
                         borderRadius: 10,
                         width: wp(20),
-                        height: hp(10),
+                        height: wp(20),
+                        backgroundColor: 'white'
                     }}
                     resizeMode="contain"
                 />
@@ -27,15 +29,22 @@ const ItemPay = (props) => {
 
                     <View className="flex-row">
                         <Text className="text-base text-gray-700">Size: </Text>
-                        <Text className="text-base text-gray-700">{props.item.KichThuoc}</Text>
+                        <Text className="text-base text-gray-700">
+                            {props.item.KichThuoc}
+                        </Text>
                     </View>
 
                     <View className="flex-row justify-between">
-                        <Text className="text-base text-gray-700">{formatPrice(props.item.Gia)}</Text>
-                        <Text className="text-base text-gray-700">x{props.item.SoLuongGioHang}</Text>
+                        <Text className="text-base text-gray-700">
+                            {formatPrice(props.item.Gia)}
+                        </Text>
+                        <Text className="text-base text-gray-700">
+                            x{props.item.SoLuong}
+                        </Text>
                     </View>
                 </View>
             </View>
+            <Divider />
         </View>
     );
 };

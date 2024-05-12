@@ -10,9 +10,9 @@ import { colors } from "../theme";
 import * as Icons from "react-native-heroicons/outline";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { FadeInUp, FadeOut } from "react-native-reanimated";
+import Animated, { FadeOut, FlipInXUp } from "react-native-reanimated";
 import { setStatusOrder } from "../controller/OrderController";
-import Toast from "react-native-toast-message";
+import ShowToast from "./toast";
 
 const ItemOrder = (props) => {
     const navigation = useNavigation();
@@ -20,10 +20,14 @@ const ItemOrder = (props) => {
     const [isReview, setIsReview] = useState(true);
     const [isReceive, setIsReceive] = useState(false);
     const [status, setStatus] = useState('');
+    const orderItemsList = []
+    for (const key in props.order.SanPham) {
+        orderItemsList.push(props.order.SanPham[key]);
+    }
     const calQuantity = useMemo(() => {
         let total = 0;
-        props.order.SanPham.forEach((item) => {
-            total += item.SoLuongGioHang;
+        orderItemsList.forEach((item) => {
+            total += item.SoLuong;
         });
 
         setQuantity(total);
@@ -34,15 +38,7 @@ const ItemOrder = (props) => {
         setStatusOrder(MaDonHang);
         setIsReceive(true);
         setIsReview(false);
-        Toast.show({
-            type: 'success',
-            text1: 'Đã nhận đơn hàng',
-            text2: 'Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi',
-            topOffset: 70,
-            text1Style: {fontSize: 18},
-            text2Style: {fontSize: 15},
-            visibilityTime: 2000,
-        })
+        ShowToast('success', 'Đã nhận đơn hàng', 'Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi')
     };
 
     const handleReceive = () => {
@@ -104,10 +100,10 @@ const ItemOrder = (props) => {
                     }}
                 ></Text>
             </View>
-            {props.order.SanPham.map((item) => {
+            {orderItemsList.map((item) => {
                 return (
                     <Animated.View
-                        entering={FadeInUp}
+                        entering={FlipInXUp}
                         exiting={FadeOut}
                         key={item.MaSanPham}
                         className="flex-1 mt-4"
@@ -159,7 +155,7 @@ const ItemOrder = (props) => {
                                                 {formatPrice(item.Gia)}
                                             </Text>
                                             <Text className="text-base">
-                                                x{item.SoLuongGioHang}
+                                                x{item.SoLuong}
                                             </Text>
                                         </View>
                                     </View>
@@ -176,7 +172,7 @@ const ItemOrder = (props) => {
                                         color={"gray"}
                                     />
                                     <Text className="mx-2 text-base text-gray-500 font-semibold">
-                                        {item.SoLuongGioHang} sản phẩm
+                                        {item.SoLuong} sản phẩm
                                     </Text>
                                 </View>
                                 <View className="flex-row justify-end mx-2">

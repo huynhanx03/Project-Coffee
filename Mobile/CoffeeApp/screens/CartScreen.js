@@ -1,21 +1,16 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useMemo, useState } from "react";
 import {
     FlatList,
-    Pressable,
-    ScrollView,
     Text,
     TouchableOpacity,
     View,
     Alert,
 } from "react-native";
 import * as Icons from "react-native-heroicons/outline";
-import { Divider } from "react-native-paper";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ItemCart from "../components/itemCart";
-import { getAddress } from "../controller/AddressController";
-import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../redux/slices/cartSlice";
 import { removeItemCart } from "../controller/CartController";
@@ -25,7 +20,6 @@ const CartScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
-    const addressData = getDefaultAddress();
     const [totalPrice, setTotalPrice] = useState(0);
 
     //delete all items in cart (redux and database)
@@ -48,15 +42,11 @@ const CartScreen = () => {
     const handleTotalPrice = useMemo(() => {
         let total = 0;
         cart.forEach((item) => {
-            total += item.SoLuongGioHang * item.Gia;
+            total += item.SoLuong * item.Gia;
         });
 
         setTotalPrice(total);
     }, [cart])
-
-    // useEffect(() => {
-    //     handleTotalPrice();
-    // }, [cart])
 
     return (
         <View className="flex-1">
