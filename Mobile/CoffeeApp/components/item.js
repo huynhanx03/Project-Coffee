@@ -68,6 +68,7 @@ const Item = ({ product, isSale, isBestSeller }) => {
                 })
             }
             className="bg-white rounded-[16px] mt-3 mb-2"
+            style={{width: wp(42), height: wp(65)}}
         >
             {isSale ? (
                 <View className="z-10 top-2" style={{ left: wp(0.8) }}>
