@@ -23,7 +23,7 @@ def GetProduct():
             'TenSanPham': product['TenSanPham'],
             'SoLuong': product['SoLuong'],
             'LoaiSanPham': next((x['LoaiSanPham'] for x in list_product_type if x['MaLoaiSanPham'] == product['MaLoaiSanPham']), None),
-            'CongThuc': '|'.join([congthuc['TenNguyenLieu'] for congthuc in product['CongThuc'].values()])
+            'CongThuc': ' | '.join([congthuc['TenNguyenLieu'] for congthuc in product['CongThuc'].values()])
         }
         for product in product_data.values()
     ]
@@ -43,5 +43,3 @@ def GetEvaluate():
     ]
 
     return evaluates
-
-x = GetEvaluate()
