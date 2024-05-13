@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -19,10 +20,19 @@ namespace Coffee.ViewModel.AdminVM.Store
 
         public Grid MaskName { get; set; }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
         public ICommand loadShadowMaskIC { get; set; }
+        public ICommand loadDataIC { get; set; }
         
         #endregion
 
@@ -41,6 +51,11 @@ namespace Coffee.ViewModel.AdminVM.Store
             loadDiscountProductListIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 loadDiscountProductList();
+            });
+
+            loadDataIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                loadData();
             });
 
             uploadImageIC = new RelayCommand<object>((p) => { return true; }, (p) =>
@@ -74,6 +89,18 @@ namespace Coffee.ViewModel.AdminVM.Store
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void loadData()
+        {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
+            loadBanner();
+            loadDiscountProductList();
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         #endregion

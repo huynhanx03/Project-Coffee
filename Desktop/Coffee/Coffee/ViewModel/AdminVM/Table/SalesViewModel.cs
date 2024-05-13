@@ -181,6 +181,7 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private void removeBill()
         {
+            MaskName.Visibility = Visibility.Visible;
             MessageBoxCF ms = new MessageBoxCF("Xác nhận gỡ sản phẩm này khỏi hoá đơn", MessageType.Waitting, MessageButtons.YesNo);
             if (ms.ShowDialog() == true)
             {
@@ -188,6 +189,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                 DetailBillList = new ObservableCollection<DetailBillDTO>(DetailBillList);
                 CalculateTotalBill();
             }
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -217,6 +219,9 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private async void booking()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             // Lưu thế thông tin chi tiết hoá đơn lên trên cơ sở dữ liệu
             BillModel bill = new BillModel
             {
@@ -240,7 +245,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                 {
                     (string labelUpdatePoint, double point) = await CustomerService.Ins.updatePointRankCustomer(Customer.MaNguoiDung, (double)bill.TongTien / 10000);
 
-                    CustomerService.Ins.checkUpdateRankCustomer(Customer.MaNguoiDung, point);
+                    await CustomerService.Ins.checkUpdateRankCustomer(Customer.MaNguoiDung, point);
                 }
 
                 // Thành công: Xoá số lượng sản phẩm
@@ -263,11 +268,17 @@ namespace Coffee.ViewModel.AdminVM.Table
                 MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         // Thanh toán hoá đơn
         private async void pay()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             // Nếu chưa có bill trước
             if (billCurrent == null)
             {
@@ -295,7 +306,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                     {
                         (string labelUpdatePoint, double point) = await CustomerService.Ins.updatePointRankCustomer(Customer.MaNguoiDung, (double)bill.TongTien / 10000);
 
-                        CustomerService.Ins.checkUpdateRankCustomer(Customer.MaNguoiDung, point);
+                        await CustomerService.Ins.checkUpdateRankCustomer(Customer.MaNguoiDung, point);
                     }
 
                     // Giảm số lượng sản phẩm
@@ -341,6 +352,8 @@ namespace Coffee.ViewModel.AdminVM.Table
                 }
             }
 
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>

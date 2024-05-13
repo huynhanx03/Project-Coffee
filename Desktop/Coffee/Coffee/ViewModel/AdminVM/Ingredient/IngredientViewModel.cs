@@ -58,6 +58,15 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
             get { return _HeaderOperation; }
             set { _HeaderOperation = value; OnPropertyChanged(); }
         }
+
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
@@ -166,6 +175,9 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
         /// </summary>
         public async void loadIngredientList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<IngredientDTO> ingredients) = await IngredientService.Ins.getListIngredient();
 
             if (ingredients != null)
@@ -178,6 +190,9 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
                 IngredientList = new ObservableCollection<IngredientDTO>();
                 __IngredientList = new List<IngredientDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>

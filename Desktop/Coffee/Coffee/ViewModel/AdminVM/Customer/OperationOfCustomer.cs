@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace Coffee.ViewModel.AdminVM.Customer
 {
@@ -110,12 +112,23 @@ namespace Coffee.ViewModel.AdminVM.Customer
             set { _SelectedCustomer = value; OnPropertyChanged(); }
         }
 
+        private bool _IsLoadingOperation;
+
+        public bool IsLoadingOperation
+        {
+            get { return _IsLoadingOperation; }
+            set { _IsLoadingOperation = value; OnPropertyChanged(); }
+        }
+
+        public Grid MaskNameOperation { get; set; }
+
         #endregion
 
         #region ICommand
         public ICommand confirmOperationCustomerIC { get; set; }
         public ICommand closeOperationCustomerWindowIC { get; set; }
         public ICommand uploadImageIC { get; set; }
+        public ICommand loadShadowMaskOperationIC { get; set; }
 
         #endregion
 
@@ -125,10 +138,16 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// </summary>
         public async void confirmOperationCustomer()
         {
+            MaskNameOperation.Visibility = Visibility.Visible;
+            IsLoadingOperation = true;
+
             if (!Helper.checkCardID(IDCard))
             {
                 MessageBoxCF ms = new MessageBoxCF("CCCD/CMND không hợp lệ", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+
+                MaskNameOperation.Visibility = Visibility.Collapsed;
+                IsLoadingOperation = false;
                 return;
             }
 
@@ -136,6 +155,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
             {
                 MessageBoxCF ms = new MessageBoxCF("Email không hợp lệ", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+
+                MaskNameOperation.Visibility = Visibility.Collapsed;
+                IsLoadingOperation = false;
                 return;
             }
 
@@ -143,6 +165,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
             {
                 MessageBoxCF ms = new MessageBoxCF("Số điện thoại không hợp lệ", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+
+                MaskNameOperation.Visibility = Visibility.Collapsed;
+                IsLoadingOperation = false;
                 return;
             }
 
@@ -227,6 +252,8 @@ namespace Coffee.ViewModel.AdminVM.Customer
                     break;
             }
 
+            MaskNameOperation.Visibility = Visibility.Collapsed;
+            IsLoadingOperation = false;
         }
 
 

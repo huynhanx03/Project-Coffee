@@ -83,12 +83,18 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private async void loadTableList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<TableDTO> tableList) = await TableService.Ins.getListTable();
 
             if (tableList != null)
             {
                 TableList = new ObservableCollection<TableDTO>(tableList);
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -96,10 +102,13 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private async void deleteTable(TableDTO table)
         {
+            MaskName.Visibility = Visibility.Visible;
+
             if (table.TrangThai == Constants.StatusTable.BOOKED)
             {
                 MessageBoxCF msTable = new MessageBoxCF("Bàn này đang có khách không thể xoá", MessageType.Error, MessageButtons.OK);
                 msTable.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
                 return;
             }
 
@@ -107,12 +116,16 @@ namespace Coffee.ViewModel.AdminVM.Table
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
                 (string label, bool isDeleteTable) = await TableService.Ins.DeleteTable(table.MaBan);
 
                 if (isDeleteTable)
                 {
                     MessageBoxCF msn = new MessageBoxCF(label, MessageType.Accept, MessageButtons.OK);
                     loadTableList();
+
+                    IsLoading = false;
+
                     msn.ShowDialog();
                 }
                 else
@@ -121,6 +134,8 @@ namespace Coffee.ViewModel.AdminVM.Table
                     msn.ShowDialog();
                 }
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -136,6 +151,9 @@ namespace Coffee.ViewModel.AdminVM.Table
             // Nếu bàn đó chưa thanh toán thì load thực đơn để thanh toán
             if (currentTable.TrangThai == Constants.StatusTable.BOOKED)
             {
+                MaskName.Visibility = Visibility.Visible;
+                IsLoading = true;
+
                 (string label, BillModel bill, List<DetailBillDTO> listDetailBill) = await BillService.Ins.findBillByTableBooking(currentTable.MaBan);
 
                 if (listDetailBill != null)
@@ -146,6 +164,9 @@ namespace Coffee.ViewModel.AdminVM.Table
                 }
 
                 billCurrent = bill;
+
+                MaskName.Visibility = Visibility.Collapsed;
+                IsLoading = false;
             }
             else
             {
@@ -173,11 +194,14 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private async void confirmChangeTable(Window w)
         {
+            MaskName.Visibility = Visibility.Visible;
+
             if (TableMoveSelected == TableTransferSelected)
             {
                 // Nếu 2 bàn giống nhau thì không chuyển được
                 MessageBoxCF ms = new MessageBoxCF("Không thể chuyển từ bàn này sang bàn chính nó", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
 
                 return;
             }
@@ -187,6 +211,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                 // Nếu bàn muốn chuyển đang trạng thái "trống" thì không chuyển được
                 MessageBoxCF ms = new MessageBoxCF("Bàn này không có hoá đơn để chuyển", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
 
                 return;
             }
@@ -196,9 +221,12 @@ namespace Coffee.ViewModel.AdminVM.Table
                 // Nếu bàn muốn chuyển đến đang trạng thái "đã đặt" thì không chuyển được
                 MessageBoxCF ms = new MessageBoxCF("Bàn này muốn chuyển đến đã có người. Xin hãy gộp bàn nếu muốn chuyển đến", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
 
                 return;
             }
+
+            IsLoading = true;
 
             // Chuyển MaBan tại hoá đơn
             (string labelUpdateBill, bool isUpdate) = await BillService.Ins.updateBillByTableID(TableMoveSelected.MaBan, TableTransferSelected.MaBan);
@@ -219,6 +247,9 @@ namespace Coffee.ViewModel.AdminVM.Table
 
                 w.Close();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -240,11 +271,14 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private async void confirmMergeTable(Window w)
         {
+            MaskName.Visibility = Visibility.Visible;
+
             if (TableNumber1Selected == TableNumber2Selected)
             {
                 // Nếu 2 bàn giống nhau thì không chuyển được
                 MessageBoxCF ms = new MessageBoxCF("Không thể gộp từ bàn này sang bàn chính nó", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
 
                 return;
             }
@@ -254,6 +288,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                 // Không thể gộp với bàn "trống"
                 MessageBoxCF ms = new MessageBoxCF("Bàn này chưa được đặt để gộp", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
 
                 return;
             }
@@ -263,9 +298,12 @@ namespace Coffee.ViewModel.AdminVM.Table
                 // Không thể gộp với bàn "trống"
                 MessageBoxCF ms = new MessageBoxCF("Bàn này chưa được đặt để gộp", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+                MaskName.Visibility = Visibility.Collapsed;
 
                 return;
             }
+
+            IsLoading = true;
 
             // Gộp hoá đơn
             (string labelUpdateBill, bool isUpdate) = await BillService.Ins.mergeBillByTableID(TableNumber1Selected.MaBan, TableNumber2Selected.MaBan);
@@ -284,6 +322,9 @@ namespace Coffee.ViewModel.AdminVM.Table
 
                 w.Close();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
     }
 }

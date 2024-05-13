@@ -64,6 +64,9 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// </summary>
         private async void loadMenuList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<ProductDTO> listProduct) = await ProductService.Ins.getListProduct();
 
             if (listProduct != null)
@@ -78,6 +81,9 @@ namespace Coffee.ViewModel.AdminVM.Table
                 __ProductList = new List<ProductDTO>();
                 ProductList = new ObservableCollection<ProductDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>

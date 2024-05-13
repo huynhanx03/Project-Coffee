@@ -57,6 +57,14 @@ namespace Coffee.ViewModel.AdminVM.Employee
             }
         }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
         public string _HeaderOperation { get; set; }
         public string HeaderOperation
         {
@@ -90,6 +98,11 @@ namespace Coffee.ViewModel.AdminVM.Employee
             loadShadowMaskIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
             {
                 MaskName = p;
+            });
+
+            loadShadowMaskOperationIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                MaskNameOperation = p;
             });
 
             loadEmployeeListIC = new RelayCommand<object>((p) => { return true; }, (p) =>
@@ -189,6 +202,9 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// </summary>
         private async void loadEmployeeList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<EmployeeDTO> employees) = await EmployeeService.Ins.getListEmployee();
 
             if (employees != null)
@@ -205,6 +221,9 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 employeePosition = new List<EmployeeDTO>();
                 employeeSearch = new List<EmployeeDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -230,6 +249,9 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// <param name="employee"></param>
         private void loadEmployee(EmployeeDTO employee)
         {
+            MaskNameOperation.Visibility = Visibility.Visible;
+            IsLoadingOperation = true;
+
             OriginImage = employee.HinhAnh;
             FullName = employee.HoTen;
             Email = employee.Email;
@@ -244,6 +266,9 @@ namespace Coffee.ViewModel.AdminVM.Employee
             WorkingDay = DateTime.ParseExact(employee.NgayLam, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             SelectedGender = employee.GioiTinh;
             SelectedPositionName = employee.TenChucVu;
+
+            MaskNameOperation.Visibility = Visibility.Collapsed;
+            IsLoadingOperation = false;
         }
 
         /// <summary>
@@ -267,11 +292,16 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// </summary>
         public async void deleteEmployee()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá nhân viên?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {
                 (string label, bool isDeleteEmployee) = await EmployeeService.Ins.DeleteEmployee(SelectedEmployee);
+
+                IsLoading = false;
 
                 if (isDeleteEmployee)
                 {
@@ -285,6 +315,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
                     msn.ShowDialog();
                 }
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -303,6 +335,9 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// </summary>
         private void exportExcel()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             System.Windows.Forms.SaveFileDialog sf = new System.Windows.Forms.SaveFileDialog
             {
                 FileName = "DanhSachNhanVien",
@@ -360,6 +395,9 @@ namespace Coffee.ViewModel.AdminVM.Employee
                 MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
                 mb.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         private async void loadEmployeePositionList()

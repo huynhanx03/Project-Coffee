@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Coffee.ViewModel.AdminVM.Menu
 {
@@ -143,11 +144,24 @@ namespace Coffee.ViewModel.AdminVM.Menu
         }
 
 
+        private bool _IsLoadingOperation;
+
+        public bool IsLoadingOperation
+        {
+            get { return _IsLoadingOperation; }
+            set { _IsLoadingOperation = value; OnPropertyChanged(); }
+        }
+
+        public Grid MaskNameOperation { get; set; }
+
+
         #endregion
 
         #region ICommand
         public ICommand confirmOperationProductIC { get; set; }
         public ICommand closeOperationProductWindowIC { get; set; }
+        public ICommand loadShadowMaskOperationIC { get; set; }
+
 
         #endregion
 
@@ -211,6 +225,9 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         public async void confirmOperationProduct()
         {
+            MaskNameOperation.Visibility = Visibility.Visible;
+            IsLoadingOperation = true;
+
             ProductTypeDTO productType = (ListProductType.First(p => p.LoaiSanPham == SelectedProdcutTypeName) as ProductTypeDTO);
             string newImage = Image;
 
@@ -277,6 +294,9 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 default:
                     break;
             }
+
+            MaskNameOperation.Visibility = Visibility.Collapsed;
+            IsLoadingOperation = false;
 
         }
         #endregion
