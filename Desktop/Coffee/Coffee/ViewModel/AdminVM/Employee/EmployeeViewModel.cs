@@ -249,8 +249,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
         /// <param name="employee"></param>
         private void loadEmployee(EmployeeDTO employee)
         {
-            MaskNameOperation.Visibility = Visibility.Visible;
-            IsLoadingOperation = true;
+            //MaskNameOperation.Visibility = Visibility.Visible;
+            //IsLoadingOperation = true;
 
             OriginImage = employee.HinhAnh;
             FullName = employee.HoTen;
@@ -267,8 +267,8 @@ namespace Coffee.ViewModel.AdminVM.Employee
             SelectedGender = employee.GioiTinh;
             SelectedPositionName = employee.TenChucVu;
 
-            MaskNameOperation.Visibility = Visibility.Collapsed;
-            IsLoadingOperation = false;
+            //MaskNameOperation.Visibility = Visibility.Collapsed;
+            //IsLoadingOperation = false;
         }
 
         /// <summary>

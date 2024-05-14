@@ -135,6 +135,7 @@ namespace Coffee.ViewModel.AdminVM.Setting
         public ICommand uploadImageIC {  get; set; }
         public ICommand confirmUserIC {  get; set; }
         public ICommand loadShadowMaskIC {  get; set; }
+        public ICommand loadDataIC {  get; set; }
         #endregion
 
         #region
@@ -148,11 +149,14 @@ namespace Coffee.ViewModel.AdminVM.Setting
                 (string)Application.Current.Resources["Other"],
             };
 
-            LoadThongTin();
-
             uploadImageIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 uploadImage();
+            });
+
+            loadDataIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                LoadThongTin();
             });
             confirmUserIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {

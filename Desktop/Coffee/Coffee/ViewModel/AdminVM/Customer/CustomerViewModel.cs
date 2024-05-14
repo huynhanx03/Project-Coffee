@@ -210,8 +210,8 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// <param name="Customer"></param>
         private void loadCustomer(CustomerDTO Customer)
         {
-            MaskNameOperation.Visibility = Visibility.Visible;
-            IsLoadingOperation = true;
+            //MaskNameOperation.Visibility = Visibility.Visible;
+            //IsLoadingOperation = true;
 
             OriginImage = Customer.HinhAnh;
             FullName = Customer.HoTen;
@@ -225,8 +225,8 @@ namespace Coffee.ViewModel.AdminVM.Customer
             Birthday = DateTime.ParseExact(Customer.NgaySinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             SelectedGender = Customer.GioiTinh;
 
-            MaskNameOperation.Visibility = Visibility.Collapsed;
-            IsLoadingOperation = false;
+            //MaskNameOperation.Visibility = Visibility.Collapsed;
+            //IsLoadingOperation = false;
         }
 
         /// <summary>

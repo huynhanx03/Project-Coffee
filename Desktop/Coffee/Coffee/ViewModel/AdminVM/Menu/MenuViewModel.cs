@@ -223,8 +223,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// <param name="product"> Sản phẩm </param>
         private void loadProduct(ProductDTO product)
         {
-            MaskName.Visibility = Visibility.Visible;
-            IsLoading = true;
+            //MaskName.Visibility = Visibility.Visible;
+            //IsLoading = true;
 
             ProductName = product.TenSanPham;
             SelectedProdcutTypeName = product.LoaiSanPham;
@@ -234,8 +234,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
             Description = product.Mota;
             Image = product.HinhAnh;
 
-            MaskName.Visibility = Visibility.Collapsed;
-            IsLoading = false;
+            //MaskName.Visibility = Visibility.Collapsed;
+            //IsLoading = false;
         }
 
         /// <summary>

@@ -42,6 +42,7 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding loadShadowMaskIC}" CommandParameter="{Binding ElementName=ShadowMask}" />
+            <i:InvokeCommandAction Command="{Binding loadDataIC}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
