@@ -1,8 +1,6 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LogInScreen from '../screens/LogInScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -21,8 +19,8 @@ import OrderSuccessScreen from '../screens/OrderSuccessScreen';
 import OrderInfoScreen from '../screens/OrderInfoScreen';
 import ReviewScreen from '../screens/ReviewScreen';
 import VoucherScreen from '../screens/VoucherScreen';
-import MenuScreen from '../screens/MenuScreen';
 import ChangeInfoScreen from '../screens/ChangeInfoScreen';
+import ChangePasswordForgotScreen from '../screens/ChangePasswordForgotScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +33,7 @@ export default function Navigation() {
         <Stack.Screen name="Login" component={LogInScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Forgot" component={ForgotScreen} />
+        <Stack.Screen name="ChangePasswordForgot" component={ChangePasswordForgotScreen} />
         <Stack.Screen name="Verify" component={VerifyScreen} />
         <Stack.Screen name="Detail" component={DetailItemScreen} />
         <Stack.Screen name="Edit" component={EditScreen} />

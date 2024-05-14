@@ -24,7 +24,7 @@ const VerifyScreen = () => {
             if (otpInput === otp) {
                 setIsOK(true);
                 setTimeout(() => {
-                    navigation.navigate('ChangePassword')
+                    navigation.navigate('ChangePasswordForgot')
                     dispatch(setOTP(''))
                 }, 2000);
             } else {
