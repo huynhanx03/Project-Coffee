@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "CoffeeApp",
+    "name": "EPSRO",
     "slug": "CoffeeApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,13 +10,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.namngo102003.CoffeeApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
