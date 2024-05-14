@@ -3,6 +3,7 @@ import {
     Text,
     TouchableOpacity,
     Pressable,
+    Image,
 } from "react-native";
 import {
     widthPercentageToDP as wp,
@@ -123,8 +124,7 @@ const Item = ({ product, isSale, isBestSeller }) => {
                     className="p-1 justify-center items-center mt-1"
                     style={{ width: wp(40), height: wp(40) }}
                 >
-                    <Animated.Image
-                        sharedTransitionTag={product.HinhAnh}
+                    <Image
                         source={{ uri: product.HinhAnh }}
                         resizeMode="contain"
                         style={{ width: wp(40), height: wp(40) }}

@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import {
+    Image,
     Platform,
     ScrollView,
     Text,
@@ -173,8 +174,7 @@ const DetailItemScreen = ({ route }) => {
                 showsVerticalScrollIndicator={false}
             >
                 {/* image */}
-                <Animated.Image
-                    sharedTransitionTag={product.HinhAnh}
+                <Image
                     source={{ uri: product.HinhAnh }}
                     resizeMode="cover"
                     style={{
