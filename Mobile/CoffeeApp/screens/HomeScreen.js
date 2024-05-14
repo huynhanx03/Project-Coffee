@@ -92,15 +92,6 @@ const HomeScreen = () => {
     const handleGetBestSeller = async () => {
         const bestSeller = await getProductsBestSeller();
         setProBestSeller(bestSeller)
-        // const length = bestSeller.length > 4 ? 4 : bestSeller.length;
-        // let listProducts = {}
-        // for (let i = 0; i < length; i++) {
-        //     const product = await getProductDetailById(bestSeller[i]);
-        //     listProducts = {...listProducts, [product.MaSanPham]: product}
-        // }
-
-        // const allProducts = handleSetProduct(listProducts)
-        // setBestSeller([...allProducts])
     }
 
     const handleGetRecommend = async () => {
