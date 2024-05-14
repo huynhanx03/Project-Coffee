@@ -6,7 +6,6 @@ import Button from "../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import { handleLogin } from "../controller/LoginController";
-import Toast from "react-native-toast-message";
 import {getUserData} from "../controller/StorageController";
 import { useDispatch } from "react-redux";
 import { getCart, updateCartWithLastPrice } from "../controller/CartController";
@@ -30,8 +29,6 @@ export default function LogInScreen() {
 
     const handleGetCart = async () => {
         const userData = await getUserData();
-        // get cart from database and set to redux
-        // const items = await getCart();
         const items = await updateCartWithLastPrice();
         if (items) {
             for (const key in items[userData.MaNguoiDung]) {
@@ -61,11 +58,11 @@ export default function LogInScreen() {
                 source={require("../assets/images/bgWelcome.png")}
                 style={{ width: width, height: height }}
             />
-            <View className="absolute top-48">
-                <Text className="text-4xl font-extrabold text-center mb-10" style-={{ color: colors.primary }}>
+            <View className="absolute" style={{top: hp(22)}}>
+                <Text className="text-4xl font-extrabold text-center" style={{ color: colors.primar, marginBottom: hp(10) }}>
                     Chào mừng!
                 </Text>
-                <View className="space-y-3" style={{ width: wp(90) }}>
+                <View className="space-y-5" style={{ width: wp(90) }}>
                     <TextInput
                         mode="outlined"
                         autoCapitalize="none"
@@ -92,32 +89,6 @@ export default function LogInScreen() {
 
                     <Button content="Đăng nhập" handle={Login} />
                 </View>
-
-                <View className="mt-14 flex-row justify-between items-center" style={{ width: wp(90) }}>
-                    <Text
-                        style={{
-                            height: 1,
-                            borderColor: "rgba(59, 29, 12, 0.4)",
-                            borderWidth: 1,
-                            width: wp(25),
-                        }}></Text>
-
-                    <Text style={{ color: "#8B6122" }}>Hoặc đăng nhập với</Text>
-
-                    <Text
-                        style={{
-                            height: 1,
-                            borderColor: "rgba(59, 29, 12, 0.4)",
-                            borderWidth: 1,
-                            width: wp(25),
-                        }}></Text>
-                </View>
-
-                <TouchableOpacity
-                    className="flex justify-center items-center bg-white border-[1px] rounded-lg py-1 mt-5"
-                    style={{ borderColor: "#E8ECF4" }}>
-                    <Image source={require("../assets/icons/ggIcon.png")} />
-                </TouchableOpacity>
             </View>
             <View className="flex flex-row justify-center items-center mt-20 absolute bottom-10">
                 <Text className="font-semibold">Bạn chưa có tài khoản? </Text>

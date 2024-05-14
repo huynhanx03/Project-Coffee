@@ -92,38 +92,12 @@ const RegisterScreen = () => {
                         secureTextEntry={isHide}
                         activeOutlineColor={colors.primary}
                         right={<TextInput.Icon icon={isHide ? "eye" : "eye-off"} onPress={handleShowPassword} />}
-                        className="mb-4"
+                        className="mb-10"
                     />
 
                     {/* button register */}
                     <Button content="Đăng ký" handle={handleRegister} />
                 </View>
-
-                <View className="mt-10 flex-row justify-between items-center" style={{ width: wp(90) }}>
-                    <Text
-                        style={{
-                            height: 1,
-                            borderColor: "rgba(59, 29, 12, 0.4)",
-                            borderWidth: 1,
-                            width: wp(25),
-                        }}></Text>
-
-                    <Text style={{ color: "#8B6122" }}>Hoặc đăng ký với</Text>
-
-                    <Text
-                        style={{
-                            height: 1,
-                            borderColor: "rgba(59, 29, 12, 0.4)",
-                            borderWidth: 1,
-                            width: wp(25),
-                        }}></Text>
-                </View>
-
-                <TouchableOpacity
-                    className="flex justify-center items-center bg-white border-[1px] rounded-lg py-1 mt-5"
-                    style={{ borderColor: "#E8ECF4" }}>
-                    <Image source={require("../assets/icons/ggIcon.png")} />
-                </TouchableOpacity>
             </View>
             <View className="flex flex-row justify-center items-center absolute bottom-10">
                 <Text className="font-semibold">Đã có tài khoản? </Text>
