@@ -16,11 +16,10 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import Categories from "../components/categories";
 import Item from "../components/item";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
-import {getProductDetailById, getProducts, getProductsBestSeller} from "../controller/ProductController";
+import {getProducts, getProductsBestSeller} from "../controller/ProductController";
 import { useSelector } from "react-redux";
 import { getUserData } from "../controller/StorageController";
 import { getBanner } from "../controller/BannerController";
@@ -161,7 +160,10 @@ const HomeScreen = () => {
                         className="flex-row justify-between mx-auto items-center"
                     >
                         <View>
-                            <Text className="text-white">Giao đến</Text>
+                            <View className='flex-row items-end space-x-1'>
+                                <Text className="text-white mb-1">Giao đến</Text>
+                                <Text className='text-lg text-white font-bold'>{user?.HoTen}</Text>
+                            </View>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate("Address")}
                             >

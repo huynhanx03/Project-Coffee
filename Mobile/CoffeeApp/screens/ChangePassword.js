@@ -21,8 +21,9 @@ import ShowToast from "../components/toast";
 
 const width = Dimensions.get("window").width;
 
-const EditScreen = () => {
+const ChangePassword = () => {
     const navigation = useNavigation();
+    const [isHide, setIsHide] = useState(true);
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -37,15 +38,19 @@ const EditScreen = () => {
             ShowToast("error", "Thông báo", "Vui lòng nhập đầy đủ thông tin");
             return;
         }
-        const rs = await changePassword(oldPassword, newPassword, confirmPassword);
-        ShowToast(rs[0] ? "success" : "error", "Thông báo", rs[1])
+        const rs = await changePassword(
+            oldPassword,
+            newPassword,
+            confirmPassword
+        );
+        ShowToast(rs[0] ? "success" : "error", "Thông báo", rs[1]);
 
         if (rs[0]) {
             setTimeout(() => {
-                navigation.replace('Login')
+                navigation.replace("Login");
             }, 2000);
         }
-    }
+    };
 
     return (
         <View className="flex-1">
@@ -64,7 +69,10 @@ const EditScreen = () => {
                             <Icons.ChevronLeftIcon size={30} color="#ffffff" />
                         </TouchableOpacity>
                     </View>
-                    <View className="items-center justify-center" style={{marginTop: wp(10)}}>
+                    <View
+                        className="items-center justify-center"
+                        style={{ marginTop: wp(10) }}
+                    >
                         <Text className="text-white text-base font-semibold text-center">
                             Thay đổi mật khẩu để bảo vệ tài khoản của bạn
                         </Text>
@@ -74,76 +82,148 @@ const EditScreen = () => {
                 {/* edit password */}
                 <View className="mx-5">
                     <View className="space-y-1 mt-5">
-                        <Text
-                            className="font-semibold text-base"
-                            style={{ color: colors.text(1) }}
-                        >
-                            Mật khẩu cũ
-                        </Text>
-
-                        <View
-                            className="border rounded-lg"
-                            style={{ borderColor: "#9d9d9d" }}
-                        >
-                            <TextInput
-                                value={oldPassword}
-                                className="p-3 text-base"
-                                placeholder="Mật khẩu cũ"
-                                onChangeText={(e) => setOldPassword(e)}
-                            />
+                        <View className="flex-row space-x-2">
+                            <Icons.KeyIcon size={24} color={colors.text(1)} />
+                            <Text
+                                className="font-semibold text-base"
+                                style={{ color: colors.text(1) }}
+                            >
+                                Mật khẩu cũ
+                            </Text>
                         </View>
-                    </View>
-
-                    <View className="space-y-1 mt-5">
-                        <Text
-                            className="font-semibold text-base"
-                            style={{ color: colors.text(1) }}
-                        >
-                            Mật khẩu mới
-                        </Text>
 
                         <View
-                            className="border rounded-lg"
+                            className="border rounded-lg flex-row justify-between items-center"
                             style={{ borderColor: "#9d9d9d" }}
                         >
                             <TextInput
                                 value={newPassword}
                                 className="p-3 text-base"
-                                placeholder="Mật khẩu mới"
+                                style={{ width: "90%" }}
+                                placeholder="Mật khẩu cũ"
+                                secureTextEntry={isHide}
                                 onChangeText={(e) => setNewPassword(e)}
                             />
+
+                            <TouchableOpacity
+                                onPress={() => setIsHide(!isHide)}
+                            >
+                                {isHide ? (
+                                    <Icons.EyeIcon
+                                        size={24}
+                                        color={colors.text(1)}
+                                        style={{ marginRight: 5 }}
+                                    />
+                                ) : (
+                                    <Icons.EyeSlashIcon
+                                        size={24}
+                                        color={colors.text(1)}
+                                        style={{ marginRight: 5 }}
+                                    />
+                                )}
+                            </TouchableOpacity>
                         </View>
                     </View>
 
                     <View className="space-y-1 mt-5">
-                        <Text
-                            className="font-semibold text-base"
-                            style={{ color: colors.text(1) }}
-                        >
-                            Xác nhận mật khẩu
-                        </Text>
+                        <View className="flex-row space-x-2">
+                            <Icons.KeyIcon size={24} color={colors.text(1)} />
+                            <Text
+                                className="font-semibold text-base"
+                                style={{ color: colors.text(1) }}
+                            >
+                                Mật khẩu mới
+                            </Text>
+                        </View>
 
                         <View
-                            className="border rounded-lg"
+                            className="border rounded-lg flex-row justify-between items-center"
                             style={{ borderColor: "#9d9d9d" }}
                         >
                             <TextInput
-                                value={confirmPassword}
+                                value={newPassword}
                                 className="p-3 text-base"
-                                placeholder="Xác nhận mật khẩu"
-                                onChangeText={(e) => setConfirmPassword(e)}
+                                style={{ width: "90%" }}
+                                placeholder="Mật khẩu mới"
+                                secureTextEntry={isHide}
+                                onChangeText={(e) => setNewPassword(e)}
                             />
+
+                            <TouchableOpacity
+                                onPress={() => setIsHide(!isHide)}
+                            >
+                                {isHide ? (
+                                    <Icons.EyeIcon
+                                        size={24}
+                                        color={colors.text(1)}
+                                        style={{ marginRight: 5 }}
+                                    />
+                                ) : (
+                                    <Icons.EyeSlashIcon
+                                        size={24}
+                                        color={colors.text(1)}
+                                        style={{ marginRight: 5 }}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View className="space-y-1 mt-5">
+                        <View className="flex-row space-x-2">
+                            <Icons.KeyIcon size={24} color={colors.text(1)} />
+                            <Text
+                                className="font-semibold text-base"
+                                style={{ color: colors.text(1) }}
+                            >
+                                Xác nhận mật khẩu
+                            </Text>
+                        </View>
+
+                        <View
+                            className="border rounded-lg flex-row justify-between items-center"
+                            style={{ borderColor: "#9d9d9d" }}
+                        >
+                            <TextInput
+                                value={newPassword}
+                                className="p-3 text-base"
+                                style={{ width: "90%" }}
+                                placeholder="Xác nhận mật khẩu"
+                                secureTextEntry={isHide}
+                                onChangeText={(e) => setNewPassword(e)}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => setIsHide(!isHide)}
+                            >
+                                {isHide ? (
+                                    <Icons.EyeIcon
+                                        size={24}
+                                        color={colors.text(1)}
+                                        style={{ marginRight: 5 }}
+                                    />
+                                ) : (
+                                    <Icons.EyeSlashIcon
+                                        size={24}
+                                        color={colors.text(1)}
+                                        style={{ marginRight: 5 }}
+                                    />
+                                )}
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
 
                 {/* button */}
                 <View className="mt-10 mx-5">
-                    <Button content="Cập nhật mật khẩu" handle={handleChangePassword}/>
+                    <Button
+                        content="Cập nhật mật khẩu"
+                        handle={handleChangePassword}
+                    />
                 </View>
             </ScrollView>
         </View>
     );
 };
 
-export default EditScreen;
+export default ChangePassword;
