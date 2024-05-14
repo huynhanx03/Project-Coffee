@@ -380,5 +380,35 @@
             Background="Gray"
             Opacity="0.3"
             Visibility="Collapsed" />
+
+        <materialDesign:Card
+            Width="150"
+            Height="100"
+            Background="Transparent">
+            <StackPanel>
+                <ProgressBar
+                    x:Name="prg"
+                    Margin="0,30,0,0"
+                    Foreground="{DynamicResource MainColorCF}"
+                    IsIndeterminate="True"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}" />
+                <Label
+                    Margin="0,10,0,0"
+                    HorizontalContentAlignment="Center"
+                    Content="Đang tải dữ liệu..."
+                    FontSize="15"
+                    Foreground="{DynamicResource MainColorCF}" />
+            </StackPanel>
+            <materialDesign:Card.Style>
+                <Style TargetType="materialDesign:Card">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </materialDesign:Card.Style>
+        </materialDesign:Card>
     </Grid>
 </Page>

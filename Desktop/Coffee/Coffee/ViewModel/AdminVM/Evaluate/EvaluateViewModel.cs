@@ -51,6 +51,14 @@ namespace Coffee.ViewModel.AdminVM.Evaluate
         private List<EvaluateDTO> evaluateSearchList;
         private List<EvaluateDTO> evaluateRankList;
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
@@ -101,6 +109,9 @@ namespace Coffee.ViewModel.AdminVM.Evaluate
         /// </summary>
         private async void loadEvaluateList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<EvaluateDTO> Evaluates) = await EvaluateService.Ins.getListEvaluate();
 
             if (Evaluates != null)
@@ -117,6 +128,9 @@ namespace Coffee.ViewModel.AdminVM.Evaluate
                 evaluateSearchList = new List<EvaluateDTO>();
                 evaluateRankList = new List<EvaluateDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -124,10 +138,14 @@ namespace Coffee.ViewModel.AdminVM.Evaluate
         /// </summary>
         public async void deleteEvaluate(EvaluateDTO evaluate)
         {
+            MaskName.Visibility = Visibility.Visible;
+
             MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá đánh giá?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
+
                 (string label, bool isDeleteEvaluate) = await EvaluateService.Ins.DeleteEvaluate(evaluate);
 
                 if (isDeleteEvaluate)
@@ -142,6 +160,9 @@ namespace Coffee.ViewModel.AdminVM.Evaluate
                     msn.ShowDialog();
                 }
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         private void searchEvaluate(string text)

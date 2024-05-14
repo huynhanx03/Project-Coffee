@@ -86,6 +86,14 @@ namespace Coffee.ViewModel.AdminVM.Voucher
             }
         }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
@@ -145,6 +153,9 @@ namespace Coffee.ViewModel.AdminVM.Voucher
         /// </summary>
         private async void loadVoucherList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<VoucherDTO> vouchers) = await VoucherService.Ins.getAllVoucher();
 
             if (vouchers != null)
@@ -157,6 +168,9 @@ namespace Coffee.ViewModel.AdminVM.Voucher
                 VoucherList = new ObservableCollection<VoucherDTO>();
                 __VoucherList = new List<VoucherDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -177,6 +191,9 @@ namespace Coffee.ViewModel.AdminVM.Voucher
         /// </summary>
         private async void confirmCreateVoucher()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             VoucherDTO voucher = new VoucherDTO
             {
                 HangToiThieu = Rank.MaMucDoThanThiet,
@@ -187,25 +204,24 @@ namespace Coffee.ViewModel.AdminVM.Voucher
             };
 
             (string label, VoucherDTO voucherCreate) = await VoucherService.Ins.createVoucher(voucher);
+            
+            IsLoading = false;
 
             if (voucherCreate != null)
             {
                 // Tạo các phiếu cho khách hàng
 
-
-                MaskName.Visibility = Visibility.Visible;
-
                 MessageBoxCF ms = new MessageBoxCF("Phát hành phiếu giảm giá thành công", MessageType.Accept, MessageButtons.OK);
                 ms.ShowDialog();
                 loadVoucherList();
-
-                MaskName.Visibility = Visibility.Collapsed;
             }
             else
             {
                 MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -227,7 +243,11 @@ namespace Coffee.ViewModel.AdminVM.Voucher
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
+
                 (string label, bool isDelete) = await VoucherService.Ins.DeleteVoucher(voucher.MaPhieuGiamGia);
+                
+                IsLoading = false;
 
                 if (isDelete)
                 {

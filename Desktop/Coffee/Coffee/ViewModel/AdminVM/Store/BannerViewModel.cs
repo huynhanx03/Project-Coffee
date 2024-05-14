@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Coffee.ViewModel.AdminVM.Store
@@ -65,6 +66,9 @@ namespace Coffee.ViewModel.AdminVM.Store
 
         private async void createBanner()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             string newImage = await CloudService.Ins.UploadImage(Image);
 
             BannerModel banner = new BannerModel
@@ -85,6 +89,9 @@ namespace Coffee.ViewModel.AdminVM.Store
                 MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -106,10 +113,14 @@ namespace Coffee.ViewModel.AdminVM.Store
 
         private async void deleteBanner(BannerModel banner)
         {
+            MaskName.Visibility = Visibility.Visible;
+
             MessageBoxCF msDelete = new MessageBoxCF("Xác nhận xoá banner này", MessageType.Waitting, MessageButtons.YesNo);
 
             if (msDelete.ShowDialog() == true)
             {
+                IsLoading = true;
+
                 (string label, bool isDelete) = await BannerService.Ins.DeleteBanner(banner);
 
                 if (isDelete)
@@ -124,6 +135,9 @@ namespace Coffee.ViewModel.AdminVM.Store
                     ms.ShowDialog();
                 }
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         #endregion

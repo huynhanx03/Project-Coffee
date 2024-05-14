@@ -64,7 +64,13 @@ namespace Coffee.ViewModel.AdminVM.Statistic
                 OnPropertyChanged();
             }
         }
+        private bool _IsLoading;
 
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; }
+        }
         private int typeExport { get; set; }
         #endregion
 
@@ -190,9 +196,15 @@ namespace Coffee.ViewModel.AdminVM.Statistic
 
         public async void loadData()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             await LoadBillList(FromDate, ToDate);
             await loadBillImportList(FromDate, ToDate);
             await loadCartesianChar();
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -200,6 +212,9 @@ namespace Coffee.ViewModel.AdminVM.Statistic
         /// </summary>
         private void exportExcel()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             System.Windows.Forms.SaveFileDialog sf = new System.Windows.Forms.SaveFileDialog
             {
                 FileName = "LichSu",
@@ -214,8 +229,6 @@ namespace Coffee.ViewModel.AdminVM.Statistic
 
             // Tạo một đối tượng ExcelWorksheet
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("one");
-
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
 
             switch (typeExport)
             {
@@ -292,13 +305,13 @@ namespace Coffee.ViewModel.AdminVM.Statistic
                     break;
 
                 case 3:
-                    Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
                     MessageBoxCF ms = new MessageBoxCF("Không có gì để xuất hết", MessageType.Error, MessageButtons.OK);
                     ms.ShowDialog();
                     break;
             }
 
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
     }
 }

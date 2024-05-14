@@ -67,6 +67,15 @@ namespace Coffee.ViewModel.AdminVM.Menu
             set { _HeaderOperation = value; OnPropertyChanged(); }
         }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
+
         #endregion
 
         #region ICommand
@@ -92,6 +101,11 @@ namespace Coffee.ViewModel.AdminVM.Menu
             loadProductListIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
             {
                 loadProductList();
+            });
+
+            loadShadowMaskOperationIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                MaskNameOperation = p;
             });
 
             openWindowAddProductIC = new RelayCommand<object>((p) => { return true; }, (p) =>
@@ -182,6 +196,9 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         private async void loadProductList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<ProductDTO> pr) = await ProductService.Ins.getListProduct();
 
             if (pr != null)
@@ -194,6 +211,9 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 ProductList = new ObservableCollection<ProductDTO>();
                 __ProductList = new List<ProductDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
 
@@ -203,6 +223,9 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// <param name="product"> Sản phẩm </param>
         private void loadProduct(ProductDTO product)
         {
+            //MaskName.Visibility = Visibility.Visible;
+            //IsLoading = true;
+
             ProductName = product.TenSanPham;
             SelectedProdcutTypeName = product.LoaiSanPham;
             Quantity = product.SoLuong;
@@ -210,6 +233,9 @@ namespace Coffee.ViewModel.AdminVM.Menu
             ProductRecipeList = new ObservableCollection<ProductRecipeDTO>(product.DanhSachCongThuc);
             Description = product.Mota;
             Image = product.HinhAnh;
+
+            //MaskName.Visibility = Visibility.Collapsed;
+            //IsLoading = false;
         }
 
         /// <summary>
@@ -231,11 +257,17 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         public async void deleteProduct()
         {
+            MaskName.Visibility = Visibility.Visible;
+            
             MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá sản phẩm?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
+
                 (string label, bool isDeleteProduct) = await ProductService.Ins.DeleteProduct(SelectedProduct);
+                
+                IsLoading = false;
 
                 if (isDeleteProduct)
                 {
@@ -249,6 +281,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
                     msn.ShowDialog();
                 }
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -313,11 +347,16 @@ namespace Coffee.ViewModel.AdminVM.Menu
         /// </summary>
         private async void confirmAddQuantityProduct()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             // Giảm bớt số lượng
             await IngredientService.Ins.reduceIngredientQuantity(SelectedProduct.DanhSachCongThuc, ProductQuantity);
 
             // Thêm số lượng cho sản phẩm
             (string label, bool isIncrease) = await ProductService.Ins.increaseQuantityProduct(SelectedProduct.MaSanPham, ProductQuantity);
+            
+            IsLoading = false;
 
             if (isIncrease)
             {
@@ -333,6 +372,8 @@ namespace Coffee.ViewModel.AdminVM.Menu
                 MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
         }
     }
 }

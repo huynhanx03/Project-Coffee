@@ -64,6 +64,14 @@ namespace Coffee.ViewModel.AdminVM.Order
             }
         }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
         #endregion
 
         #region ICommand
@@ -132,6 +140,9 @@ namespace Coffee.ViewModel.AdminVM.Order
         /// </summary>
         private async void loadOrderList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<OrderDTO> Orders) = await OrderService.Ins.getListOrder();
 
             if (Orders != null)
@@ -150,6 +161,9 @@ namespace Coffee.ViewModel.AdminVM.Order
                 OrderSearchList = new List<OrderDTO>();
                 OrderStatusList = new List<OrderDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -162,7 +176,9 @@ namespace Coffee.ViewModel.AdminVM.Order
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
                 (string label, bool isCancelOrder) = await OrderService.Ins.updateStatusOrder(Order.MaDonHang, Constants.StatusOrder.CANCEL);
+                IsLoading = false;
 
                 if (isCancelOrder)
                 {
@@ -176,7 +192,7 @@ namespace Coffee.ViewModel.AdminVM.Order
                     msn.ShowDialog();
                 }
             }
-            MaskName.Visibility = System.Windows.Visibility.Collapsed;
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -184,11 +200,13 @@ namespace Coffee.ViewModel.AdminVM.Order
         /// </summary>
         public async void confirmOrder(OrderDTO Order)
         {
-            MaskName.Visibility = System.Windows.Visibility.Visible;
+            MaskName.Visibility = Visibility.Visible;
             MessageBoxCF ms = new MessageBoxCF("Xác nhận giao đơn hàng này?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
+
                 // Tạo hoá đơn
                 BillModel bill = new BillModel
                 {
@@ -244,8 +262,9 @@ namespace Coffee.ViewModel.AdminVM.Order
                     MessageBoxCF msc = new MessageBoxCF(labelCreateBill, MessageType.Error, MessageButtons.OK);
                     msc.ShowDialog();
                 }
+                IsLoading = false;
             }
-            MaskName.Visibility = System.Windows.Visibility.Collapsed;
+            MaskName.Visibility = Visibility.Collapsed;
         }
 
         public async void viewDetailOrder(OrderDTO Order)

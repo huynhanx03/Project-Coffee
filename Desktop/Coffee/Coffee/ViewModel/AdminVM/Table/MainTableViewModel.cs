@@ -30,6 +30,13 @@ namespace Coffee.ViewModel.AdminVM.Table
             set { _role = value; OnPropertyChanged(); }
         }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
 
         #endregion
 

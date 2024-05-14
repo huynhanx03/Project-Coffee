@@ -47,6 +47,15 @@ namespace Coffee.ViewModel.AdminVM.Customer
             set { _AddressList = value; OnPropertyChanged(); }
         }
 
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; OnPropertyChanged(); }
+        }
+
+
         #endregion
 
         #region ICommand
@@ -73,6 +82,11 @@ namespace Coffee.ViewModel.AdminVM.Customer
             loadShadowMaskIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
             {
                 MaskName = p;
+            });
+
+            loadShadowMaskOperationIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                MaskNameOperation = p;
             });
 
             loadCustomerListIC = new RelayCommand<object>((p) => { return true; }, (p) =>
@@ -154,6 +168,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// </summary>
         private async void loadCustomerList()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             (string label, List<CustomerDTO> Customers) = await CustomerService.Ins.getListCustomer();
 
             if (Customers != null)
@@ -166,6 +183,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
                 CustomerList = new ObservableCollection<CustomerDTO>();
                 __CustomerList = new List<CustomerDTO>();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         /// <summary>
@@ -190,6 +210,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// <param name="Customer"></param>
         private void loadCustomer(CustomerDTO Customer)
         {
+            //MaskNameOperation.Visibility = Visibility.Visible;
+            //IsLoadingOperation = true;
+
             OriginImage = Customer.HinhAnh;
             FullName = Customer.HoTen;
             Email = Customer.Email;
@@ -201,6 +224,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
             Image = Customer.HinhAnh;
             Birthday = DateTime.ParseExact(Customer.NgaySinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             SelectedGender = Customer.GioiTinh;
+
+            //MaskNameOperation.Visibility = Visibility.Collapsed;
+            //IsLoadingOperation = false;
         }
 
         /// <summary>
@@ -223,10 +249,14 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// </summary>
         public async void deleteCustomer(CustomerDTO customer)
         {
+            MaskName.Visibility = Visibility.Visible;
+
             MessageBoxCF ms = new MessageBoxCF("Xác nhận xoá khách hàng?", MessageType.Waitting, MessageButtons.YesNo);
 
             if (ms.ShowDialog() == true)
             {
+                IsLoading = true;
+
                 (string label, bool isDeleteCustomer) = await CustomerService.Ins.DeleteCustomer(customer);
 
                 if (isDeleteCustomer)
@@ -241,6 +271,10 @@ namespace Coffee.ViewModel.AdminVM.Customer
                     msn.ShowDialog();
                 }
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
+
         }
 
         /// <summary>
@@ -293,6 +327,9 @@ namespace Coffee.ViewModel.AdminVM.Customer
         /// </summary>
         private void exportExcel()
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             System.Windows.Forms.SaveFileDialog sf = new System.Windows.Forms.SaveFileDialog
             {
                 FileName = "DanhSachKhachHang",
@@ -348,30 +385,37 @@ namespace Coffee.ViewModel.AdminVM.Customer
                 MessageBoxCF mb = new MessageBoxCF("Xuất file thành công", MessageType.Accept, MessageButtons.OK);
                 mb.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         private async void viewAddressCustomer(CustomerDTO customer)
         {
+            MaskName.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             // Load các vị trí
             (string label, List<AddressModel> addressList) = await CustomerService.Ins.getListAddressCustomer(customer.MaKhachHang);
+            
+            IsLoading = false;
 
             if (addressList != null)
             {
                 AddressList = new ObservableCollection<AddressModel>(addressList);
 
                 // Hiển thị view
-                MaskName.Visibility = Visibility.Visible;
 
                 ViewAddressWindow w = new ViewAddressWindow();
                 w.ShowDialog();
-
-                MaskName.Visibility = Visibility.Collapsed;
             }
             else
             {
                 MessageBoxCF ms = new MessageBoxCF(label, MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
             }
+
+            MaskName.Visibility = Visibility.Collapsed;
         }
         #endregion
     }

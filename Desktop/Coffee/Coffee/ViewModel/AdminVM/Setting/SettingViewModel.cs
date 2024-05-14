@@ -119,11 +119,23 @@ namespace Coffee.ViewModel.AdminVM.Setting
             get { return _Password; }
             set { _Password = value; OnPropertyChanged(); }
         }
+
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set { _IsLoading = value; }
+        }
+
+        private Grid Mask {  get; set; }
         #endregion
 
         #region Icommand
         public ICommand uploadImageIC {  get; set; }
         public ICommand confirmUserIC {  get; set; }
+        public ICommand loadShadowMaskIC {  get; set; }
+        public ICommand loadDataIC {  get; set; }
         #endregion
 
         #region
@@ -137,21 +149,32 @@ namespace Coffee.ViewModel.AdminVM.Setting
                 (string)Application.Current.Resources["Other"],
             };
 
-            LoadThongTin();
-
             uploadImageIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 uploadImage();
             });
+
+            loadDataIC = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                LoadThongTin();
+            });
             confirmUserIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 confirmUser();
+            });
+
+            loadShadowMaskIC = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                Mask = p;
             });
         }
 
 
         public void LoadThongTin()
         {
+            Mask.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             UserDTO user = Memory.user;
             OriginImage = user.HinhAnh;
             FullName = user.HoTen;
@@ -165,7 +188,9 @@ namespace Coffee.ViewModel.AdminVM.Setting
             Birthday = Convert.ToDateTime(user.NgaySinh);
             WorkingDay = Convert.ToDateTime(user.NgayTao);
             Image = user.HinhAnh;
-            
+
+            Mask.Visibility = Visibility.Collapsed;
+            IsLoading = false;
         }
 
         public void uploadImage()
@@ -190,10 +215,16 @@ namespace Coffee.ViewModel.AdminVM.Setting
 
         public async void confirmUser()
         {
+            Mask.Visibility = Visibility.Visible;
+            IsLoading = true;
+
             if (!Helper.checkCardID(IDCard))
             {
                 MessageBoxCF ms = new MessageBoxCF("CCCD/CMND không hợp lệ", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+
+                Mask.Visibility = Visibility.Collapsed;
+                IsLoading = false;
                 return;
             }
 
@@ -201,6 +232,9 @@ namespace Coffee.ViewModel.AdminVM.Setting
             {
                 MessageBoxCF ms = new MessageBoxCF("Email không hợp lệ", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+
+                Mask.Visibility = Visibility.Collapsed;
+                IsLoading = false;
                 return;
             }
 
@@ -208,6 +242,9 @@ namespace Coffee.ViewModel.AdminVM.Setting
             {
                 MessageBoxCF ms = new MessageBoxCF("Số điện thoại không hợp lệ", MessageType.Error, MessageButtons.OK);
                 ms.ShowDialog();
+
+                Mask.Visibility = Visibility.Collapsed;
+                IsLoading = false;
                 return;
             }
 
@@ -233,6 +270,8 @@ namespace Coffee.ViewModel.AdminVM.Setting
             };
 
             (string labelEdit, UserDTO userEdit) = await UserService.Ins.updateUser(user);
+            
+            IsLoading = false;
 
             if (userEdit != null)
             {
@@ -247,6 +286,8 @@ namespace Coffee.ViewModel.AdminVM.Setting
                 MessageBoxCF msa = new MessageBoxCF(labelEdit, MessageType.Error, MessageButtons.OK);
                 msa.ShowDialog();
             }
+
+            Mask.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
