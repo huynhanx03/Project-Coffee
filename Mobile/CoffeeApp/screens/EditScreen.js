@@ -57,7 +57,7 @@ const EditScreen = () => {
         })
             .then((res) => res.json())
             .then(async (data) => {
-                const rs = await uploadImage(data.url);
+                const rs = await uploadImage(data.secure_url);
                 ShowToast(rs[0] ? "success" : "error", rs[1], rs[0] ? "Vui lòng đăng nhập lại" : "Vui lòng thử lại");
             });
     };
