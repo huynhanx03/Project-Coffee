@@ -245,6 +245,18 @@ namespace Coffee.ViewModel.AdminVM.Table
                 p.Close();
             });
             #endregion
+
+            #region
+            printBillIC = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                printBill(p);
+            });
+
+            closeBillWindowIC = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                p.Close();
+            });
+            #endregion
         }
 
         /// <summary>

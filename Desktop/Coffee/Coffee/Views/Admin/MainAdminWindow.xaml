@@ -105,6 +105,7 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding loadRoleIC}" />
+            <i:InvokeCommandAction Command="{Binding loadSettingButtonIC}" CommandParameter="{Binding ElementName=SettingBtn}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -191,6 +192,30 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Style="{DynamicResource Header2}"
+                                Text="{Binding Name}" />
+
+                            <Ellipse
+                                Width="50"
+                                Height="50"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Cursor="Hand">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding Image}" />
+                                </Ellipse.Fill>
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                                        <i:InvokeCommandAction Command="{Binding clickAvatarIC}" CommandParameter="{Binding ElementName=mainFrame}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Ellipse>
+
                             <materialDesign:PopupBox
                                 Margin="0,0,10,0"
                                 DockPanel.Dock="Right"

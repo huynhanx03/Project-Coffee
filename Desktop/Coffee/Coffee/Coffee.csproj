@@ -323,6 +323,7 @@
     <Compile Include="ViewModel\AdminVM\Store\BannerViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Store\DiscountTodayViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Store\StoreViewModel.cs" />
+    <Compile Include="ViewModel\AdminVM\Table\BillViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\MainTableViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\MenuViewModel.cs" />
     <Compile Include="ViewModel\AdminVM\Table\OperationOfTableViewModel.cs" />
@@ -405,6 +406,9 @@
     </Compile>
     <Compile Include="Views\Admin\StorePage\MainStorePage.xaml.cs">
       <DependentUpon>MainStorePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\TablePage\BillWindow.xaml.cs">
+      <DependentUpon>BillWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\TablePage\ChangeTableWindow.xaml.cs">
       <DependentUpon>ChangeTableWindow.xaml</DependentUpon>
@@ -575,6 +579,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\StorePage\MainStorePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\TablePage\BillWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
