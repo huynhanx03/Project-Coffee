@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { addAddress } from "../controller/AddressController";
 import Toast from "react-native-toast-message";
 import { GOOGLE_MAPS_API_KEY } from "../constants";
+import Header from "../components/header";
 
 const AddAddressScreen = () => {
     const navigation = useNavigation();
@@ -38,26 +39,7 @@ const AddAddressScreen = () => {
 
     return (
         <View className="flex-1">
-            <SafeAreaView
-                style={{
-                    backgroundColor: "#f2f2f2",
-                    shadowColor: "#000000",
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.19,
-                    shadowRadius: 5.62,
-                    elevation: 6,
-                }}>
-                {/* header */}
-                <View className="flex-row justify-between items-center mx-5">
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icons.ChevronLeftIcon size={30} color={colors.active} />
-                    </TouchableOpacity>
-                    <Text className="text-lg font-semibold tracking-wider">Địa chỉ mới</Text>
-                    <Pressable>
-                        <Icons.PlusIcon size={30} color="transparent" />
-                    </Pressable>
-                </View>
-            </SafeAreaView>
+            <Header title={'Địa chỉ mới'} />
 
             <View className="space-y-2 mt-5">
                 <Text className="text-gray-600 px-2">Liên hệ</Text>

@@ -29,6 +29,7 @@ import { removeVoucher } from "../redux/slices/voucherSlice";
 import ShowToast from "../components/toast";
 import ItemPay from "../components/itemPay";
 import { updateVoucherUsed } from "../controller/VoucherController";
+import Header from "../components/header";
 
 const PreparePayScreen = ({route}) => {
     const navigation = useNavigation();
@@ -160,32 +161,7 @@ const PreparePayScreen = ({route}) => {
 
     return (
         <View className="flex-1">
-            <SafeAreaView
-                style={{
-                    backgroundColor: "#f2f2f2",
-                    shadowColor: "#000000",
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.19,
-                    shadowRadius: 5.62,
-                    elevation: 6,
-                }}
-            >
-                {/* header */}
-
-                <View className="flex-row justify-between items-center mx-5">
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icons.ChevronLeftIcon size={30} color={"black"} />
-                    </TouchableOpacity>
-                    <Text className="text-lg font-semibold">
-                        Thanh toán
-                    </Text>
-
-                    {/* transparent view to adjust the position of the header */}
-                    <View>
-                        <Icons.HeartIcon size={30} color="transparent" />
-                    </View>
-                </View>
-            </SafeAreaView>
+            <Header title='Thanh toán' />
 
             <ScrollView
                 showsVerticalScrollIndicator={false}
