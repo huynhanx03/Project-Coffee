@@ -2,6 +2,7 @@
 using Coffee.Models;
 using Coffee.Services;
 using Coffee.Utils;
+using Coffee.Views.Admin.TablePage;
 using Coffee.Views.MessageBox;
 using System;
 using System.Collections.Generic;
@@ -114,20 +115,30 @@ namespace Coffee.ViewModel.AdminVM.Table
         /// <param name="detalBill"> chi tiết hoá đơn </param>
         private void changeSizeProduct(DetailBillDTO detalBill)
         {
-            SelectedDetailBill.ThanhTien = SelectedDetailBill.SoLuong * SelectedDetailBill.SelectedProductSize.Gia;
-            
-            DetailBillDTO find = DetailBillList.FirstOrDefault(x => x != SelectedDetailBill && x.MaSanPham == SelectedDetailBill.MaSanPham && x.SelectedProductSize == SelectedDetailBill.SelectedProductSize);
-            
-            if (find != null)
+            if (SelectedDetailBill == null)
+                return;
+
+            try
             {
-                SelectedDetailBill.SoLuong += find.SoLuong;
-
                 SelectedDetailBill.ThanhTien = SelectedDetailBill.SoLuong * SelectedDetailBill.SelectedProductSize.Gia;
-                DetailBillList.Remove(find);
-            }
 
-            DetailBillList = new ObservableCollection<DetailBillDTO>(DetailBillList);
-            CalculateTotalBill();
+                DetailBillDTO find = DetailBillList.FirstOrDefault(x => x != SelectedDetailBill && x.MaSanPham == SelectedDetailBill.MaSanPham && x.SelectedProductSize == SelectedDetailBill.SelectedProductSize);
+
+                if (find != null)
+                {
+                    SelectedDetailBill.SoLuong += find.SoLuong;
+
+                    SelectedDetailBill.ThanhTien = SelectedDetailBill.SoLuong * SelectedDetailBill.SelectedProductSize.Gia;
+                    DetailBillList.Remove(find);
+                }
+
+                DetailBillList = new ObservableCollection<DetailBillDTO>(DetailBillList);
+                CalculateTotalBill();
+            }
+            catch (Exception ex) 
+            { 
+         
+            }
         }
 
         /// <summary>
@@ -313,8 +324,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                     reduceProduct();
 
                     // Thành công:
-                    MessageBoxCF ms = new MessageBoxCF("Thanh toán thành công", MessageType.Accept, MessageButtons.OK);
-                    ms.ShowDialog();
+                    showBill();
 
                     DetailBillList.Clear();
                     TotalBill = 0;
@@ -342,8 +352,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                     loadTableList();
                     DetailBillList.Clear();
 
-                    MessageBoxCF ms = new MessageBoxCF("Thanh toán thành công", MessageType.Accept, MessageButtons.OK);
-                    ms.ShowDialog();
+                    showBill();
                 }
                 else
                 {
@@ -408,6 +417,19 @@ namespace Coffee.ViewModel.AdminVM.Table
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        public void showBill()
+        {
+            DateBill = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
+
+            if (Customer != null)
+                CurrentPhone = Customer.SoDienThoai;
+            else
+                CurrentPhone = "";
+
+            BillWindow w = new BillWindow();
+            w.ShowDialog();
         }
     }
 }

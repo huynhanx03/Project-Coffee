@@ -161,128 +161,133 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Margin="0,0,0,20">
-                        <Border Background="{DynamicResource MainColorCF}" CornerRadius="30">
-                            <Border
-                                Margin="10"
-                                Background="{DynamicResource Background2CF}"
-                                CornerRadius="20">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="0,10,0,10"
+                                Style="{DynamicResource Header2}"
+                                Text="Thời gian" />
 
-                                <StackPanel Margin="10">
+                            <Border Background="{DynamicResource MainColorCF}" CornerRadius="30">
+                                <Border
+                                    Margin="10"
+                                    Background="{DynamicResource Background2CF}"
+                                    CornerRadius="20">
 
-                                    <TextBlock
-                                        Margin="0,10,0,10"
-                                        FontSize="30"
-                                        FontWeight="SemiBold"
-                                        Foreground="{DynamicResource MainColorCF}"
-                                        Text="Thời gian" />
-                                    <Border Padding="10" CornerRadius="20">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock
-                                                Height="25"
-                                                Margin="0,0,19,0"
-                                                FontSize="25"
-                                                FontWeight="SemiBold"
-                                                Foreground="{DynamicResource MainColorCF}"
-                                                Text="Từ" />
-                                            <DatePicker
-                                                x:Name="Fromdate"
-                                                Background="White"
-                                                BorderBrush="{DynamicResource MainColorCF}"
-                                                SelectedDate="{Binding FromDate, Mode=TwoWay}"
-                                                Style="{DynamicResource dpStyle2}">
-                                                <materialDesign:HintAssist.Hint>
-                                                    <TextBlock Foreground="{DynamicResource MainColorCF}" Text="ngày" />
-                                                </materialDesign:HintAssist.Hint>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="SelectedDateChanged">
-                                                        <i:InvokeCommandAction Command="{Binding loadDataIC}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </DatePicker>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Padding="10" CornerRadius="20">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock
-                                                Height="25"
-                                                Margin="0,0,5,0"
-                                                FontSize="25"
-                                                FontWeight="SemiBold"
-                                                Foreground="{DynamicResource MainColorCF}"
-                                                Text="Đến" />
-                                            <DatePicker
-                                                x:Name="Todate"
-                                                Background="White"
-                                                BorderBrush="{DynamicResource MainColorCF}"
-                                                SelectedDate="{Binding ToDate, Mode=TwoWay}"
-                                                Style="{DynamicResource dpStyle2}">
-                                                <materialDesign:HintAssist.Hint>
-                                                    <TextBlock Foreground="{DynamicResource MainColorCF}" Text="ngày" />
-                                                </materialDesign:HintAssist.Hint>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="SelectedDateChanged">
-                                                        <i:InvokeCommandAction Command="{Binding loadDataIC}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </DatePicker>
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
+                                    <StackPanel Margin="10">
+                                        <Border Padding="10" CornerRadius="20">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock
+                                                    Height="25"
+                                                    Margin="0,0,19,0"
+                                                    FontSize="25"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="{DynamicResource ForegroundCF}"
+                                                    Text="Từ" />
+                                                <DatePicker
+                                                    x:Name="Fromdate"
+                                                    Background="White"
+                                                    BorderBrush="{DynamicResource MainColorCF}"
+                                                    SelectedDate="{Binding FromDate, Mode=TwoWay}"
+                                                    Style="{DynamicResource dpStyle2}">
+                                                    <materialDesign:HintAssist.Hint>
+                                                        <TextBlock Foreground="{DynamicResource MainColorCF}" Text="ngày" />
+                                                    </materialDesign:HintAssist.Hint>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectedDateChanged">
+                                                            <i:InvokeCommandAction Command="{Binding loadDataIC}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </DatePicker>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Border
+                                            Margin="0,20,0,0"
+                                            Padding="10"
+                                            CornerRadius="20">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock
+                                                    Height="25"
+                                                    Margin="0,0,5,0"
+                                                    FontSize="25"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="{DynamicResource ForegroundCF}"
+                                                    Text="Đến" />
+                                                <DatePicker
+                                                    x:Name="Todate"
+                                                    Background="White"
+                                                    BorderBrush="{DynamicResource MainColorCF}"
+                                                    SelectedDate="{Binding ToDate, Mode=TwoWay}"
+                                                    Style="{DynamicResource dpStyle2}">
+                                                    <materialDesign:HintAssist.Hint>
+                                                        <TextBlock Foreground="{DynamicResource MainColorCF}" Text="ngày" />
+                                                    </materialDesign:HintAssist.Hint>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectedDateChanged">
+                                                            <i:InvokeCommandAction Command="{Binding loadDataIC}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </DatePicker>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
                             </Border>
-                        </Border>
+                        </StackPanel>
                     </Grid>
                     <Grid Grid.Row="1">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="10,10,0,10"
+                                Style="{DynamicResource Header2}"
+                                Text="Top món ăn" />
 
-                        <Border Background="{DynamicResource MainColorCF}" CornerRadius="30">
-                            <Border
-                                Margin="10"
-                                Background="{DynamicResource BackgroundCF}"
-                                CornerRadius="20">
-                                <StackPanel>
-                                    <TextBlock
-                                        Margin="10,10,0,10"
-                                        FontSize="30"
-                                        FontWeight="SemiBold"
-                                        Foreground="{DynamicResource MainColorCF}"
-                                        Text="Top món ăn" />
-                                    <Border Margin="10,0,10,0" Background="Transparent">
+                            <Border Background="{DynamicResource MainColorCF}" CornerRadius="30">
+                                <Border Height="225"
+                                    Margin="10"
+                                    Background="{DynamicResource BackgroundCF}"
+                                    CornerRadius="20">
+                                    <StackPanel>
+                                        <Border Margin="10,0,10,0" Background="Transparent">
+                                            <ListView
+                                                x:Name="topmenu"
+                                                d:ItemsSource="{d:SampleData ItemCount=3}"
+                                                ItemsSource="{Binding ListTopMenu}"
+                                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                SelectionMode="Single">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Margin="0 8 0 0">
+                                                            <Image
+                                                                Width="50"
+                                                                Height="50"
+                                                                Source="{Binding HinhAnh}" />
+                                                            <TextBlock
+                                                                Height="19"
+                                                                Margin="10,5,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="16"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="{DynamicResource MainColorCF}"
+                                                                Text="{Binding TenSanPham}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Loaded">
+                                                        <i:InvokeCommandAction Command="{Binding loadTopMenuIC}" CommandParameter="{Binding ElementName=topmenu}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </ListView>
 
-                                        <ListView
-                                            x:Name="topmenu"
-                                            d:ItemsSource="{d:SampleData ItemCount=3}"
-                                            ItemsSource="{Binding ListTopMenu}"
-                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                            ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                            SelectionMode="Single">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image
-                                                            Width="50"
-                                                            Height="50"
-                                                            Source="{Binding HinhAnh}" />
-                                                        <TextBlock
-                                                            Height="19"
-                                                            Margin="10,5,0,0"
-                                                            HorizontalAlignment="Left"
-                                                            FontSize="16"
-                                                            FontWeight="SemiBold"
-                                                            Foreground="{DynamicResource MainColorCF}"
-                                                            Text="{Binding TenSanPham}" />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Loaded">
-                                                    <i:InvokeCommandAction Command="{Binding loadTopMenuIC}" CommandParameter="{Binding ElementName=topmenu}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </ListView>
-
-                                    </Border>
-                                </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
                             </Border>
-                        </Border>
+                        </StackPanel>
+
                     </Grid>
                 </Grid>
             </Grid>

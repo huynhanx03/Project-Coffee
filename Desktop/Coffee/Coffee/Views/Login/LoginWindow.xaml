@@ -64,12 +64,15 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock
+
+                        <StackPanel
                             Grid.Row="0"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Style="{DynamicResource Header1}"
-                            Text="XIN CHÀO" />
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                            <TextBlock Style="{DynamicResource Header1}" Text="EPS" Foreground="{DynamicResource HoverColorCF}"/>
+                            <TextBlock Style="{DynamicResource Header1}" Text="RO XIN CHÀO" />
+                        </StackPanel>
 
                         <materialDesign:Card
                             Grid.Row="1"

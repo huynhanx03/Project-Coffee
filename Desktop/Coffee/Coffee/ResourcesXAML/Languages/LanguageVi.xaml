@@ -122,4 +122,5 @@
     <system:String x:Key="DetailOrder">Chi tiết đơn hàng</system:String>
     <system:String x:Key="Image">Hình ảnh</system:String>
     <system:String x:Key="ProductInformation">Thông tin sản phẩm</system:String>
+    <system:String x:Key="PrintBill">In hoá đơn</system:String>
 </ResourceDictionary>

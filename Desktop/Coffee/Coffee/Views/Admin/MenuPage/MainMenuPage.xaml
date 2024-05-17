@@ -261,7 +261,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Style="{DynamicResource Header1}" Text="{DynamicResource AddQuantityProduct}" />
+                    <TextBlock Style="{DynamicResource Header2}" Text="{DynamicResource AddQuantityProduct}" />
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Label

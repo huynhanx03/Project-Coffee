@@ -44,16 +44,6 @@
     </i:Interaction.Triggers>
 
     <Grid Background="{DynamicResource BackgroundCF}">
-        <!--  Mặt nạ mờ khi đang load  -->
-        <Grid
-            x:Name="ShadowMask"
-            Width="1400"
-            Height="800"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="Gray"
-            Opacity="0.3"
-            Visibility="Collapsed" />
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -354,6 +344,17 @@
                 </Border>
             </Grid>
         </Grid>
+
+        <!--  Mặt nạ mờ khi đang load  -->
+        <Grid
+            x:Name="ShadowMask"
+            Width="1400"
+            Height="800"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="Gray"
+            Opacity="0.3"
+            Visibility="Collapsed" />
 
         <materialDesign:Card
             Width="150"

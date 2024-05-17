@@ -232,6 +232,7 @@
                                     CanUserResizeColumns="False"
                                     CanUserSortColumns="True"
                                     ColumnWidth="SizeToCells"
+                                    HorizontalScrollBarVisibility="Disabled"
                                     IsReadOnly="True"
                                     ItemsSource="{Binding DetailBillList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     SelectedItem="{Binding SelectedDetailBill}"

@@ -1,4 +1,5 @@
 ﻿using Coffee.Properties;
+using Coffee.Utils;
 using Coffee.Views.Admin;
 using Coffee.Views.Admin.ChatPage;
 using Coffee.Views.Admin.CustomerPage;
@@ -34,6 +35,24 @@ namespace Coffee.ViewModel.AdminVM
             set { _role = value; OnPropertyChanged(); } 
         }
 
+        private string _Name;
+
+        public string Name
+        {
+            get { return _Name; }
+            set { _Name = value; OnPropertyChanged(); }
+        }
+
+        private string _Image;
+
+        public string Image
+        {
+            get { return _Image; }
+            set { _Image = value; OnPropertyChanged(); }
+        }
+
+        private RadioButton settingBtn {  get; set; }
+
         public ICommand loadTablesPageIC { get; set; }
         public ICommand loadMenuPageIC { get; set; }
         public ICommand loadIngredientsPageIC { get; set; }
@@ -49,6 +68,8 @@ namespace Coffee.ViewModel.AdminVM
         public ICommand loadOrderPageIC { get; set; }
         public ICommand changeLanguageIC { get; set; }
         public ICommand loguoutIC { get; set; }
+        public ICommand loadSettingButtonIC { get; set; }
+        public ICommand clickAvatarIC { get; set; }
 
         private string _optionName { get; set; }
         public string optionName
@@ -59,9 +80,24 @@ namespace Coffee.ViewModel.AdminVM
 
         public MainAdminViewModel()
         {
+            Image = Memory.user.HinhAnh;
+            Name = Memory.user.HoTen;
+
             loadRoleIC = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 role = 1;
+            });
+            
+            clickAvatarIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
+            {
+                settingBtn.IsChecked = true;
+                p.Content = new MainSettingPage();
+                optionName = "Cài đặt";
+            });
+
+            loadSettingButtonIC = new RelayCommand<RadioButton>((p) => { return true; }, (p) =>
+            {
+                settingBtn = p;
             });
 
             loadTablesPageIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>

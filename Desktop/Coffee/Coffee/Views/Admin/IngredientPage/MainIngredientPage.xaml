@@ -384,7 +384,7 @@
 
                                 <DataGridTemplateColumn
                                     Width="100"
-                                    Header="{DynamicResource IngredientName}"
+                                    Header="Tên"
                                     SortMemberPath="TenNguyenLieu">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
