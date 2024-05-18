@@ -411,7 +411,7 @@
                                         </DataGridTemplateColumn>
 
                                         <DataGridTemplateColumn
-                                            Width="auto"
+                                            Width="100"
                                             Header="{DynamicResource Price}"
                                             SortMemberPath="Gia">
                                             <DataGridTemplateColumn.CellTemplate>

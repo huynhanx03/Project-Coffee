@@ -84,6 +84,7 @@
                 Margin="0,50,0,0"
                 Command="{Binding loginIC}"
                 Content="{DynamicResource Login}"
+                IsDefault="True"
                 Style="{DynamicResource btnStyle}" />
         </StackPanel>
     </Grid>

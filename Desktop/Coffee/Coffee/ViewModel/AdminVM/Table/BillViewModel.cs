@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Coffee.Views.MessageBox;
+using System.Windows.Media.Imaging;
 
 namespace Coffee.ViewModel.AdminVM.Table
 {
@@ -58,7 +59,7 @@ namespace Coffee.ViewModel.AdminVM.Table
 
                 w.Close();
 
-                MessageBoxCF ms = new MessageBoxCF("In bill thành công", MessageType.Accept, MessageButtons.OK);
+                MessageBoxCF ms = new MessageBoxCF("In hoá đơn thành công", MessageType.Accept, MessageButtons.OK);
                 ms.ShowDialog();
             }
         }
@@ -67,43 +68,68 @@ namespace Coffee.ViewModel.AdminVM.Table
         {
             FlowDocument doc = new FlowDocument();
             doc.PagePadding = new Thickness(50);
+            doc.FontFamily = new FontFamily("Arial"); // Thiết lập font chữ toàn bộ tài liệu
 
-            Paragraph header = new Paragraph(new Run("Hóa Đơn"))
+            // Tạo lưới để chứa tiêu đề và hình ảnh
+            Grid headerGrid = new Grid();
+
+            // Hình ảnh
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri("pack://application:,,,/Coffee;component/Resources/Images/cup-of-coffee-avatar-removebg-preview.png"));
+            image.Width = 100; // Điều chỉnh kích thước hình ảnh nếu cần
+            image.Margin = new Thickness(0, 0, 10, 0); // Thêm khoảng cách giữa hình ảnh và tiêu đề
+            image.HorizontalAlignment = HorizontalAlignment.Left;
+
+            // Thêm hình ảnh vào cột đầu tiên của lưới
+            Grid.SetColumn(image, 0);
+            headerGrid.Children.Add(image);
+
+            // Tiêu đề
+            TextBlock headerText = new TextBlock(new Run("Hóa đơn ESPRO"))
             {
                 FontSize = 30,
                 FontWeight = FontWeights.Bold,
-                TextAlignment = TextAlignment.Center
+                TextAlignment = TextAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
             };
 
-            doc.Blocks.Add(header);
+            Grid.SetColumn(headerText, 1);
+            headerGrid.Children.Add(headerText);
 
-            Section infoSection = new Section();
+            // Thêm lưới vào một BlockUIContainer và sau đó thêm vào FlowDocument
+            BlockUIContainer headerContainer = new BlockUIContainer(headerGrid);
+            doc.Blocks.Add(headerContainer);
 
-            // Hàng đầu tiên
+            // Thông tin hóa đơn
             Paragraph info1 = new Paragraph();
-            info1.Inlines.Add(new Run($"Tên nhân viên: {EmployeeName}    "));
-            info1.Inlines.Add(new Run($"Tên khách hàng: {CustomeName}\n"));
+            info1.Inlines.Add(new Bold(new Run("Tên nhân viên: ")));
+            info1.Inlines.Add(new Run($"{EmployeeName}\n"));
             info1.TextAlignment = TextAlignment.Left;
-            infoSection.Blocks.Add(info1);
 
-            // Hàng thứ hai
+            doc.Blocks.Add(info1);
+
             Paragraph info2 = new Paragraph();
-            info2.Inlines.Add(new Run($"Ngày hóa đơn: {DateBill:dd/MM/yyyy}    "));
-            info2.Inlines.Add(new Run($"Tổng tiền: {TotalBill:N0} VND\n"));
+            info2.Inlines.Add(new Bold(new Run("Tên khách hàng: ")));
+            info2.Inlines.Add(new Run($"{CustomeName}\n"));
             info2.TextAlignment = TextAlignment.Left;
-            infoSection.Blocks.Add(info2);
+            info2.Padding = new Thickness(0, 0, 0, 0);
+            doc.Blocks.Add(info2);
 
-            // Thêm Section vào FlowDocument
-            doc.Blocks.Add(infoSection);
+            Paragraph info3 = new Paragraph();
+            info3.Inlines.Add(new Bold(new Run("Ngày hóa đơn: ")));
+            info3.Inlines.Add(new Run($"{DateBill:dd/MM/yyyy}\n"));
+            info3.TextAlignment = TextAlignment.Left;
+            info3.Margin = new Thickness(0, 0, 0, 20);
+            doc.Blocks.Add(info3);
 
+            // Bảng chi tiết hóa đơn
             System.Windows.Documents.Table table = new System.Windows.Documents.Table();
             table.CellSpacing = 0;
             table.BorderBrush = Brushes.Black;
             table.BorderThickness = new Thickness(1);
 
             int numberOfColumns = 5;
-
-            double[] columnWidths = { 3, 1.5, 1.5, 2, 2}; // Tỷ lệ chiều rộng cột
+            double[] columnWidths = { 3, 1.5, 1.5, 2, 2 }; // Tỷ lệ chiều rộng cột
 
             for (int i = 0; i < numberOfColumns; i++)
             {
@@ -115,14 +141,14 @@ namespace Coffee.ViewModel.AdminVM.Table
             TableRowGroup tableRowGroup = new TableRowGroup();
             table.RowGroups.Add(tableRowGroup);
 
+            // Hàng tiêu đề của bảng
             TableRow headerRow = new TableRow();
             tableRowGroup.Rows.Add(headerRow);
-
             string[] headers = { "Tên sản phẩm", "Kích thước", "Số lượng", "Giá tiền", "Thành tiền" };
 
-            foreach (string headerText in headers)
+            foreach (string headerTextX in headers)
             {
-                TableCell cell = new TableCell(new Paragraph(new Run(headerText)))
+                TableCell cell = new TableCell(new Paragraph(new Run(headerTextX)))
                 {
                     FontWeight = FontWeights.Bold,
                     BorderBrush = Brushes.Black,
@@ -132,6 +158,7 @@ namespace Coffee.ViewModel.AdminVM.Table
                 headerRow.Cells.Add(cell);
             }
 
+            // Hàng chi tiết của bảng
             foreach (var detailBill in DetailBillList)
             {
                 TableRow row = new TableRow();
@@ -180,6 +207,15 @@ namespace Coffee.ViewModel.AdminVM.Table
             }
 
             doc.Blocks.Add(table);
+
+            // Tổng tiền
+            Paragraph totalParagraph = new Paragraph(new Run($"Tổng tiền: {TotalBill:N0} VND"))
+            {
+                FontWeight = FontWeights.Bold,
+                TextAlignment = TextAlignment.Right,
+                Margin = new Thickness(0, 20, 0, 0)
+            };
+            doc.Blocks.Add(totalParagraph);
 
             return doc;
         }

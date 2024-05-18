@@ -337,8 +337,10 @@
 
                         </Grid>
 
-                        <Grid Grid.Column="1" Background="{DynamicResource BackgroundCF}"
-                              Margin="10">
+                        <Grid
+                            Grid.Column="1"
+                            Margin="10"
+                            Background="{DynamicResource BackgroundCF}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="7*" />
                                 <RowDefinition Height="*" />
@@ -374,6 +376,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBox
+                                            Margin="20,0,10,0"
                                             Padding="12,0"
                                             VerticalAlignment="Stretch"
                                             VerticalContentAlignment="Center"
@@ -393,6 +396,13 @@
                                             </TextBox.Style>
                                         </TextBox>
 
+                                        <Button
+                                            Grid.Column="1"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Command="{Binding sendMessageIC}"
+                                            IsDefault="True"
+                                            Visibility="Visible" />
                                         <materialDesign:PackIcon
                                             Grid.Column="1"
                                             Width="40"
@@ -405,6 +415,7 @@
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </materialDesign:PackIcon>
+
                                     </Grid>
                                 </Border>
                             </Grid>

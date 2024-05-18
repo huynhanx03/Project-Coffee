@@ -48,6 +48,7 @@ namespace Coffee.ViewModel.AdminVM.Table
         public ICommand loadMenuIC { get; set; }
         public ICommand loadLeftFrameIC { get; set; }
         public ICommand loadBtnMenuIC { get; set; }
+        public ICommand loadMenuInTableIC { get; set; }
 
         #endregion
 
@@ -79,6 +80,12 @@ namespace Coffee.ViewModel.AdminVM.Table
             });
 
             loadMenuIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
+            {
+                TableNameSale = "";
+                LeftFrame.Content = new MenuPage();
+            });
+
+            loadMenuInTableIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 LeftFrame.Content = new MenuPage();
             });

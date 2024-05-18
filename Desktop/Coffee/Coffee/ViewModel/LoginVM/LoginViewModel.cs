@@ -102,6 +102,7 @@ namespace Coffee.ViewModel.LoginVM
                     ms.ShowDialog();
                 }
 
+                PasswordLogin = "";
                 IsLogin = false;
                 mask.Visibility = Visibility.Collapsed;
             });
