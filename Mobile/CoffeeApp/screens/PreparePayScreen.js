@@ -29,6 +29,7 @@ import { removeVoucher } from "../redux/slices/voucherSlice";
 import ShowToast from "../components/toast";
 import ItemPay from "../components/itemPay";
 import { updateVoucherUsed } from "../controller/VoucherController";
+import Header from "../components/header";
 
 const PreparePayScreen = ({route}) => {
     const navigation = useNavigation();
@@ -41,6 +42,7 @@ const PreparePayScreen = ({route}) => {
     const [isVisible, setIsVisible] = useState(false);
     const [coord, setCoord] = useState({latitude: 0, longtitude: 0});
     const [timeDelivery, setTimeDelivery] = useState({
+        hour: 0,
         minutes: 0,
         seconds: 0,
     });
@@ -97,6 +99,7 @@ const PreparePayScreen = ({route}) => {
         let time = distance / 40000
         time = time * 3600 + 10 * 60
         setTimeDelivery({
+            hour: Math.floor(time / 3600),
             minutes: Math.floor((time % 3600) / 60),
             seconds: Math.floor(time % 60),
         })
@@ -160,32 +163,7 @@ const PreparePayScreen = ({route}) => {
 
     return (
         <View className="flex-1">
-            <SafeAreaView
-                style={{
-                    backgroundColor: "#f2f2f2",
-                    shadowColor: "#000000",
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.19,
-                    shadowRadius: 5.62,
-                    elevation: 6,
-                }}
-            >
-                {/* header */}
-
-                <View className="flex-row justify-between items-center mx-5">
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icons.ChevronLeftIcon size={30} color={"black"} />
-                    </TouchableOpacity>
-                    <Text className="text-lg font-semibold">
-                        Thanh toán
-                    </Text>
-
-                    {/* transparent view to adjust the position of the header */}
-                    <View>
-                        <Icons.HeartIcon size={30} color="transparent" />
-                    </View>
-                </View>
-            </SafeAreaView>
+            <Header title='Thanh toán' />
 
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -277,7 +255,7 @@ const PreparePayScreen = ({route}) => {
                             <View className='space-y-1'>
                                 <Text className='font-bold text-base'>Vận chuyển nhanh</Text>
                                 <Text className='font-semibold text-base'>Giao hàng nhanh</Text>
-                                <Text className='text-gray-500'>Nhận hàng sau {timeDelivery.minutes} phút {timeDelivery.seconds} giây</Text>
+                                <Text className='text-gray-500'>Nhận hàng sau {timeDelivery.hour} giờ {timeDelivery.minutes} phút {timeDelivery.seconds} giây</Text>
                             </View>
                             <View>
                                 <Text className='text-base'>{formatPrice(transFee)}</Text>

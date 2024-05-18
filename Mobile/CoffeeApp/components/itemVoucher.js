@@ -33,7 +33,7 @@ const ItemVoucher = (props) => {
                         <View className='p-1 rounded-full border-amber-500 bg-white border-2'>
                             <Image source={require('../assets/images/logo.png')} resizeMode="contain" style={{width: wp(10), height: wp(10)}}/>
                         </View>
-                        <Text className='text-lg font-semibold'>{voucher.NoiDung}</Text>
+                        <Text className='text-lg font-semibold' style={{width: wp(80)}}>{voucher.NoiDung}</Text>
                     </View>
                 </View>
 
