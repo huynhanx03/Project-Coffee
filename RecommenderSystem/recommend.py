@@ -26,11 +26,12 @@ class HybridRecommender:
 
         def tfidf_matrix(self):
             """
-                Dùng hàm "TfidfVectorizer" để chuẩn hóa "nguyen_lieu" với:
+                Dùng hàm "TfidfVectorizer" để chuẩn hóa dữ liệu với:
                     + analyzer='word': chọn đơn vị trích xuất là word
                     + ngram_range=(1, 1): mỗi lần trích xuất 1 word
                     + min_df=0: tỉ lệ word không đọc được là 0
-                => Lúc này ma trận trả về với số dòng tương ứng với số lượng coffee và số cột tương ứng với số từ được tách ra từ "nguyên liệu"
+               
+                Kết hợp các ma trận TF-IDF với các trọng số khác nhau
             """
             tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 1), min_df=0.0)
 
@@ -114,36 +115,32 @@ class HybridRecommender:
             self.n_items = len(self.items)
 
         def normalize_Y(self):
+            """
+            Tính similarity giữa các items bằng cách tính trung bình cộng ratings giữa các items.
+            Sau đó thực hiện chuẩn hóa bằng cách trừ các ratings đã biết của item cho trung bình cộng
+            ratings tương ứng của item đó, đồng thời thay các ratings chưa biết bằng 0.
+            """
             self.Ybar_data = self.Y_data.copy()
             self.mu = {}
 
             for user in self.users:
-                # row indices of rating done by user n
-                # since indices need to be integers, we need to convert
                 ids = np.where(self.Y_data[:, 0] == user)[0].astype(np.int32)
-                # indices of all ratings associated with user n
-                item_ids = self.Y_data[ids, 1]
-                # and the corresponding ratings
                 ratings = self.Y_data[ids, 2]
-                # take mean
                 m = np.mean(ratings)
                 if np.isnan(m):
-                    m = 0 # to avoid empty array and nan value
+                    m = 0 
                 self.mu[user] = m
-                # normalize
                 self.Ybar_data[ids, 2] = ratings - self.mu[user]
 
-            ################################################
-            # form the rating matrix as a sparse matrix.
-            # you may not have enough memory to store this. Then, instead, we store
-            # nonzeros only, and, of course, their locations.
             self.Ybar = sparse.coo_matrix((self.Ybar_data[:, 2],
                 (self.Ybar_data[:, 1], self.Ybar_data[:, 0])), (self.n_items, self.n_users))
 
             self.Ybar = self.Ybar.tocsr()
 
         def similarity(self):
-            eps = 1e-6
+            """
+            Tính độ tương đồng giữa các user và các item
+            """
             self.S = self.dist_func(self.Ybar.T, self.Ybar.T)
 
         def refresh(self):
@@ -159,42 +156,41 @@ class HybridRecommender:
 
         def __pred(self, u, i, normalized = 1):
             """
-            predict the rating of user u for item i (normalized)
-            if you need the un
+            Dự đoán ra ratings của các users với mỗi items.
             """
-            # Step 1: find all users who rated i
+            # Bước 1: tìm tất cả người dùng đã đánh giá i
             ids = np.where(self.Y_data[:, 1] == i)[0].astype(np.int32)
-            # Step 2:
+            # Bước 2: 
             users_rated_i = (self.Y_data[ids, 0]).astype(np.int32)
-            # Step 3: find similarity btw the current user and others
-            # who already rated i
+            # Bước 3: tìm sự tương đồng giữa người dùng hiện tại và những người khác
+            # đã đánh giá i
             sim = self.S[u, users_rated_i]
-            # Step 4: find the k most similarity users
+            # Bước 4: tìm k người dùng giống nhau nhất
             a = np.argsort(sim)[-self.k:]
-            # and the corresponding similarity levels
+            # và mức độ tương đồng tương ứng
             nearest_s = sim[a]
-            # How did each of 'near' users rated item i
+            # Mỗi người dùng 'gần' đã đánh giá sản phẩm như thế nào?
             r = self.Ybar[i, users_rated_i[a]]
             if normalized:
-                # add a small number, for instance, 1e-8, to avoid dividing by 0
+                # thêm một số nhỏ, ví dụ 1e-8, để tránh chia cho 0
                 return (r*nearest_s)[0]/(np.abs(nearest_s).sum() + 1e-8)
 
             return (r*nearest_s)[0]/(np.abs(nearest_s).sum() + 1e-8) + self.mu[u]
 
         def pred(self, u, i, normalized = 1):
             """
-            predict the rating of user u for item i (normalized)
-            if you need the un
+            dự đoán xếp hạng của người dùng u cho mục i (chuẩn hóa)
+            nếu bạn cần
             """
             if self.uuCF: return self.__pred(u, i, normalized)
             return self.__pred(i, u, normalized)
 
         def recommend(self, u):
             """
-            Determine all items should be recommended for user u.
-            The decision is made based on all i such that:
-            self.pred(u, i) > 0. Suppose we are considering items which
-            have not been rated by u yet.
+            Xác định tất cả các mục nên được đề xuất cho người dùng u.
+             Quyết định được đưa ra dựa trên tất cả những gì:
+             self.pred(u, i) > 0. Giả sử chúng ta đang xem xét các mục
+             bạn chưa đánh giá được.
             """
             ids = np.where(self.Y_data[:, 0] == u)[0]
             items_rated_by_u = self.Y_data[ids, 1].tolist()
