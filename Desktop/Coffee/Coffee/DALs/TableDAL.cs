@@ -242,7 +242,7 @@ namespace Coffee.DALs
                     Dictionary<string, TableDTO> tableData = tableResponse.ResultAs<Dictionary<string, TableDTO>>();
                     TableDTO tableFind = tableData.Values.FirstOrDefault(x => x.Cot == table.Cot && x.Hang == table.Hang && x.MaBan != table.MaBan);
 
-                    if (table != null)
+                    if (tableFind != null)
                         return ("Tìm thành công", table);
                     else
                         return ("Không tồn tại", null);

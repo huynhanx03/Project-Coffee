@@ -181,8 +181,8 @@ namespace Coffee.DALs
 
                     foreach (var billimport in billimportData.Values)
                     {
-                        if (DateTime.ParseExact(billimport.NgayTaoPhieu, "HH:mm:ss dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) >= fromdate &&
-                            DateTime.ParseExact(billimport.NgayTaoPhieu, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture) <= todate)
+                        if (DateTime.ParseExact(billimport.NgayTaoPhieu, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture).Date >= fromdate &&
+                            DateTime.ParseExact(billimport.NgayTaoPhieu, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture).Date <= todate)
                         {
                             var user = userData.Values.FirstOrDefault(u => u.MaNguoiDung == billimport.MaNhanVien);
                             var importDto = new ImportDTO

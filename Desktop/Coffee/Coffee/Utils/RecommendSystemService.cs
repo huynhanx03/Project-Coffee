@@ -29,7 +29,7 @@ namespace Coffee.Utils
             }
         }
 
-        private string baseAPI = "http://127.0.0.1:5000";
+        private string baseAPI = "https://huynhnhan2003.pythonanywhere.com";
 
         public async Task<List<ProductRecommendDTO>> getRecommend(string MaSanPham)
         {

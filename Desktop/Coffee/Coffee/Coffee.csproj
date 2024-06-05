@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LogoEPSRO.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChartKit, Version=1.0.2309.233, Culture=neutral, PublicKeyToken=f837e6df9e08c489, processorArchitecture=MSIL">
       <HintPath>..\packages\ChartKit.1.0.2309.233\lib\net472\ChartKit.dll</HintPath>
@@ -662,7 +665,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="LogoEPSRO.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\cup-of-coffee-avatar.jpg" />
     <Resource Include="Resources\Images\LogoEPSRO.ico" />

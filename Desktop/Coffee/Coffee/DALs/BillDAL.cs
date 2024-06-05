@@ -248,8 +248,8 @@ namespace Coffee.DALs
 
                     var result = (from bill in billData.Values
                                   join employee in userData.Values on bill.MaNhanVien equals employee.MaNguoiDung
-                                  where DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) >= fromdate &&
-                                    DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture) <= todate
+                                  where DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture).Date >= fromdate &&
+                                    DateTime.ParseExact(bill.NgayTao, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture).Date <= todate
                                   select new BillDTO
                                   {
                                       MaBan = bill.MaBan,

@@ -211,7 +211,7 @@
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseUp">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.loadMenuIC, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                        <i:InvokeCommandAction Command="{Binding DataContext.loadMenuInTableIC, RelativeSource={RelativeSource AncestorType=ListView}}" />
                                         <i:InvokeCommandAction Command="{Binding DataContext.clickTableIC, RelativeSource={RelativeSource AncestorType=ListView}}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>

@@ -1,5 +1,6 @@
 ﻿using Coffee.DALs;
 using Coffee.DTOs;
+using Coffee.Models;
 using Coffee.Services;
 using Coffee.Utils;
 using Coffee.Utils.Helper;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
@@ -44,9 +46,9 @@ namespace Coffee
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            c();
+            addTable();
         }
-        public async void t()
+        public async void addProduct()
         {
             string baseID = "SP0010";
 
@@ -125,7 +127,7 @@ namespace Coffee
             }
         }
 
-        public async void c()
+        public async void deleteProduct()
         {
             string baseID = "SP0050";
             int x = 0;
@@ -145,6 +147,73 @@ namespace Coffee
             }
 
             MessageBox.Show(x.ToString());
+        }
+
+        public async void addQuantityProduct()
+        {
+            (string label, List<ProductDTO> products) = await ProductService.Ins.getListProduct();
+
+            foreach (var product in products)
+            {
+                ProductService.Ins.increaseQuantityProduct(product.MaSanPham, 10);
+            }
+        }
+
+        public async void addComment()
+        {
+            (string label1, List<ProductDTO> products) = await ProductService.Ins.getListProduct();
+            (string label2, List<CustomerDTO> customers) = await CustomerService.Ins.getListCustomer();
+
+            int sz1 = products.Count;
+            int sz2 = customers.Count;
+
+            string CommentID = "DG0003";
+
+            for (int i = 0; i < 10000; ++i)
+            {
+                Random rand = new Random();
+                int idxProduct = rand.Next(0, sz1);
+                int idxCustomer = rand.Next(0, sz2);
+
+                CommentID = Helper.nextID(CommentID, "DG");
+
+                EvaluateDTO evaluate = new EvaluateDTO
+                {
+                    MaDanhGia = CommentID,
+                    DiemDanhGia = rand.Next(1, 6),
+                    MaNguoiDung = customers[idxCustomer].MaKhachHang,
+                    MaSanPham = products[idxProduct].MaSanPham,
+                    ThoiGianDanhGia = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
+                    VanBanDanhGia = "Sản phẩm quá ngon <3"
+                };
+
+                using (var context = new Firebase())
+                {
+                    await context.Client.SetTaskAsync("DanhGia/" + CommentID, evaluate);
+                }
+            }
+        }
+
+        public async void addTable()
+        {
+            string tableID = "BA0005";
+
+            for (int i = 6; i <= 16; ++i)
+            {
+                tableID = Helper.nextID(tableID, "BA");
+
+                TableDTO table = new TableDTO
+                {
+                    MaBan = tableID,
+                    TenBan = "Bàn số " + i,
+                    Cot = (i - 1) % 4,
+                    Hang = (i - 1) / 4,
+                    MaLoaiBan = "LB0001",
+                    TrangThai = "Trống"
+                };
+
+                await TableDAL.Ins.createTable(table);
+            }
         }
     }
 }
