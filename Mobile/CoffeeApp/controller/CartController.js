@@ -40,7 +40,6 @@ const itemPresent = async (item) => {
         const cartSnapshot = await get(child(dbRef, `GioHang/${userData.MaNguoiDung}/`));
         const cart = cartSnapshot.val();
 
-        // console.log(cart)
         if (cart) {
             for (const [key, value] of Object.entries(cart)) {
                 if (key === item.MaSanPham) {

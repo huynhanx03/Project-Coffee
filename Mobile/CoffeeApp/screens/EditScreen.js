@@ -73,10 +73,7 @@ const EditScreen = () => {
             quality: 1,
         });
 
-        // console.log(result.assets[0].uri);
-
         if (!result.canceled) {
-            // setImage(result.assets[0].uri);
             let newFile = {
                 uri: result.assets[0].uri,
                 type: `test/${result.assets[0].uri.split(".")[1]}`,

@@ -20,8 +20,6 @@ const getVoucher = async () => {
             vouchersList.push(vouchers[key]);
         });
 
-        console.log(vouchersList);
-
         vouchersList = vouchersList.filter(voucher => Object.keys(voucher.ChiTiet).includes(userData.MaNguoiDung));
         vouchersList = vouchersList.filter(voucher => voucher.ChiTiet[userData.MaNguoiDung].TrangThai == 'Chưa sử dụng')
         vouchersList = vouchersList.filter(voucher => {
