@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import ModalLoading from "../components/modalLoading";
 
 const MenuScreen = () => {
     const navigation = useNavigation();
@@ -36,6 +37,7 @@ const MenuScreen = () => {
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [searchPage, setSearchPage] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const cart = useSelector((state) => state.cart.cart);
@@ -52,6 +54,7 @@ const MenuScreen = () => {
     };
 
     const handleGetProducts = async () => {
+        setIsLoading(true);
         let allProducts = [];
         const listProducts = await getProducts();
         if (listProducts) {
@@ -93,13 +96,15 @@ const MenuScreen = () => {
         }
 
         setProducts([...allProducts]);
+        setIsLoading(false)
     };
 
     const handleSearch = (text) => {
         setSearch(text);
         
         const result = products.filter((product) => product.TenSanPham.toLowerCase().includes(text.toLowerCase()));
-        setSearchResult(result);
+        
+        setSearchResult(result.filter((item) => item.SoLuong > 0));
     };
 
     const handleGetBestSeller = async () => {
@@ -339,6 +344,7 @@ const MenuScreen = () => {
                     </TouchableOpacity>
                 </View>
             </Draggable>
+            <ModalLoading isLoading={isLoading} />
         </View>
     );
 };

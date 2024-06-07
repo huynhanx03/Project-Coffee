@@ -25,7 +25,6 @@ const MapScreen = () => {
                 placeholder="Nhập địa chỉ của bạn"
                 debounce={5000}
                 onPress={(data, details = null) => {
-                    console.log('zzz')
                     handleSetLocation(details.geometry.location.lat, details.geometry.location.lng)
                 }}
                 query={{

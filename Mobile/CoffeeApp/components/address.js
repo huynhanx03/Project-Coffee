@@ -32,7 +32,7 @@ const Address = ({ data }) => {
                 return (
                     <View key={index} className="mt-2 border border-gray-300 rounded-xl bg-white">
                         <Pressable
-                            onPress={() => console.log("nam")}
+                            onPress={() => handleDefaultAddress(addressKey)}
                             className="p-2 space-y-1 flex-row justify-between items-center">
                             <TouchableOpacity onPress={() => handleDefaultAddress(addressKey)}>
                                 <View className={"border-2 border-gray-500 p-3 rounded-full " + checked} />

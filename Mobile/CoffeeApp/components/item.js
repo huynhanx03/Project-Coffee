@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as IconsSolid from "react-native-heroicons/solid";
 import { colors } from "../theme";
-import { formatPrice } from "../utils";
+import { formatNumber, formatPrice } from "../utils";
 import { getReview } from "../controller/ReviewController";
 import Animated from "react-native-reanimated";
 
@@ -141,7 +141,7 @@ const Item = ({ product, isSale, isBestSeller }) => {
                     >
                         <IconsSolid.StarIcon size={16} color={"#fbbe21"} />
                         <Text className="text-white font-bold p-1">
-                            {ratingPoint}
+                            {formatNumber(ratingPoint, 1)}
                         </Text>
                     </View>
                 </View>

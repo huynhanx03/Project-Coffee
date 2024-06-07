@@ -25,6 +25,7 @@ import { getUserData } from "../controller/StorageController";
 import { getBanner } from "../controller/BannerController";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import axios from "axios";
+import ModalLoading from "../components/modalLoading";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -34,15 +35,18 @@ const HomeScreen = () => {
     const [banners, setBanners] = useState(null);
     const [proBestSeller, setProBestSeller] = useState([]);
     const [recommendProduct, setRecommendProduct] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
 
     const addressData = getDefaultAddress();
 
     const cart = useSelector((state) => state.cart.cart);
 
     const handleGetProducts = async () => {
+        setIsLoading(true);
         const listProducts = await getProducts();
         const allProducts = handleSetProduct(listProducts)
         setProducts([...allProducts])
+        setIsLoading(false);
     };
 
     const handleSetProduct = (listProducts) => {
@@ -350,53 +354,6 @@ const HomeScreen = () => {
                                 );
                             })}
                 </View>
-
-                {/* out of stock */}
-                {products &&
-                    products.filter((item) => item.SoLuong == 0).length > 0 && (
-                        <View>
-                            {/* <Text className="text-center text-lg font-bold mt-5">Hết hàng</Text> */}
-                            <View className="mt-5 flex-row justify-between items-center mx-5">
-                                <Text
-                                    style={{
-                                        height: 1,
-                                        borderColor: "rgba(59, 29, 12, 0.4)",
-                                        borderWidth: 1,
-                                        width: wp(30),
-                                    }}
-                                ></Text>
-
-                                <Text
-                                    style={{ color: "#8B6122" }}
-                                    className="text-lg font-semibold"
-                                >
-                                    Hết hàng
-                                </Text>
-
-                                <Text
-                                    style={{
-                                        height: 1,
-                                        borderColor: "rgba(59, 29, 12, 0.4)",
-                                        borderWidth: 1,
-                                        width: wp(30),
-                                    }}
-                                ></Text>
-                            </View>
-
-                            <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
-                                {products
-                                    .filter((item) => item.SoLuong == 0)
-                                    .map((product, index) => {
-                                        return (
-                                            <Item
-                                                product={product}
-                                                key={product.MaSanPham}
-                                            />
-                                        );
-                                    })}
-                            </View>
-                        </View>
-                    )}
             </ScrollView>
 
             {/* cart */}
@@ -429,6 +386,7 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                 </View>
             </Draggable>
+            <ModalLoading isLoading={isLoading} />
         </View>
     );
 };

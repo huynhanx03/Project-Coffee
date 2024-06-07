@@ -66,7 +66,6 @@ const getMessage = async () => {
         getUserData().then(userData => {
             const messageRef = ref(db, `TinNhan/${userData.MaNguoiDung}/`);
             const q = query(messageRef, orderByChild('ThoiGian'));
-            // console.log(q)
             onValue(q, (snapshot) => {
                 const data = snapshot.val();
                 resolve(data);

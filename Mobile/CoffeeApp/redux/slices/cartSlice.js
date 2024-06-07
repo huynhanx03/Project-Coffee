@@ -16,9 +16,6 @@ export const CartSlice = createSlice({
             }
         },
         addToCartFromDatabase: (state, action) => {
-            // console.log(action.payload)
-            // if (state.cart.length === 0) {
-            // }
             state.cart.push({...action.payload})
         },
         removeFromCart: (state, action) => {

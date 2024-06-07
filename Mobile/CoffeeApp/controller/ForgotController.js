@@ -20,7 +20,6 @@ let otpGenerate = '';
  */
 const sendEmail = async (email, user, otp) => {
     try {
-        console.log('sending email...')
         await send (
             'service_s8671sg',
             'template_wa15s4b',
@@ -33,7 +32,6 @@ const sendEmail = async (email, user, otp) => {
                 publicKey: '_TBVrvzhnGTqwNxVm'
             }
         )
-        console.log('success');
     } catch (err) {
         if (err instanceof EmailJSResponseStatus) {
           console.log('EmailJS Request Failed...', err);
@@ -60,7 +58,6 @@ const ForgotPassword = async (email) => {
         if (users) {
             for (const [userId, userData] of Object.entries(users)) {
                 if (userData.Email == email) {
-                    console.log('sending email...')
                     await sendEmail(email, userData.HoTen, otpGenerate);
                     return [true, 'Gủi mã OTP thành công', otpGenerate];
                 }
