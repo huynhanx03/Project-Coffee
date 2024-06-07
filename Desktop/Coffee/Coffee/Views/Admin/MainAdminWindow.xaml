@@ -351,7 +351,8 @@
                                 Command="{Binding loadStatisticPageIC}"
                                 CommandParameter="{Binding ElementName=mainFrame}"
                                 GroupName="mainOptions"
-                                Style="{StaticResource MenuButtonMain}">
+                                Style="{StaticResource MenuButtonMain}"
+                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Finance" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Statistic}" />
@@ -382,8 +383,7 @@
                                 Command="{Binding loadChatPageIC}"
                                 CommandParameter="{Binding ElementName=mainFrame}"
                                 GroupName="mainOptions"
-                                Style="{StaticResource MenuButtonMain}"
-                                Visibility="{Binding role, Converter={StaticResource RoleConverter}}">
+                                Style="{StaticResource MenuButtonMain}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Chat" Style="{StaticResource menuButtonIcon}" />
                                     <TextBlock Style="{StaticResource menuButtonText}" Text="{DynamicResource Chat}" />

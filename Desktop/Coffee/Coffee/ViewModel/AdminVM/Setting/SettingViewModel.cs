@@ -256,6 +256,7 @@ namespace Coffee.ViewModel.AdminVM.Setting
 
             UserDTO user = new UserDTO
             {
+                MaNguoiDung = Memory.user.MaNguoiDung,
                 HoTen = FullName.Trim(),
                 CCCD_CMND = IDCard.Trim(),
                 Email = Email.Trim(),
@@ -279,7 +280,8 @@ namespace Coffee.ViewModel.AdminVM.Setting
                 msa.ShowDialog();
 
                 await CloudService.Ins.DeleteImage(OriginImage);
-                user.MaNguoiDung = Memory.user.MaNguoiDung;
+
+                Memory.user = user;
             }
             else
             {
