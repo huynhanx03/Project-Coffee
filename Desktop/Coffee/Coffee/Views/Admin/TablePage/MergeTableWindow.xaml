@@ -79,7 +79,7 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
-                        Margin="0,0,20,0"
+                        Margin="0,0,60,0"
                         Command="{Binding confirmMergeTableIC}"
                         CommandParameter="{Binding ElementName=MergeTableWindowCF}"
                         Content="{DynamicResource Confirm}"

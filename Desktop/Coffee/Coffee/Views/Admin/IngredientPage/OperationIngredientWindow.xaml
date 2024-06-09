@@ -78,7 +78,7 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
-                        Margin="0,0,20,0"
+                        Margin="0,0,60,0"
                         Command="{Binding confirmOperationIngredientIC}"
                         Content="{DynamicResource Confirm}"
                         Style="{DynamicResource btnStyle}" />

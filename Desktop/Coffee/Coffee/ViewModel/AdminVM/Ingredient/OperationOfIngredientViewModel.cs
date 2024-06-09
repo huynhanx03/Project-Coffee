@@ -73,6 +73,7 @@ namespace Coffee.ViewModel.AdminVM.Ingredient
                     break;
                 case 2:
                     ingredient.MaNguyenLieu = SelectedIngredient.MaNguyenLieu;
+                    ingredient.SoLuong = SelectedIngredient.SoLuong;
 
                     (string labelEdit, IngredientDTO NewProductEdit) = await IngredientService.Ins.updateIngredient(ingredient);
 

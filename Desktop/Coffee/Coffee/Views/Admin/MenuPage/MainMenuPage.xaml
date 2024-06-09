@@ -93,7 +93,7 @@
                                 TextAlignment="Left">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="TextChanged">
-                                        <i:InvokeCommandAction Command="{Binding searchEmployeeIC}" CommandParameter="{Binding ElementName=searchBox}" />
+                                        <i:InvokeCommandAction Command="{Binding searchItemIC}" CommandParameter="{Binding ElementName=searchBox}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </TextBox>
@@ -291,6 +291,7 @@
                         </TextBox>
 
                         <Button
+                            Height="50"
                             Margin="10,0,0,0"
                             VerticalAlignment="Top"
                             Command="{Binding confirmAddQuantityProductIC}"

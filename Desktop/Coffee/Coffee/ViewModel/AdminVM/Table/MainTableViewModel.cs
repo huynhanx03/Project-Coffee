@@ -83,6 +83,7 @@ namespace Coffee.ViewModel.AdminVM.Table
             {
                 TableNameSale = "";
                 LeftFrame.Content = new MenuPage();
+                DetailBillList.Clear();
             });
 
             loadMenuInTableIC = new RelayCommand<Frame>((p) => { return true; }, (p) =>
