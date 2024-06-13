@@ -27,17 +27,56 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import ModalLoading from "../components/modalLoading";
+import { FontAwesome6 } from '@expo/vector-icons';
+import DropDownPicker from "react-native-dropdown-picker";
 
 const MenuScreen = () => {
     const navigation = useNavigation();
     const [isActive, setIsActive] = useState("Tất cả");
     const [products, setProducts] = useState(null);
+    const [productFilter, setProductFilter] = useState([]);
     const [categories, setCategories] = useState(null);
     const [proBestSeller, setProBestSeller] = useState([]);
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [searchPage, setSearchPage] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [sortType, setSortType] = useState('Sắp xếp');
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([
+        {
+            label: 'Sắp xếp',
+            value: 'Sắp xếp',
+        },
+        {
+            label: 'A - Z',
+            value: 'AZ',
+            icon: () => (
+                <FontAwesome6 name="arrow-down-a-z" size={24} color="black" />
+            ),
+        },
+        {
+            label: 'Z - A',
+            value: 'ZA',
+            icon: () => (
+                <FontAwesome6 name="arrow-up-a-z" size={24} color="black" />
+            ),
+        },
+        {
+            label: 'Giá tăng dần',
+            value: 'priceUp',
+            icon: () => (
+                <FontAwesome6 name="arrow-up-9-1" size={24} color="black" />
+            ),
+        },
+        {
+            label: 'Giá giảm dần',
+            value: 'priceDown',
+            icon: () => (
+                <FontAwesome6 name="arrow-down-9-1" size={24} color="black" />
+            ),
+        },
+    ]);
 
 
     const cart = useSelector((state) => state.cart.cart);
@@ -118,6 +157,29 @@ const MenuScreen = () => {
             setSearchResult([]);
         }
     }
+
+    useEffect(() => {
+        if (!products) return;
+        if (sortType === 'Sắp xếp') {
+            setProductFilter([...products]);
+        } else if (sortType === 'AZ') {
+            setProductFilter([...products]);
+            const sortAZ = productFilter.sort((a, b) => a.TenSanPham.localeCompare(b.TenSanPham));
+            setProductFilter([...sortAZ]);
+        } else if (sortType === 'ZA') {
+            setProductFilter([...products]);
+            const sortZA = productFilter.sort((a, b) => b.TenSanPham.localeCompare(a.TenSanPham));
+            setProductFilter([...sortZA]);
+        } else if (sortType === 'priceUp') {
+            setProductFilter([...products]);
+            const sortPriceUp = productFilter.sort((a, b) => a.Size.Thuong.Gia - b.Size.Thuong.Gia);
+            setProductFilter([...sortPriceUp]);
+        } else if (sortType === 'priceDown') {
+            setProductFilter([...products]);
+            const sortPriceDown = productFilter.sort((a, b) => b.Size.Thuong.Gia - a.Size.Thuong.Gia);
+            setProductFilter([...sortPriceDown]);
+        }
+    }, [sortType, products])
 
     useEffect(() => {
         handleGetProducts();
@@ -219,10 +281,29 @@ const MenuScreen = () => {
                                 />
                             )}
                         </View>
+
+                        {/* sort */}
+                        <View className='mt-5 z-50' style={{width: wp(50), alignSelf: 'flex-end', marginRight: wp(5)}}>
+                            <DropDownPicker
+                                    open={open}
+                                    value={sortType}
+                                    items={items}
+                                    setOpen={setOpen}
+                                    setValue={setSortType}
+                                    setItems={setItems}
+                                    textStyle={{ fontSize: wp(4) }}
+                                    labelStyle={{ fontSize: wp(4) }}
+                                    listMode="SCROLLVIEW"
+                                    modalProps={{
+                                        animationType: "fade"
+                                    }}
+                                    modalTitle='Sắp xếp'
+                                />
+                        </View>
                         {/* card item */}
                         <View className="mx-5 mt-5 flex-row flex-wrap justify-between">
-                            {products && isActive === "Tất cả"
-                                ? products
+                            {productFilter && isActive === "Tất cả"
+                                ? productFilter
                                       .filter((item) => item.SoLuong > 0)
                                       .map((product) => {
                                           return (
@@ -240,8 +321,8 @@ const MenuScreen = () => {
                                             </Animated.View>
                                           );
                                       })
-                                : products &&
-                                  products
+                                : productFilter &&
+                                  productFilter
                                       .filter(
                                           (item) =>
                                               item.SoLuong > 0 &&
@@ -249,16 +330,17 @@ const MenuScreen = () => {
                                       )
                                       .map((product, index) => {
                                           return (
-                                              <Item
-                                                  product={product}
-                                                  key={product.MaSanPham}
-                                                  isSale={
-                                                      product.PhanTramGiam > 0
-                                                  }
-                                                  isBestSeller={proBestSeller.includes(
-                                                      product.MaSanPham
-                                                  )}
-                                              />
+                                            <Animated.View key={product.MaSanPham} entering={FadeInUp.duration(1500)}>
+                                                <Item
+                                                    product={product}
+                                                    isSale={
+                                                        product.PhanTramGiam > 0
+                                                    }
+                                                    isBestSeller={proBestSeller.includes(
+                                                        product.MaSanPham
+                                                    )}
+                                                />
+                                            </Animated.View>
                                           );
                                       })}
                         </View>

@@ -1,31 +1,24 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
-import {
-    Image,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import * as Icons from "react-native-heroicons/solid";
-import { Divider } from "react-native-paper";
-import { useDispatch } from "react-redux";
-import { setCart } from "../controller/CartController";
-import { addToCart } from "../redux/slices/cartSlice";
-import { colors } from "../theme";
-import { formatPrice } from "../utils";
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import ItemReviewList from "../components/itemReviewList";
-import { Rating } from "react-native-ratings";
-import { getReview } from "../controller/ReviewController";
-import ShowToast from "../components/toast";
-import Animated from "react-native-reanimated";
-const ios = Platform.OS === "ios";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Image } from 'expo-image';
+import { Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import * as Icons from 'react-native-heroicons/solid';
+import { Divider } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { setCart } from '../controller/CartController';
+import { addToCart } from '../redux/slices/cartSlice';
+import { colors } from '../theme';
+import { formatNumber, formatPrice } from '../utils';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import ItemReviewList from '../components/itemReviewList';
+import { Rating } from 'react-native-ratings';
+import { getReview } from '../controller/ReviewController';
+import ShowToast from '../components/toast';
+import Animated from 'react-native-reanimated';
+import { AntDesign } from '@expo/vector-icons';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { blurhash } from '../utils';
+const ios = Platform.OS === 'ios';
 
 const DetailItemScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -36,20 +29,81 @@ const DetailItemScreen = ({ route }) => {
     const initialSize = product.initialSize;
 
     const [size, setSize] = useState(initialSize);
-    const [sizeString, setSizeString] = useState(
-        initialSize === "S" ? "Nho" : size === "M" ? "Thuong" : "Lon"
-    );
+    const [sizeString, setSizeString] = useState(initialSize === 'S' ? 'Nho' : size === 'M' ? 'Thuong' : 'Lon');
     const [quantity, setQuantity] = useState(1);
     const [price, setPrice] = useState(initialPrice);
     const [priceOrigin, setPriceOrigin] = useState(0);
     const [total, setTotal] = useState(initialPrice);
     const [reviewList, setReviewList] = useState([]);
+    const [reviewListFilter, setReviewListFilter] = useState([]);
     const [ratingPoint, setRatingPoint] = useState(0);
     const scrollRef = useRef(null);
+    const [fil, setFil] = useState('Toàn bộ');
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([
+        {
+            label: 'Toàn bộ',
+            value: 'Toàn bộ',
+        },
+        {
+            label: '5',
+            value: '5',
+            icon: () => (
+                <AntDesign
+                    name="star"
+                    size={24}
+                    color="black"
+                />
+            ),
+        },
+        {
+            label: '4',
+            value: '4',
+            icon: () => (
+                <AntDesign
+                    name="star"
+                    size={24}
+                    color="black"
+                />
+            ),
+        },
+        {
+            label: '3',
+            value: '3',
+            icon: () => (
+                <AntDesign
+                    name="star"
+                    size={24}
+                    color="black"
+                />
+            ),
+        },
+        {
+            label: '2',
+            value: '2',
+            icon: () => (
+                <AntDesign
+                    name="star"
+                    size={24}
+                    color="black"
+                />
+            ),
+        },
+        {
+            label: '1',
+            value: '1',
+            icon: () => (
+                <AntDesign
+                    name="star"
+                    size={24}
+                    color="black"
+                />
+            ),
+        },
+    ]);
 
     const handleSizeAndPrice = (sizeProp) => {
-        const string =
-            sizeProp === "S" ? "Nho" : sizeProp === "M" ? "Thuong" : "Lon";
+        const string = sizeProp === 'S' ? 'Nho' : sizeProp === 'M' ? 'Thuong' : 'Lon';
 
         setSize(sizeProp);
         setSizeString(string);
@@ -64,12 +118,7 @@ const DetailItemScreen = ({ route }) => {
     };
 
     useEffect(() => {
-        const string =
-            initialSize === "S"
-                ? "Nho"
-                : initialSize === "M"
-                ? "Thuong"
-                : "Lon";
+        const string = initialSize === 'S' ? 'Nho' : initialSize === 'M' ? 'Thuong' : 'Lon';
         setPriceOrigin(product.Size[string].Gia);
     }, []);
 
@@ -86,20 +135,20 @@ const DetailItemScreen = ({ route }) => {
             setQuantity((quantity) => quantity + 1);
         } else {
             setQuantity(product.SoLuong);
-            ShowToast("error", "Lỗi", "Số lượng sản phẩm không đủ");
+            ShowToast('error', 'Lỗi', 'Số lượng sản phẩm không đủ');
         }
     };
 
     const handleQuantityInput = () => {
         if (quantity > product.SoLuong) {
             setQuantity(product.SoLuong);
-            ShowToast("error", "Lỗi", "Số lượng sản phẩm không đủ");
+            ShowToast('error', 'Lỗi', 'Số lượng sản phẩm không đủ');
             return;
         }
 
         if (quantity < 1) {
             setQuantity(1);
-            ShowToast("error", "Lỗi", "Số lượng sản phẩm phải lớn hơn 0");
+            ShowToast('error', 'Lỗi', 'Số lượng sản phẩm phải lớn hơn 0');
             return;
         }
     };
@@ -108,7 +157,7 @@ const DetailItemScreen = ({ route }) => {
         if (quantity > 1) {
             setQuantity((quantity) => quantity - 1);
         } else {
-            ShowToast("error", "Lỗi", "Số lượng sản phẩm phải lớn hơn 0");
+            ShowToast('error', 'Lỗi', 'Số lượng sản phẩm phải lớn hơn 0');
         }
     };
 
@@ -125,7 +174,7 @@ const DetailItemScreen = ({ route }) => {
         };
         dispatch(addToCart(itemCart));
         setCart(itemCart);
-        ShowToast("success", "Thông báo", "Thêm vào giỏ hàng thành công");
+        ShowToast('success', 'Thông báo', 'Thêm vào giỏ hàng thành công');
     };
 
     const handleBuyNow = (item) => {
@@ -139,7 +188,7 @@ const DetailItemScreen = ({ route }) => {
             SoLuong: item.quantity,
             PhanTramGiam: item.PhanTramGiam,
         };
-        navigation.navigate("Prepare", { ...itemCart });
+        navigation.navigate('Prepare', { ...itemCart });
     };
 
     const handleGetReview = async () => {
@@ -156,48 +205,59 @@ const DetailItemScreen = ({ route }) => {
     };
 
     useEffect(() => {
+        if (fil === 'Toàn bộ') {
+            setReviewListFilter(reviewList);
+        } else {
+            const reviews = reviewList.filter((review) => review.DiemDanhGia === +fil);
+            setReviewListFilter(reviews);
+        }
+    }, [fil, reviewList])
+
+    useEffect(() => {
         handleGetReview();
     }, []);
     return (
         <View className="flex-1">
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                className="absolute top-10 z-10 left-5 rounded-full p-3 bg-amber-400"
-            >
+                className="absolute top-10 z-10 left-5 rounded-full p-3 bg-amber-400">
                 <View>
-                    <Icons.ChevronLeftIcon size={30} color={"black"} />
+                    <Icons.ChevronLeftIcon
+                        size={30}
+                        color={'black'}
+                    />
                 </View>
             </TouchableOpacity>
             <ScrollView
                 ref={scrollRef}
                 className="flex-[6]"
-                showsVerticalScrollIndicator={false}
-            >
+                showsVerticalScrollIndicator={false}>
                 {/* image */}
                 <Image
                     source={{ uri: product.HinhAnh }}
-                    resizeMode="cover"
+                    contentFit="cover"
+                    placeholder={{ blurhash }}
                     style={{
-                        width: "100%",
+                        width: '100%',
                         height: hp(50),
                         width: wp(100),
                         borderRadius: 16,
                     }}
+                    transition={1000}
                 />
 
                 {/* info */}
                 <View
                     style={{
                         marginTop: wp(-12),
-                        backgroundColor: "#f2f2f2",
+                        backgroundColor: '#f2f2f2',
                     }}
-                    className="rounded-3xl pt-3 space-y-2"
-                >
-                    <View className="flex-row mx-5 justify-between">
+                    className="rounded-3xl pt-3 space-y-2">
+                    <View className="flex-col mx-5 justify-between">
                         <Text
                             style={{ color: colors.text(1) }}
                             className="font-semibold text-2xl"
-                        >
+                            numberOfLines={1}>
                             {product.TenSanPham}
                         </Text>
                         <View className="flex-row items-end space-x-3">
@@ -209,95 +269,81 @@ const DetailItemScreen = ({ route }) => {
 
                             <Text
                                 style={{ color: colors.text(1) }}
-                                className="font-semibold text-2xl"
-                            >
+                                className="font-semibold text-2xl">
                                 {formatPrice(price)}
                             </Text>
+                            {product.PhanTramGiam && (
+                                <Image source={require('../assets/images/Hot-Sale-PNG-removebg-preview.png')} contentFit='cover' style={{width: wp(20), height: hp(5)}}/>
+                            )}
                         </View>
                     </View>
                     {/* description */}
                     <View className="mx-5">
-                        <Text numberOfLines={2} className="text-base">
+                        <Text
+                            numberOfLines={2}
+                            className="text-base">
                             {product.Mota}
                         </Text>
                     </View>
                     {/* star */}
                     <View className="flex-row mx-5 items-center space-x-3">
-                        <Icons.StarIcon size={24} color={"#fbbe21"} />
-                        <Text className="text-base font-semibold">
-                            {ratingPoint}/5
-                        </Text>
+                        <Icons.StarIcon
+                            size={24}
+                            color={'#fbbe21'}
+                        />
+                        <Text className="text-base font-semibold">{formatNumber(ratingPoint, 1)}/5</Text>
                     </View>
                     <Divider />
                     {/* size */}
                     <View className="space-y-1 mx-5">
                         <Text
                             className="text-base font-semibold"
-                            style={{ color: colors.text(1) }}
-                        >
+                            style={{ color: colors.text(1) }}>
                             Kích cỡ
                         </Text>
                         <View className="flex-row justify-between">
                             <TouchableOpacity
-                                onPress={() => handleSizeAndPrice("S")}
+                                onPress={() => handleSizeAndPrice('S')}
                                 className="rounded-xl border"
                                 style={{
-                                    borderColor:
-                                        size === "S"
-                                            ? colors.active
-                                            : "#dedede",
-                                    backgroundColor:
-                                        size === "S" ? "#fff5ee" : "#f2f2f2",
-                                }}
-                            >
+                                    borderColor: size === 'S' ? colors.active : '#dedede',
+                                    backgroundColor: size === 'S' ? '#fff5ee' : '#f2f2f2',
+                                }}>
                                 <Text
                                     style={{
                                         paddingHorizontal: wp(13),
                                         paddingVertical: wp(5),
-                                    }}
-                                >
+                                    }}>
                                     S
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={() => handleSizeAndPrice("M")}
+                                onPress={() => handleSizeAndPrice('M')}
                                 className="rounded-xl border"
                                 style={{
-                                    borderColor:
-                                        size === "M"
-                                            ? colors.active
-                                            : "#dedede",
-                                    backgroundColor:
-                                        size === "M" ? "#fff5ee" : "#f2f2f2",
-                                }}
-                            >
+                                    borderColor: size === 'M' ? colors.active : '#dedede',
+                                    backgroundColor: size === 'M' ? '#fff5ee' : '#f2f2f2',
+                                }}>
                                 <Text
                                     style={{
                                         paddingHorizontal: wp(13),
                                         paddingVertical: wp(5),
-                                    }}
-                                >
+                                    }}>
                                     M
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={() => handleSizeAndPrice("L")}
+                                onPress={() => handleSizeAndPrice('L')}
                                 className="rounded-xl border"
                                 style={{
-                                    borderColor:
-                                        size === "L"
-                                            ? colors.active
-                                            : "#dedede",
-                                    backgroundColor:
-                                        size === "L" ? "#fff5ee" : "#f2f2f2",
-                                }}
-                            >
+                                    borderColor: size === 'L' ? colors.active : '#dedede',
+                                    backgroundColor: size === 'L' ? '#fff5ee' : '#f2f2f2',
+                                }}>
                                 <Text
                                     style={{
                                         paddingHorizontal: wp(13),
                                         paddingVertical: wp(5),
-                                    }}
-                                >
+                                    }}>
                                     L
                                 </Text>
                             </TouchableOpacity>
@@ -307,16 +353,14 @@ const DetailItemScreen = ({ route }) => {
                     <View className="space-y-1 mx-5 mb-5">
                         <Text
                             className="text-base font-semibold"
-                            style={{ color: colors.text(1) }}
-                        >
+                            style={{ color: colors.text(1) }}>
                             Số lượng
                         </Text>
                         <View className="flex-row justify-center space-x-4 items-center">
                             <TouchableOpacity
                                 onPress={handleDecreaseQuantity}
                                 className="rounded-md p-3"
-                                style={{ backgroundColor: colors.primary }}
-                            >
+                                style={{ backgroundColor: colors.primary }}>
                                 <Icons.MinusIcon
                                     size={15}
                                     color="white"
@@ -337,8 +381,7 @@ const DetailItemScreen = ({ route }) => {
                             <TouchableOpacity
                                 onPress={handleIncreaseQuantity}
                                 className="rounded-md p-3"
-                                style={{ backgroundColor: colors.primary }}
-                            >
+                                style={{ backgroundColor: colors.primary }}>
                                 <Icons.PlusIcon
                                     size={15}
                                     color="white"
@@ -350,9 +393,27 @@ const DetailItemScreen = ({ route }) => {
 
                     {/* review */}
                     <View className="mx-5">
-                        <Text className="text-lg font-bold">
-                            Đánh giá sản phẩm
-                        </Text>
+                        <View className="flex-row items-center justify-between">
+                            <Text className="text-lg font-bold">Đánh giá sản phẩm</Text>
+                            <DropDownPicker
+                                placeholder="Chọn số sao"
+                                open={open}
+                                value={fil}
+                                items={items}
+                                setOpen={setOpen}
+                                setValue={setFil}
+                                setItems={setItems}
+                                textStyle={{ fontSize: wp(4) }}
+                                labelStyle={{ fontSize: wp(4) }}
+                                listMode="MODAL"
+                                modalProps={{
+                                    animationType: "fade"
+                                }}
+                                modalTitle='Chọn số sao'
+                                mode='BADGE'
+                                style={{width: wp(28), marginLeft: wp(25)}}
+                            />
+                        </View>
                         <View className="flex-row items-center">
                             <Rating
                                 tintColor="#f2f2f2"
@@ -360,24 +421,16 @@ const DetailItemScreen = ({ route }) => {
                                 startingValue={ratingPoint}
                                 type="star"
                                 style={{
-                                    alignItems: "flex-start",
+                                    alignItems: 'flex-start',
                                     marginRight: 10,
                                 }}
                             />
-                            <Text className="text-base font-semibold mr-1">
-                                {ratingPoint}/5
-                            </Text>
-                            <Text className="text-base text-gray-400">
-                                ({reviewList.length} đánh giá)
-                            </Text>
+                            <Text className="text-base font-semibold mr-1">{formatNumber(ratingPoint, 1)}/5</Text>
+                            <Text className="text-base text-gray-400">({reviewList.length} đánh giá)</Text>
                         </View>
                     </View>
                     <View className="mt-10 mx-5">
-                        <View>
-                            {reviewList && (
-                                <ItemReviewList reviewList={reviewList} />
-                            )}
-                        </View>
+                        <View>{reviewListFilter && <ItemReviewList reviewList={reviewListFilter} />}</View>
                     </View>
                 </View>
             </ScrollView>
@@ -385,31 +438,19 @@ const DetailItemScreen = ({ route }) => {
             <View className="bg-white flex-1 rounded-lg justify-center shadow-md">
                 <View className="mx-5 flex-row justify-between items-center">
                     <View>
-                        <Text className="text-base font-semibold text-gray-700">
-                            Tổng
-                        </Text>
-                        <Text className="text-xl font-semibold">
-                            {formatPrice(total)}
-                        </Text>
+                        <Text className="text-base font-semibold text-gray-700">Tổng</Text>
+                        <Text className="text-xl font-semibold">{formatPrice(total)}</Text>
                     </View>
                     <View className="flex-row space-x-2">
                         <TouchableOpacity
-                            onPress={() =>
-                                handleBuyNow({ ...product, quantity })
-                            }
-                            className="flex-row bg-red-500 rounded-lg p-3 px-6 items-center justify-center"
-                        >
-                            <Text className="text-lg font-semibold">
-                                Mua ngay
-                            </Text>
+                            onPress={() => handleBuyNow({ ...product, quantity })}
+                            className="flex-row bg-red-500 rounded-lg p-3 px-6 items-center justify-center">
+                            <Text className="text-lg font-semibold">Mua ngay</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={() =>
-                                handleAddCart({ ...product, quantity })
-                            }
+                            onPress={() => handleAddCart({ ...product, quantity })}
                             className="flex-row rounded-lg p-3 px-5 items-center justify-center"
-                            style={{ backgroundColor: colors.active }}
-                        >
+                            style={{ backgroundColor: colors.active }}>
                             <Icons.ShoppingCartIcon
                                 size={30}
                                 color={colors.primary}
