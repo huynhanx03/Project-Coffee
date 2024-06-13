@@ -142,6 +142,8 @@ const ChangeInfoScreen = ({ route }) => {
                                         setItems={setItems}
                                         textStyle={{ fontSize: wp(4) }}
                                         labelStyle={{ fontSize: wp(4) }}
+                                        style={{backgroundColor: '#f2f2f2'}}
+                                        dropDownContainerStyle={{backgroundColor: '#f2f2f2'}}
                                     />
                                 </View>
                             </View>

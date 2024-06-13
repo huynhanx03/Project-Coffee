@@ -14,6 +14,7 @@ const MessageItem = ({ message, currentUser }) => {
                         <View className="flex self-end p-3 rounded-2xl bg-white border border-neutral-200">
                             <Text style={{ fontSize: hp(1.9) }}>{message.NoiDung}</Text>
                         </View>
+                        <Text className='italic text-gray-400' style={{alignSelf: 'flex-end'}}>{message.ThoiGian}</Text>
                     </View>
                 </View>
             );
@@ -23,6 +24,7 @@ const MessageItem = ({ message, currentUser }) => {
                     <View className="flex self-start p-3 rounded-2xl bg-amber-400 border border-indigo-200">
                         <Text style={{fontSize: hp(1.9)}}>{message.NoiDung}</Text>
                     </View>
+                    <Text className='italic text-gray-400' style={{alignSelf: 'flex-start'}}>{message.ThoiGian}</Text>
                 </View>
             )
         }

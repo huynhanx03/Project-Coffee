@@ -47,6 +47,7 @@ const ChatScreen = () => {
                     const messageData = {
                         MaKH: data[key].MaKH,
                         NoiDung: data[key].NoiDung,
+                        ThoiGian: data[key].ThoiGian,
                     };
                     allMessages.push(messageData);
                 }

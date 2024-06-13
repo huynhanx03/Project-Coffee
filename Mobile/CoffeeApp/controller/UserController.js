@@ -18,4 +18,18 @@ const getUserById = async (userId) => {
     }
 }
 
-export { getUserById }
+const getUserRankById = async (userId) => {
+    const dbRef = ref(getDatabase())
+
+    try {
+        const userRankSnapshot = await get(child(dbRef, `KhachHang/${userId}`))
+        const userRank = userRankSnapshot.val()
+
+        return userRank
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export { getUserById, getUserRankById }
