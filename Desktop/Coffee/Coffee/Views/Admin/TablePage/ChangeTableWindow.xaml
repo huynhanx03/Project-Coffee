@@ -80,7 +80,7 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
-                        Margin="0,0,20,0"
+                        Margin="0,0,60,0"
                         Command="{Binding confirmChangeTableIC}"
                         CommandParameter="{Binding ElementName=ChangeTableWindowCF}"
                         Content="{DynamicResource Confirm}"

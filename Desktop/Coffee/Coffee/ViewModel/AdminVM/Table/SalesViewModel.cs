@@ -326,7 +326,6 @@ namespace Coffee.ViewModel.AdminVM.Table
                     // Thành công:
                     showBill();
 
-                    DetailBillList.Clear();
                     TotalBill = 0;
                 }
                 else
@@ -350,7 +349,6 @@ namespace Coffee.ViewModel.AdminVM.Table
                     (string labelTable, TableDTO table) = await TableService.Ins.updateTable(currentTable);
 
                     loadTableList();
-                    DetailBillList.Clear();
 
                     showBill();
                 }

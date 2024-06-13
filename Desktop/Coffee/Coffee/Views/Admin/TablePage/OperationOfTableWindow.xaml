@@ -116,6 +116,8 @@
                     Orientation="Horizontal">
                     <Button
                         Margin="0,0,20,0"
+                        Width="140"
+                        
                         Command="{Binding confirmOperationTableIC}"
                         CommandParameter="{Binding ElementName=OperationOfTableWindowCF}"
                         Content="{DynamicResource Confirm}"
@@ -123,6 +125,7 @@
 
                     <Button
                         Margin="0,0,50,0"
+                        Width="140"
                         Command="{Binding closeOperationTableWindowIC}"
                         CommandParameter="{Binding ElementName=OperationOfTableWindowCF}"
                         Content="{DynamicResource Cancel}"
