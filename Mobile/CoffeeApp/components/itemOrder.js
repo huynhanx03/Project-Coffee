@@ -38,6 +38,7 @@ const ItemOrder = (props) => {
         setStatusOrder(MaDonHang);
         setIsReceive(true);
         setIsReview(false);
+        handleStatusDelivery('Đã nhận hàng');
         ShowToast('success', 'Đã nhận đơn hàng', 'Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi')
     };
 
@@ -51,8 +52,8 @@ const ItemOrder = (props) => {
         setIsReview(status === 'Đã nhận hàng' ? false : true)
     }
 
-    const handleStatusDelivery = () => {
-        const status = props.order.TrangThai
+    const handleStatusDelivery = (status) => {
+        // const status = props.order.TrangThai
         
         if (status === 'Chờ xác nhận') {
             setStatus('Đơn hàng đang trong quá trình xác nhận')
@@ -62,12 +63,9 @@ const ItemOrder = (props) => {
             setStatus('Đơn hàng đã được giao thành công')
         }
     }
-
+    
     useEffect(() => {
-        handleStatusDelivery();
-    }, [props.order.TrangThai])
-
-    useEffect(() => {
+        handleStatusDelivery(props.order.TrangThai);
         handleStatus();
         handleReceive()
     }, [])

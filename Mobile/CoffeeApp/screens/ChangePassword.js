@@ -41,7 +41,8 @@ const ChangePassword = () => {
         const rs = await changePassword(
             oldPassword,
             newPassword,
-            confirmPassword
+            confirmPassword,
+            false
         );
         ShowToast(rs[0] ? "success" : "error", "Thông báo", rs[1]);
 
@@ -97,12 +98,12 @@ const ChangePassword = () => {
                             style={{ borderColor: "#9d9d9d" }}
                         >
                             <TextInput
-                                value={newPassword}
+                                value={oldPassword}
                                 className="p-3 text-base"
                                 style={{ width: "90%" }}
                                 placeholder="Mật khẩu cũ"
                                 secureTextEntry={isHide}
-                                onChangeText={(e) => setNewPassword(e)}
+                                onChangeText={(e) => setOldPassword(e)}
                             />
 
                             <TouchableOpacity
@@ -185,12 +186,12 @@ const ChangePassword = () => {
                             style={{ borderColor: "#9d9d9d" }}
                         >
                             <TextInput
-                                value={newPassword}
+                                value={confirmPassword}
                                 className="p-3 text-base"
                                 style={{ width: "90%" }}
                                 placeholder="Xác nhận mật khẩu"
                                 secureTextEntry={isHide}
-                                onChangeText={(e) => setNewPassword(e)}
+                                onChangeText={(e) => setConfirmPassword(e)}
                             />
 
                             <TouchableOpacity

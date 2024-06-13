@@ -27,11 +27,11 @@ const ChangePasswordForgotScreen = () => {
     const [isHide, setIsHide] = useState(true);
 
     const handleChangePassword = async () => {
-        if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
+        if (newPassword == "" || confirmPassword == "") {
             ShowToast("error", "Thông báo", "Vui lòng nhập đầy đủ thông tin");
             return;
         }
-        const rs = await changePassword(oldPassword, newPassword, confirmPassword);
+        const rs = await changePassword('', newPassword, confirmPassword, true);
         ShowToast(rs[0] ? "success" : "error", "Thông báo", rs[1])
 
         if (rs[0]) {
