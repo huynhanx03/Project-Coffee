@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
+import { Image } from "expo-image";
 import {
-    Image,
     Pressable,
     ScrollView,
     Text,
@@ -25,6 +25,7 @@ import { getUserData } from "../controller/StorageController";
 import { getBanner } from "../controller/BannerController";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import axios from "axios";
+import { blurhash } from "../utils";
 import ModalLoading from "../components/modalLoading";
 
 const HomeScreen = () => {
@@ -178,8 +179,10 @@ const HomeScreen = () => {
                                             ? user?.HinhAnh
                                             : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
                                     }}
-                                    resizeMode="cover"
+                                    contentFit="cover"
+                                    placeholder={{ blurhash }}
                                     style={{ width: hp(8), height: hp(8) }}
+                                    transition={1000}
                                     className="rounded-full"
                                 />
                             </Pressable>
@@ -201,7 +204,9 @@ const HomeScreen = () => {
                                 <View className="justify-center items-center">
                                     <Image
                                         source={{ uri: item?.HinhAnh }}
-                                        resizeMode="cover"
+                                        contentFit="cover"
+                                        placeholder={{ blurhash }}
+                                        transition={1000}
                                         style={{
                                             width: wp(90),
                                             height: hp(20),

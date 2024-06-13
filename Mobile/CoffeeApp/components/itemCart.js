@@ -1,4 +1,5 @@
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { Image } from "expo-image";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
@@ -9,6 +10,7 @@ import * as Icons from "react-native-heroicons/outline";
 import { formatPrice } from "../utils";
 import ShowToast from "./toast";
 import { getProductDetailById } from "../controller/ProductController";
+import { blurhash } from "../utils";
 import Animated, { ZoomIn } from "react-native-reanimated";
 
 const ItemCart = (props) => {
@@ -65,7 +67,7 @@ const ItemCart = (props) => {
         <Animated.View entering={ZoomIn.duration(600)} className="mt-2">
             <View
                 className="flex-row space-x-3 bg-white p-2 rounded-xl shadow-sm items-center">
-                <Image source={{uri: props.item.HinhAnh}} style={{ width: wp(20), height: wp(22) }} resizeMode="contain" className='rounded-lg'/>
+                <Image source={{uri: props.item.HinhAnh}} style={{ width: wp(20), height: wp(22) }} contentFit="contain" className='rounded-lg' placeholder={{ blurhash }} transition={1000}/>
                 <View>
                     <Text className="text-lg font-semibold">{props.item.TenSanPham}</Text>
                     <View className="flex-row">

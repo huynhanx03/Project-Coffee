@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
+import { Image } from "expo-image"
 import {
     Dimensions,
-    Image,
     Pressable,
     ScrollView,
     Text,
@@ -19,7 +19,7 @@ import InputCustom from "../components/inputCustom";
 import MenuItemProfile from "../components/menuItemProfile";
 import { getUserData } from "../controller/StorageController";
 import { uploadImage } from "../controller/UploadAvatarController";
-import Toast from "react-native-toast-message";
+import { blurhash } from "../utils";
 import ShowToast from "../components/toast";
 
 const width = Dimensions.get("window").width;
@@ -59,6 +59,10 @@ const EditScreen = () => {
             .then(async (data) => {
                 const rs = await uploadImage(data.secure_url);
                 ShowToast(rs[0] ? "success" : "error", rs[1], rs[0] ? "Vui lòng đăng nhập lại" : "Vui lòng thử lại");
+                if (rs[0]) {
+                    navigation.popToTop();
+                    navigation.replace("Login");
+                }
             });
     };
 
@@ -73,7 +77,10 @@ const EditScreen = () => {
             quality: 1,
         });
 
+        // console.log(result.assets[0].uri);
+
         if (!result.canceled) {
+            // setImage(result.assets[0].uri);
             let newFile = {
                 uri: result.assets[0].uri,
                 type: `test/${result.assets[0].uri.split(".")[1]}`,
@@ -113,9 +120,11 @@ const EditScreen = () => {
                                     ? user?.HinhAnh
                                     : "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
                             }}
-                            resizeMode="cover"
+                            contentFit="cover"
+                            placeholder={{ blurhash }}
                             style={{ width: hp(12), height: hp(12) }}
                             className="rounded-full"
+                            transition={1000}
                         />
                     </View>
                 </View>

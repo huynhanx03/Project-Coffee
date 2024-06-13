@@ -1,4 +1,5 @@
-import { View, Text, Image } from "react-native";
+import { Image } from "expo-image"
+import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
     heightPercentageToDP as hp,
@@ -7,6 +8,7 @@ import {
 import { Divider } from "react-native-paper";
 import { getUserById } from "../controller/UserController";
 import { Rating } from "react-native-ratings";
+import { blurhash } from "../utils";
 
 const ItemReview = (props) => {
     const [user, setUser] = useState({});
@@ -19,6 +21,7 @@ const ItemReview = (props) => {
             console.log(error);
         }
     };
+
     useEffect(() => {
         handleGetUser();
     }, []);
@@ -33,6 +36,8 @@ const ItemReview = (props) => {
                                 "https://user-images.githubusercontent.com/5709133/50445980-88299a80-0912-11e9-962a-6fd92fd18027.png",
                         }}
                         style={{ width: wp(15), height: wp(15) }}
+                        placeholder={{blurhash}}
+                        transition={1000}
                         className="rounded-full"
                     />
 

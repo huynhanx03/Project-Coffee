@@ -1,4 +1,5 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
+import { Image } from "expo-image";
 import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
@@ -6,6 +7,7 @@ import {
 import React from "react";
 import { colors } from "../theme";
 import { formatPrice } from "../utils";
+import { blurhash } from "../utils";
 import { Divider } from "react-native-paper";
 
 const ItemPay = (props) => {
@@ -20,7 +22,9 @@ const ItemPay = (props) => {
                         height: wp(20),
                         backgroundColor: 'white'
                     }}
-                    resizeMode="contain"
+                    contentFit="contain"
+                    placeholder={{ blurhash }}
+                    transition={1000}
                 />
                 <View className="flex-1 space-y-1">
                     <Text className="text-lg font-semibold">
