@@ -37,11 +37,11 @@ const checkConfirmPassword = (newPassword, confirmPassword) => {
  * @param confirmPassword confirm password
  * @returns The result of the operation
  */
-const changePassword = async (oldPassword, newPassword, confirmPassword) => {
+const changePassword = async (oldPassword, newPassword, confirmPassword, isForgot) => {
     const userData = await getUserData();
     const db = getDatabase();
 
-    if (await checkOldPassword(oldPassword) === false){
+    if (await checkOldPassword(oldPassword) === false && !isForgot){
         return [false, "Mật khẩu cũ không đúng"];
     }
 
