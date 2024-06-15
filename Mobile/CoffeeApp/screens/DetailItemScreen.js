@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Icons from 'react-native-heroicons/solid';
 import { Divider } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCart } from '../controller/CartController';
 import { addToCart } from '../redux/slices/cartSlice';
 import { colors } from '../theme';
@@ -18,6 +18,8 @@ import Animated from 'react-native-reanimated';
 import { AntDesign } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { blurhash } from '../utils';
+import Draggable from "react-native-draggable";
+
 const ios = Platform.OS === 'ios';
 
 const DetailItemScreen = ({ route }) => {
@@ -101,6 +103,8 @@ const DetailItemScreen = ({ route }) => {
             ),
         },
     ]);
+
+    const cart = useSelector((state) => state.cart.cart);
 
     const handleSizeAndPrice = (sizeProp) => {
         const string = sizeProp === 'S' ? 'Nho' : sizeProp === 'M' ? 'Thuong' : 'Lon';
@@ -444,21 +448,51 @@ const DetailItemScreen = ({ route }) => {
                     <View className="flex-row space-x-2">
                         <TouchableOpacity
                             onPress={() => handleBuyNow({ ...product, quantity })}
-                            className="flex-row bg-red-500 rounded-lg p-3 px-6 items-center justify-center">
-                            <Text className="text-lg font-semibold">Mua ngay</Text>
+                            className="flex-row rounded-lg p-3 px-6 items-center justify-center" style={{backgroundColor: colors.active}}>
+                            <Text className="text-lg font-semibold text-white">Mua ngay</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => handleAddCart({ ...product, quantity })}
                             className="flex-row rounded-lg p-3 px-5 items-center justify-center"
-                            style={{ backgroundColor: colors.active }}>
+                            style={{ backgroundColor: colors.primary }}>
                             <Icons.ShoppingCartIcon
                                 size={30}
-                                color={colors.primary}
+                                color='white'
                             />
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
+
+            <Draggable
+                x={wp(80)}
+                y={hp(75)}
+                minX={wp(5)}
+                maxX={wp(95)}
+                minY={hp(5)}
+                maxY={hp(90)}
+                renderSize={24}
+                renderColor="amber"
+                isCircle={true}
+            >
+                <View>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Cart")}
+                        className="p-5 bg-yellow-600 rounded-full"
+                    >
+                        <Icons.ShoppingCartIcon
+                            size={30}
+                            strokeWidth={2}
+                            color={colors.primary}
+                        />
+                        <View className="absolute -right-1 top-1 bg-red-500 px-2 rounded-full">
+                            <Text className="text-white text-base">
+                                {cart.length}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </Draggable>
         </View>
     );
 };

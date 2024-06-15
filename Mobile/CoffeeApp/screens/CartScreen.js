@@ -5,7 +5,6 @@ import {
     Text,
     TouchableOpacity,
     View,
-    Alert,
 } from "react-native";
 import * as Icons from "react-native-heroicons/outline";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -15,27 +14,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../redux/slices/cartSlice";
 import { removeItemCart } from "../controller/CartController";
 import { formatPrice } from "../utils";
+import { useNotification } from "../context/ModalContext";
 
 const CartScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
     const [totalPrice, setTotalPrice] = useState(0);
+    const { showNotification } = useNotification();
 
     //delete all items in cart (redux and database)
+    const removeAll = () => {
+        dispatch(clearCart());
+        removeItemCart();
+    }
     const handleDeleteCart = () => {
-        Alert.alert(
-            "Xác nhận",
-            "Bạn có chắc chắn xoá hết sản phẩm?",
-            [
-                { text: "Hủy", style: "cancel" },
-                { text: "Xoá", style: 'destructive', onPress: () => {
-                    dispatch(clearCart());
-                    removeItemCart();
-                } },
-            ],
-            { cancelable: true }
-        );
+        if (cart.length === 0) {
+            return
+        }
+        showNotification("Bạn có muốn xoá hết đơn hàng?", "inform", removeAll);
     }
 
     //calculate total price of all items in cart

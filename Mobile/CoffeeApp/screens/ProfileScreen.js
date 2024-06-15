@@ -4,7 +4,6 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
-    Alert,
 } from "react-native";
 import { blurhash } from "../utils";
 import { Image } from "expo-image";
@@ -23,6 +22,7 @@ import { clearCart } from "../redux/slices/cartSlice";
 import { getUserData } from "../controller/StorageController";
 import { colors } from "../theme";
 import { getUserRankById } from "../controller/UserController";
+import { useNotification } from "../context/ModalContext";
 
 const width = Dimensions.get("window").width;
 
@@ -32,6 +32,7 @@ const ProfileScreen = () => {
     const [user, setUser] = useState(null);
     const [userRank, setUserRank] = useState(null);
     const [rank, setRank] = useState("");
+    const { showNotification } = useNotification();
 
     const menuItems = [
         { icon: "BookmarkIcon", title: "Đã lưu" },
@@ -82,23 +83,12 @@ const ProfileScreen = () => {
         getRank();
     }, [user])
 
+    const logOut = () => {
+        navigation.replace("Login");
+        dispatch(clearCart());
+    }
     const handleLogout = () => {
-        Alert.alert(
-            "Xác nhận",
-            "Bạn có chắc chắn muốn đăng xuất không?",
-            [
-                { text: "Hủy", style: "cancel" },
-                {
-                    text: "Đăng xuất",
-                    style: "destructive",
-                    onPress: () => {
-                        navigation.replace("Login");
-                        dispatch(clearCart());
-                    },
-                },
-            ],
-            { cancelable: true }
-        );
+        showNotification("Bạn có chắc chắn muốn đăng xuất không?", "inform", logOut)
     };
 
     return (

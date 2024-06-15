@@ -1,32 +1,31 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { Image } from "expo-image";
+import React, { useEffect, useState } from "react";
 import {
     Pressable,
     ScrollView,
     Text,
-    TextInput,
     TouchableOpacity,
-    View,
+    View
 } from "react-native";
 import Draggable from "react-native-draggable";
 import * as Icons from "react-native-heroicons/outline";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { useSelector } from "react-redux";
 import Item from "../components/item";
+import ModalLoading from "../components/modalLoading";
+import { getBanner } from "../controller/BannerController";
+import { getProducts, getProductsBestSeller } from "../controller/ProductController";
+import { getUserData } from "../controller/StorageController";
 import getDefaultAddress from "../customHooks/getDefaultAddress";
 import { colors } from "../theme";
-import {getProducts, getProductsBestSeller} from "../controller/ProductController";
-import { useSelector } from "react-redux";
-import { getUserData } from "../controller/StorageController";
-import { getBanner } from "../controller/BannerController";
-import Animated, { FadeInUp } from "react-native-reanimated";
-import axios from "axios";
 import { blurhash } from "../utils";
-import ModalLoading from "../components/modalLoading";
 
 const HomeScreen = () => {
     const navigation = useNavigation();

@@ -1,35 +1,34 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
+import * as geolib from 'geolib';
+import React, { useEffect, useState } from "react";
 import {
-    View,
+    Pressable,
+    ScrollView,
     Text,
     TouchableOpacity,
-    ScrollView,
-    Pressable,
-    Alert,
+    View
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import * as Icons from "react-native-heroicons/outline";
+import { Divider } from "react-native-paper";
 import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import * as Icons from "react-native-heroicons/outline";
-import { useNavigation } from "@react-navigation/native";
-import getDefaultAddress from "../customHooks/getDefaultAddress";
-import { Divider } from "react-native-paper";
-import ItemPayList from "../components/itemPayList";
-import { colors } from "../theme";
-import { formatPrice } from "../utils";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux";
-import * as geolib from 'geolib';
-import { clearCart } from "../redux/slices/cartSlice";
+import Header from "../components/header";
+import ItemPay from "../components/itemPay";
+import ItemPayList from "../components/itemPayList";
+import ShowToast from "../components/toast";
+import { useNotification } from "../context/ModalContext";
 import { removeItemCart } from "../controller/CartController";
 import { saveOrder } from "../controller/OrderController";
-import { removeVoucher } from "../redux/slices/voucherSlice";
-import ShowToast from "../components/toast";
-import ItemPay from "../components/itemPay";
 import { updateVoucherUsed } from "../controller/VoucherController";
-import Header from "../components/header";
+import getDefaultAddress from "../customHooks/getDefaultAddress";
+import { clearCart } from "../redux/slices/cartSlice";
+import { removeVoucher } from "../redux/slices/voucherSlice";
+import { colors } from "../theme";
+import { formatPrice } from "../utils";
 
 const PreparePayScreen = ({route}) => {
     const navigation = useNavigation();
@@ -48,6 +47,7 @@ const PreparePayScreen = ({route}) => {
     });
     const cart = useSelector((state) => state.cart.cart);
     const voucher = useSelector((state) => state.voucher.voucher)
+    const { showNotification } = useNotification()
 
     useEffect(() => {
         if (addressData) {
@@ -135,15 +135,7 @@ const PreparePayScreen = ({route}) => {
         }
         const isDistance = handleCheckDistance();
         if (!isDistance) {
-            Alert.alert(
-                "Thông báo",
-                "Địa chỉ nhận hàng không hỗ trợ giao hàng",
-                [
-                    { text: "OK", style: "cancel" },
-                ],
-                { cancelable: true }
-            );
-
+            showNotification("Địa chỉ nhận hàng không hỗ trợ giao hàng", "error")
             return;
         }
         if (product) {
