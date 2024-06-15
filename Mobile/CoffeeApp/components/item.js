@@ -69,7 +69,7 @@ const Item = ({ product, isSale, isBestSeller }) => {
                 })
             }
             className="bg-white rounded-[16px] mt-3 mb-2"
-            style={{width: wp(42), height: wp(65)}}
+            style={{width: wp(42), height: wp(63)}}
         >
             {isSale ? (
                 <View className="z-10 top-2" style={{ left: wp(0.8) }}>
@@ -111,7 +111,7 @@ const Item = ({ product, isSale, isBestSeller }) => {
                 isBestSeller ? (
                     <View className='z-10'>
                         <View className='absolute p-2 rounded-full bg-red-500 top-0 right-0'>
-                            <Text className='text-white font-semibold'>Bán chạy</Text>
+                            <Text className='text-white font-semibold' style={{fontSize: wp(3.2)}}>Bán chạy</Text>
                         </View>
                     </View>
                 ) : (
@@ -149,9 +149,9 @@ const Item = ({ product, isSale, isBestSeller }) => {
 
             <View className="px-2 pb-2 space-y-2">
                 <Text
-                    className="text-lg font-bold"
+                    className="font-bold"
                     numberOfLines={1}
-                    style={{ color: colors.text(1), width: wp(36) }}
+                    style={{ color: colors.text(1), width: wp(36), fontSize: wp(4) }}
                 >
                     {product?.TenSanPham}
                 </Text>

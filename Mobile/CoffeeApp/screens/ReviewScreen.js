@@ -50,6 +50,7 @@ const ReviewScreen = ({route}) => {
                         type="star"
                         ratingTextColor="red"
                         onFinishRating={(rating) => setRating(rating)}
+                        imageSize={wp(8)}
                 />
             </View>
 

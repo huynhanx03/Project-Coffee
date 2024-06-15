@@ -230,12 +230,12 @@ const HomeScreen = () => {
                             }}
                         ></View>
                         <View
-                            className="flex-row bg-white rounded-md p-1 absolute space-x-2"
+                            className="flex-row bg-white rounded-md p-1 items-center absolute space-x-2"
                             style={{ width: wp(60), height: wp(9) }}
                         >
                             <Text
-                                className="text-xl font-semibold"
-                                style={{ color: colors.text(1) }}
+                                className="font-semibold"
+                                style={{ color: colors.text(1), fontSize: wp(5) }}
                             >
                                 Giảm giá hôm nay
                             </Text>

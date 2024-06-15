@@ -259,8 +259,8 @@ const DetailItemScreen = ({ route }) => {
                     className="rounded-3xl pt-3 space-y-2">
                     <View className="flex-col mx-5 justify-between">
                         <Text
-                            style={{ color: colors.text(1) }}
-                            className="font-semibold text-2xl"
+                            style={{ color: colors.text(1), fontSize: wp(5.2) }}
+                            className="font-semibold"
                             numberOfLines={1}>
                             {product.TenSanPham}
                         </Text>
@@ -398,7 +398,7 @@ const DetailItemScreen = ({ route }) => {
                     {/* review */}
                     <View className="mx-5">
                         <View className="flex-row items-center justify-between">
-                            <Text className="text-lg font-bold">Đánh giá sản phẩm</Text>
+                            <Text className="font-bold" style={{fontSize: wp(4.3), width: wp(40)}}>Đánh giá sản phẩm</Text>
                             <DropDownPicker
                                 placeholder="Chọn số sao"
                                 open={open}
@@ -415,7 +415,7 @@ const DetailItemScreen = ({ route }) => {
                                 }}
                                 modalTitle='Chọn số sao'
                                 mode='BADGE'
-                                style={{width: wp(28), marginLeft: wp(25)}}
+                                style={{width: wp(29), marginLeft: wp(22)}}
                             />
                         </View>
                         <View className="flex-row items-center">
@@ -428,6 +428,7 @@ const DetailItemScreen = ({ route }) => {
                                     alignItems: 'flex-start',
                                     marginRight: 10,
                                 }}
+                                imageSize={wp(8)}
                             />
                             <Text className="text-base font-semibold mr-1">{formatNumber(ratingPoint, 1)}/5</Text>
                             <Text className="text-base text-gray-400">({reviewList.length} đánh giá)</Text>

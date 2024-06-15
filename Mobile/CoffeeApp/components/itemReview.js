@@ -41,7 +41,7 @@ const ItemReview = (props) => {
                         className="rounded-full"
                     />
 
-                    <View style={{ width: wp(55) }}>
+                    <View style={{ width: wp(50) }}>
                         <Text className="text-base font-bold">
                             {user?.HoTen}
                         </Text>

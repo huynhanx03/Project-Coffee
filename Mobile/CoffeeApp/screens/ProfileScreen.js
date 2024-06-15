@@ -59,16 +59,16 @@ const ProfileScreen = () => {
     }
 
     const handleRank = useMemo(() => {
-        if (+userRank?.DiemTichLuy >= 0 && +userRank?.DiemTichLuy < 100) {
+        if (+userRank?.DiemTichLuy >= 0 && +userRank?.DiemTichLuy < 50) {
             setRank("Thành viên mới")
             return;
-        } else if (+userRank?.DiemTichLuy >= 100 && +userRank?.DiemTichLuy < 1000) {
+        } else if (+userRank?.DiemTichLuy >= 50 && +userRank?.DiemTichLuy < 100) {
             setRank("Bạc")
             return;
-        } else if (+userRank?.DiemTichLuy >= 10000 && +userRank?.DiemTichLuy < 100000) {
+        } else if (+userRank?.DiemTichLuy >= 100 && +userRank?.DiemTichLuy < 500) {
             setRank("Vàng")
             return;
-        } else if (+userRank?.DiemTichLuy >= 100000) {
+        } else if (+userRank?.DiemTichLuy >= 500) {
             setRank("Kim Cương")
             return;
         }
