@@ -29,12 +29,11 @@
 <div id="Modau"></div>
 
 ## I. Mở đầu
-* Đề tài " XÂY DỰNG ỨNG DỤNG QUẢN LÝ QUÁN CAFÉ TRÊN NỀN TẢNG WINDOWS VÀ MOBILE " nhằm tạo ra một ứng dụng quản lý quán cà phê và đặt cà phê trực tuyến với giao diện thân thiện và dễ sử dụng, đáp ứng nhu cầu của nhiều đối tượng người dùng. 
+* Đề tài “Xây dựng ứng dụng quản lý quán cà phê trên nền tảng windows và mobile” nhằm tạo ra ứng dụng quản lý cà phê và đặt cà phê trực tuyến với giao diện thân thiện, dễ sử dụng và đáp ứng hết nhu cầu của người dùng.
 
-* Ứng dụng sẽ có khả năng đồng bộ hóa thông tin và cập nhật dữ liệu thời gian thực để đảm bảo rằng các thông tin được cập nhật liên tục và chính xác. Đồng thời, ứng dụng sẽ hỗ trợ khách hàng đặt cà phê và tương tác với nhân viên thông qua tính năng nhắn tin. Khách hàng cũng có thể quản lý lịch giỏ hàng, quản lý hoá đơn, …. Đặc biệt, người dùng có thể đưa ra đánh giá về chất của sản phẩm khi đặt sản phẩm đó. Từ đó, quán có thể điều chỉnh công thức để mang lại sản phẩm tốt hơn cho khách hàng. Bên cạnh những tính năng dành cho khách hàng, ứng dụng còn hỗ trợ cho quán cà phê quản lý sản phẩm, quản lý hoá đơn, thống kê, …. Đồng thời, quản trị viên có thể quản lý tài khoản của người dùng và các chức năng khác của người dùng.
+* Ứng dụng có khả năng đồng bộ dữ liệu giữa hai nền tảng máy tính và điện thoại, cập nhật dữ liệu thời gian thực đảm bảo dữ liệu luôn được cập nhật liên tục và chính xác. Với ứng dụng trên máy tính sẽ giúp người dùng quản lý quán cà phê của mình với các chức năng cơ bản như quản lý bàn cà phê, thanh toán hoá đơn tại quầy, quản lý nguyên liệu/kho, quản lý thực đơn, quản lý nhân viên, quản lý khách hàng, quản lý đánh giá của khách hàng trên ứng dụng điện thoại, quản lý phiếu giảm giá, thống kê doanh thu, quản lý hoá đơn và có thể nhắn tin trực tiếp với khách hàng. Và còn có cả phân quyền cho nhân viên trên ứng dụng máy tính sẽ có chức năng cơ bản như thanh toán hoá đơn. Với ứng dụng trên điện thoại thì khách hàng có thể đặt cà phê hay các sản phẩm khác trực tuyến từ ứng dụng, còn có thể thêm sản phẩm vào giỏ hàng, quản lý đơn hàng, quản lý hoá đơn, nhắn tin với quán. Và ứng dụng có hệ thống gợi ý sản phẩm phù hợp với khách hàng để giúp khách hàng trong việc lựa chọn sản phẩm mong muốn của mình.
 
-* Mục tiêu của đề tài này là xây dựng phần mềm quản lý quán cà phê và đặt cà phê trực tuyến không những giúp quản lý quán cà phê thuận tiện mà còn giúp những người cần cà phê có thể đặt trực tuyến với quán nhằm giải quyết một số vấn đề phổ biến như là sự cách xa về địa lý, thời gian chờ đợi. 
-
+* Mục tiêu của đề tài này là xây dựng phần mềm trên máy tính quản lý quán cà phê và trên điện thoại đặt cà phê trực tuyến. Nhằm giúp người dùng quản lý quán cà phê dễ dàng và tiện lợi hơn, còn giúp khách hàng giải quyết một số vấn đề như sự xa cách về địa lý, thời gian chờ đợi, …
 
 <!-- MÔ TẢ -->
 <div id="Mota"></div>
@@ -52,8 +51,6 @@
 * Bên cạnh đó thì để tăng doanh thu và đáp ứng nhu cầu của khách hàng thì việc đặt cà phê trực tuyến rất cần thiết. Dịch vụ đặt cà phê trực tuyến không chỉ giúp tiết kiệm thời gian và công sức của người dân trong việc di chuyển mà còn giúp tăng lợi nhuận cho quán.
 
 * Do đó, việc xây dựng một ứng dụng quản lý quán cà phê và ứng dụng đặt cà phê trực tuyến trở thành lựa chọn hợp lý để giải quyết các vấn đề trên. Ứng dụng này sẽ mang lại nhiều lợi ích cho quán cà phê bằng cách cung cấp một công cụ quản lý tiện lợi, tối ưu hóa quá trình làm việc, nâng cao hiệu suất kinh doanh và tăng lợi nhuận doanh thu.
-
-
 
 <div id="Congcusudung"></div>
 
@@ -97,10 +94,30 @@ Mục tiêu của đề tài này là xây dựng phần mềm quản lý quán 
 
     * Quản lý bàn: quản lý bàn của quán cà phê.
 
+    * Quản lý nhân viên: quản lý nhân viên phục vụ của quán cà phê.
+
+    * Quản lý khách hàng: quản lý khách hàng đã đăng ký thành viên của quán cà phê.
+
+    * Quản lý đánh giá: quản lý các đánh giá từ khách hàng.
+
+    * Quản lý phiếu giảm giá: quản lý phiếu giảm giá cho khách hàng.
+
+    * Quản lý quán: quản lý giảm giá hôm nay và banner của ứng dụng điện thoại.
+
+    * Nhắn tin: Trả lời tin nhắn của khách hàng.
+
     * Cài đặt: thay đổi thông tin cá nhân.
 
 * Với vai trò khách hàng:
+    * Xem danh sách cà phê: khách hàng có thể xem danh sách cà phê của quán và tìm kiếm, lọc cà phê nếu muốn. 
+
     * Đặt cà phê: giúp khách hàng đặt cà phê trực tuyến.
+    
+    * Giỏ hàng: khách hàng có thể thêm sản phẩm vào giỏ hàng và quản lý chúng.
+
+    * Phiếu giảm giá: khách hàng có thể sử dụng phiếu giảm giá khi thanh toán.
+
+    * Thông tin cá nhân: khách hàng có thể xem điểm thân thiết để lên hạng và có thể thay đổi thông tin cá nhân.
     
 <!-- TÁC GIẢ -->
 <div id="Tacgia"></div>
@@ -125,7 +142,7 @@ Mục tiêu của đề tài này là xây dựng phần mềm quản lý quán 
 ## V. Tổng kết
 * Một sản phẩm là kết quả của một dự án được hoàn thành bởi các thành viên trong nhóm. Qua quá trình này, các thành viên đã có được những kiến ​​thức và kỹ năng chuyên môn nhất định về quy trình lập trình thực tế, hiểu rõ hơn về lập trình, đồng thời tích lũy cho mình những kinh nghiệm và bài học quý báu cho công việc sau này.
 
-* Ngoài ra, nhóm cũng xin gửi lời cảm ơn chân thành và sâu sắc đến cô giáo hướng dẫn Trần Thị Hồng Yến đã đồng hành cùng nhóm để đạt được kết quả như ngày hôm nay trong suốt quá trình thực hiện đề tài.
+* Ngoài ra, nhóm cũng xin gửi lời cảm ơn chân thành và sâu sắc đến giáo viên hướng dẫn Trần Thị Hồng Yến đã đồng hành cùng nhóm để đạt được kết quả như ngày hôm nay trong suốt quá trình thực hiện đề tài.
 
 * Sản phẩm của một nhóm có thể để lại nhiều điều mong muốn khi nó được xây dựng và phát triển. Vì vậy, đừng ngần ngại gửi đề xuất hoặc nhận xét của bạn tới email caphe.coffeevn.2024@gmail.com. Mỗi đóng góp của bạn sẽ được ghi nhận và là động lực để đội ngũ hoàn thiện sản phẩm hơn nữa.
 
